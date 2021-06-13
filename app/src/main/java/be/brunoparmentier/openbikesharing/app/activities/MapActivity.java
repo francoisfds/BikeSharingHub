@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
+ * Copyright (c) 2020 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -42,6 +43,7 @@ import android.widget.Toast;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -56,6 +58,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.ArrayList;
 
 import be.brunoparmentier.openbikesharing.app.R;
+import be.brunoparmentier.openbikesharing.app.BuildConfig;
 import be.brunoparmentier.openbikesharing.app.db.StationsDataSource;
 import be.brunoparmentier.openbikesharing.app.models.Station;
 import be.brunoparmentier.openbikesharing.app.models.StationStatus;
@@ -99,6 +102,10 @@ public class MapActivity extends Activity implements MapEventsReceiver {
         stationsDataSource = new StationsDataSource(this);
         ArrayList<Station> stations = stationsDataSource.getStations();
 
+        final Context context = getApplicationContext();
+        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
+        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
+
         map = (MapView) findViewById(R.id.mapView);
         stationMarkerInfoWindow = new StationMarkerInfoWindow(R.layout.bonuspack_bubble, map);
 
@@ -121,7 +128,7 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 
         map.setMultiTouchControls(true);
         map.setBuiltInZoomControls(true);
-        map.setMinZoomLevel(3);
+        map.setMinZoomLevel(Double.valueOf(3));
 
         /* map tile source */
         String mapLayer = settings.getString(PREF_KEY_MAP_LAYER, "");
@@ -130,7 +137,7 @@ public class MapActivity extends Activity implements MapEventsReceiver {
                 map.setTileSource(TileSourceFactory.MAPNIK);
                 break;
             case MAP_LAYER_CYCLEMAP:
-                map.setTileSource(TileSourceFactory.CYCLEMAP);
+                map.setTileSource(TileSourceFactory.HIKEBIKEMAP);
                 break;
             case MAP_LAYER_OSMPUBLICTRANSPORT:
                 map.setTileSource(TileSourceFactory.PUBLIC_TRANSPORT);

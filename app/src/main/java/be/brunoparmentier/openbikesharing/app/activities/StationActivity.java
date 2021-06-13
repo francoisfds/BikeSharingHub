@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
+ * Copyright (c) 2020 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -22,6 +23,7 @@ package be.brunoparmentier.openbikesharing.app.activities;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -39,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -51,6 +54,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import be.brunoparmentier.openbikesharing.app.R;
+import be.brunoparmentier.openbikesharing.app.BuildConfig;
 import be.brunoparmentier.openbikesharing.app.db.StationsDataSource;
 import be.brunoparmentier.openbikesharing.app.models.Station;
 import be.brunoparmentier.openbikesharing.app.models.StationStatus;
@@ -82,6 +86,10 @@ public class StationActivity extends Activity {
 
         station = (Station) getIntent().getSerializableExtra(KEY_STATION);
 
+        final Context context = getApplicationContext();
+        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
+        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
+
         map = (MapView) findViewById(R.id.mapView);
         final GeoPoint stationLocation = new GeoPoint((int) (station.getLatitude() * 1000000),
                 (int) (station.getLongitude() * 1000000));
@@ -96,7 +104,7 @@ public class StationActivity extends Activity {
                 map.setTileSource(TileSourceFactory.MAPNIK);
                 break;
             case MAP_LAYER_CYCLEMAP:
-                map.setTileSource(TileSourceFactory.CYCLEMAP);
+                map.setTileSource(TileSourceFactory.HIKEBIKEMAP);
                 break;
             case MAP_LAYER_OSMPUBLICTRANSPORT:
                 map.setTileSource(TileSourceFactory.PUBLIC_TRANSPORT);

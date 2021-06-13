@@ -59,10 +59,7 @@
     <string name="pref_title_bike_networks_list">选择一个网络</string>
     <string name="pref_title_license">许可协议</string>
     <string name="pref_title_about">关于</string>
-    <string name="pref_title_website">网站</string>
     <string name="pref_title_source_code">源代码</string>
-    <string name="pref_title_developers_website">开发者网站</string>
-    <string name="pref_title_donate_bitcoin">捐赠比特币</string>
     <string name="pref_title_citybikes_api">CityBikes API</string>
     <string name="pref_title_osmdroid_library">osmdroid工具库</string>
     <string name="pref_title_osmbonuspack_library">OSMBonusPack工具库</string>

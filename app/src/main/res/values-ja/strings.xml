@@ -62,10 +62,7 @@
     <string name="pref_title_bike_networks_list">ネットワークを選択</string>
     <string name="pref_title_license">ライセンス</string>
     <string name="pref_title_about">アプリについて</string>
-    <string name="pref_title_website">ウェブサイト</string>
     <string name="pref_title_source_code">ソースコード</string>
-    <string name="pref_title_developers_website">開発者のウェブサイト</string>
-    <string name="pref_title_donate_bitcoin">Bitcoin を寄付する</string>
     <string name="pref_title_citybikes_api">CityBikes API</string>
     <string name="pref_title_osmdroid_library">osmdroid ライブラリ</string>
     <string name="pref_title_osmbonuspack_library">OSMBonusPack ライブラリ</string>

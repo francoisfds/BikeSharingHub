@@ -54,34 +54,23 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_general);
 
-        setupBitcoinButton();
+        setupInstallOpenBikeSharing();
         setupVersionEntry();
     }
 
-    /* Setup "Donate Bitcoin" button */
-    private void setupBitcoinButton() {
-        final Preference donateBitcoinPref = findPreference("pref_donate_bitcoin");
-        Intent bitcoinIntent = new Intent(Intent.ACTION_VIEW);
-        bitcoinIntent.setData(Uri.parse("bitcoin:168utA5DWMVXLFVfQDahG5abEWUSk9Wcfm"));
+    private void setupInstallOpenBikeSharing() {
+        //Market link
+        final Preference openBikeSharingPref = findPreference("pref_open_bike_sharing");
+        Intent marketIntent = new Intent(Intent.ACTION_VIEW);
+        marketIntent.setData(Uri.parse("market://details?id=be.brunoparmentier.openbikesharing.app"));
 
         PackageManager packageManager = getActivity().getPackageManager();
-        List<ResolveInfo> bitcoinActivities =
-                packageManager.queryIntentActivities(bitcoinIntent, 0);
-        boolean isBitcoinIntentSafe = bitcoinActivities.size() > 0;
+        List<ResolveInfo> marketActivities =
+                packageManager.queryIntentActivities(marketIntent, 0);
+        boolean isMarketIntentSafe = marketActivities.size() > 0;
 
-        if (isBitcoinIntentSafe) {
-            donateBitcoinPref.setIntent(bitcoinIntent);
-        } else {
-            Intent marketIntent = new Intent(Intent.ACTION_VIEW);
-            marketIntent.setData(Uri.parse("market://search?q=bitcoin"));
-
-            List<ResolveInfo> marketActivities =
-                    packageManager.queryIntentActivities(marketIntent, 0);
-            boolean isMarketIntentSafe = marketActivities.size() > 0;
-
-            if (isMarketIntentSafe) {
-                donateBitcoinPref.setIntent(marketIntent);
-            }
+        if (isMarketIntentSafe) {
+            openBikeSharingPref.setIntent(marketIntent);
         }
     }
 

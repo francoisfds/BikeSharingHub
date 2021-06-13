@@ -79,11 +79,8 @@
     <string name="pref_header_general">Ogólne</string>
     <string name="pref_title_bike_networks_list">Wybierz sieć</string>
     <string name="pref_title_license">Licencja</string>
-    <string name="pref_title_about">O OpenBikeSharing</string>
-    <string name="pref_title_website">Strona</string>
+    <string name="pref_title_about">O BikeSharingHub</string>
     <string name="pref_title_source_code">Kod źródłowy</string>
-    <string name="pref_title_developers_website">Strona twórcy</string>
-    <string name="pref_title_donate_bitcoin">Podaruj Bitcoin</string>
     <string name="pref_title_citybikes_api">API CityBikes</string>
     <string name="pref_title_osmdroid_library">biblioteka osmdroid</string>
     <string name="pref_title_osmbonuspack_library">biblioteka OSMBonusPack</string>

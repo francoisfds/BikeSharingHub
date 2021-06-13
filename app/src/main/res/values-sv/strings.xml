@@ -60,10 +60,7 @@
     <string name="pref_title_bike_networks_list">Välj ett nätverk</string>
     <string name="pref_title_license">Licens</string>
     <string name="pref_title_about">Om</string>
-    <string name="pref_title_website">Hemsida</string>
     <string name="pref_title_source_code">Källkod</string>
-    <string name="pref_title_developers_website">Utvecklarens hemsida</string>
-    <string name="pref_title_donate_bitcoin">Donera Bitcoin</string>
     <string name="pref_title_citybikes_api">CityBikes API</string>
     <string name="pref_title_osmdroid_library">osmdroid-bibliotek</string>
     <string name="pref_title_osmbonuspack_library">OSMBonusPack-bibliotek</string>

@@ -59,10 +59,7 @@
     <string name="pref_title_bike_networks_list">Odaberi mrežu</string>
     <string name="pref_title_license">Licenca</string>
     <string name="pref_title_about">Informacije</string>
-    <string name="pref_title_website">Web stranica</string>
     <string name="pref_title_source_code">Izvorni kȏd</string>
-    <string name="pref_title_developers_website">Web-stranica programera</string>
-    <string name="pref_title_donate_bitcoin">Doniraj Bitcoin</string>
     <string name="pref_title_citybikes_api">Sučelje za CityBikes</string>
     <string name="pref_title_osmdroid_library">biblioteka osmdroid</string>
     <string name="pref_title_osmbonuspack_library">Bobilioteka OSMBonusPack</string>

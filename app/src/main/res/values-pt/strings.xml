@@ -75,10 +75,7 @@
     <string name="pref_title_bike_networks_list">Escolher uma rede</string>
     <string name="pref_title_license">Licença</string>
     <string name="pref_title_about">Sobre</string>
-    <string name="pref_title_website">Site</string>
     <string name="pref_title_source_code">Código-fonte</string>
-    <string name="pref_title_developers_website">Site do programador</string>
-    <string name="pref_title_donate_bitcoin">Doar Bitcoins</string>
     <string name="pref_title_citybikes_api">API do CityBikes</string>
     <string name="pref_title_osmdroid_library">Biblioteca osmdroid</string>
     <string name="pref_title_osmbonuspack_library">Biblioteca OSMBonusPack</string>

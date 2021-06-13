@@ -62,10 +62,7 @@
     <string name="pref_title_bike_networks_list">בחירת רשת</string>
     <string name="pref_title_license">רשיון</string>
     <string name="pref_title_about">על אודות</string>
-    <string name="pref_title_website">אתר</string>
     <string name="pref_title_source_code">קוד מקור</string>
-    <string name="pref_title_developers_website">אתר המפתחים</string>
-    <string name="pref_title_donate_bitcoin">תרומה בביטקוין</string>
     <string name="pref_title_citybikes_api">ה־API של CityBikes</string>
     <string name="pref_title_osmdroid_library">ספריית osmdroid</string>
     <string name="pref_title_osmbonuspack_library">ספריית OSMBonusPack</string>

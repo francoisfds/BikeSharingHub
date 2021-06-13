@@ -25,11 +25,11 @@ android {
     buildToolsVersion '25.0.3'
 
     defaultConfig {
-        applicationId "be.brunoparmentier.openbikesharing.app"
+        applicationId "fr.fdesousa.bikesharinghub"
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 23
-        versionName "1.10.0"
+        versionName "2.0.0"
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
     }
 
@@ -39,7 +39,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
-                    output.outputFile = new File(output.outputFile.parent, output.outputFile.name.replace("app-release", "openbikesharing-" + defaultConfig.versionName + "-release"))
+                    output.outputFile = new File(output.outputFile.parent, output.outputFile.name.replace("app-release", "bikesharinghub-" + defaultConfig.versionName + "-release"))
                 }
             }
         }

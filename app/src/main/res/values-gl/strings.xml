@@ -11,10 +11,7 @@
     <string name="pref_title_osmbonuspack_library">biblioteca OSMBonusPack</string>
     <string name="pref_title_osmdroid_library">biblioteca osmdroid</string>
     <string name="pref_title_citybikes_api">API CityBikes</string>
-    <string name="pref_title_donate_bitcoin">Doar Bitcoin</string>
-    <string name="pref_title_developers_website">Web das desenvolvedoras</string>
     <string name="pref_title_source_code">Código fonte</string>
-    <string name="pref_title_website">Sitio web</string>
     <string name="pref_title_about">Acerca de</string>
     <string name="pref_title_license">Licenza</string>
     <string name="pref_title_bike_networks_list">Escolle unha rede</string>

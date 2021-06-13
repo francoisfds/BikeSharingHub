@@ -21,7 +21,7 @@
 <resources>
 
     <!-- App name -->
-    <string name="app_name" translatable="false">OpenBikeSharing</string>
+    <string name="app_name" translatable="false">BikeSharingHub</string>
 
     <!-- Error messages -->
     <string name="connection_error">Connection error</string>
@@ -96,7 +96,9 @@
     <string name="pref_title_bike_networks_list">Choose a network</string>
     <string name="pref_title_license">License</string>
     <string name="pref_title_license_message" translatable="false">
-        OpenBikeSharing
+        BikeSharingHub
+        \nCopyright &#169; 2020-2021 François FERREIRA DE SOUSA
+        \nThis program incorporates a modified version of OpenBikeSharing
         \nCopyright &#169; 2014-2015 Bruno Parmentier\n
 
         \nThis program is free software: you can redistribute it and/or modify
@@ -113,10 +115,8 @@
         along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.\n
     </string>
     <string name="pref_title_about">About</string>
-    <string name="pref_title_website">Website</string>
     <string name="pref_title_source_code">Source code</string>
-    <string name="pref_title_developers_website">Developer\'s website</string>
-    <string name="pref_title_donate_bitcoin">Donate Bitcoin</string>
+    <string name="pref_title_fork">Fork of</string>
     <string name="pref_title_citybikes_api">CityBikes API</string>
     <string name="pref_title_osmdroid_library">osmdroid library</string>
     <string name="pref_title_osmbonuspack_library">OSMBonusPack library</string>

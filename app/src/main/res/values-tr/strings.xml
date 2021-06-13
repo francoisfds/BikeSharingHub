@@ -77,10 +77,7 @@
     <string name="pref_title_bike_networks_list">Bir ağ seç</string>
     <string name="pref_title_license">Lisans</string>
     <string name="pref_title_about">Hakkında</string>
-    <string name="pref_title_website">Web sayfası</string>
     <string name="pref_title_source_code">Kaynak kodu</string>
-    <string name="pref_title_developers_website">Geliştiri web sayfası</string>
-    <string name="pref_title_donate_bitcoin">Bitcoin Bağışla</string>
     <string name="pref_title_citybikes_api">CityBikes API</string>
     <string name="pref_title_osmdroid_library">osmdroid kütüphanesi</string>
     <string name="pref_title_osmbonuspack_library">OSMBonusPack kütüphanesi</string>

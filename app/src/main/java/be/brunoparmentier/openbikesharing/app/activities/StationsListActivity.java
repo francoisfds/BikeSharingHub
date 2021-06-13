@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
+ * Copyright (c) 2020 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -45,6 +46,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,7 +94,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     private static final String KEY_NEARBY_STATIONS = "nearbyStations";
     private static final String KEY_NETWORK_ID = "network-id";
 
-    private static final int PICK_NETWORK_REQUEST = 1;
+    protected static final int PICK_NETWORK_REQUEST = 1;
 
     private BikeNetwork bikeNetwork;
     private ArrayList<Station> stations;
@@ -113,6 +115,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     private StationsListFragment allStationsFragment;
     private StationsListFragment favoriteStationsFragment;
     private StationsListFragment nearbyStationsFragment;
+    private String fragTags[] = {null, null, null};
 
     private SwipeRefreshLayout refreshLayout;
     @Override
@@ -176,24 +179,8 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
         setDBLastUpdateText();
 
         if (firstRun) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.welcome_dialog_message);
-            builder.setTitle(R.string.welcome_dialog_title);
-            builder.setPositiveButton(R.string.welcome_dialog_ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(StationsListActivity.this, BikeNetworksListActivity.class);
-                    startActivityForResult(intent, PICK_NETWORK_REQUEST);
-                }
-            });
-            builder.setNegativeButton(R.string.welcome_dialog_cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            FragmentManager fm = getSupportFragmentManager();
+            WelcomeDialogFragment.getInstance().show(fm, "fragment_welcome");
         } else {
             if (savedInstanceState != null) {
                 bikeNetwork = (BikeNetwork) savedInstanceState.getSerializable(KEY_BIKE_NETWORK);
@@ -568,16 +555,33 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
             }
         }
 
+        @Override
+        public Object instantiateItem(ViewGroup container, int position)
+        {
+            Fragment frag = (Fragment) super.instantiateItem(container, position);
+            fragTags[position] = frag.getTag();
+            return frag;
+        }
+
         public void updateAllStationsListFragment(ArrayList<Station> stations) {
-            allStationsFragment.updateStationsList(stations);
+            if(fragTags[2] != null) {
+                StationsListFragment frgt = (StationsListFragment) getSupportFragmentManager().findFragmentByTag(fragTags[2]);
+                frgt.updateStationsList(stations);
+            }
         }
 
         public void updateFavoriteStationsFragment(ArrayList<Station> stations) {
-            favoriteStationsFragment.updateStationsList(stations);
+            if(fragTags[1] != null) {
+                StationsListFragment frgt = (StationsListFragment) getSupportFragmentManager().findFragmentByTag(fragTags[1]);
+                frgt.updateStationsList(stations);
+            }
         }
 
         public void updateNearbyStationsFragment(ArrayList<Station> stations) {
-            nearbyStationsFragment.updateStationsList(stations);
+            if(fragTags[0] != null) {
+                StationsListFragment frgt = (StationsListFragment) getSupportFragmentManager().findFragmentByTag(fragTags[0]);
+                frgt.updateStationsList(stations);
+            }
         }
     }
 

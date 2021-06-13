@@ -54,7 +54,7 @@ import be.brunoparmentier.openbikesharing.app.parsers.BikeNetworkParser;
 public class StationsListAppWidgetProvider extends AppWidgetProvider {
     private static final String TAG = StationsListAppWidgetProvider.class.getSimpleName();
 
-    private static final String BASE_URL = "http://api.citybik.es/v2/networks";
+    private static final String BASE_URL = "https://api.citybik.es/v2/networks";
     private static final String PREF_KEY_NETWORK_ID = "network-id";
     private static final String PREF_KEY_DB_LAST_UPDATE = "db_last_update";
 

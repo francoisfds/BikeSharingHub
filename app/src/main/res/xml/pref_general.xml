@@ -50,7 +50,7 @@
         <EditTextPreference
             android:key="pref_api_url"
             android:title="@string/pref_title_api_url"
-            android:defaultValue="http://api.citybik.es/v2/" />
+            android:defaultValue="https://api.citybik.es/v2/" />
 
         <CheckBoxPreference
             android:key="pref_strip_id_station"
@@ -84,11 +84,11 @@
             android:title="@string/pref_title_license" />
 
         <Preference
-            android:summary="http://api.citybik.es/v2/"
+            android:summary="https://api.citybik.es/v2/"
             android:title="@string/pref_title_citybikes_api">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="http://api.citybik.es/v2/" />
+                android:data="https://api.citybik.es/v2/" />
         </Preference>
 
         <Preference

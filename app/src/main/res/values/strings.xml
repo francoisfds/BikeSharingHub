@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2014-2015 Bruno Parmentier.
+  ~ Copyright (c) 2020 François FERREIRA DE SOUSA.
   ~
   ~ This file is part of BikeSharingHub.
   ~ BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -63,6 +64,7 @@
 
     <!-- Various -->
     <string name="free_bikes">Free bikes:\u00A0</string>
+    <string name="free_ebikes">Electric bikes:\u00A0</string>
     <string name="empty_slots">Empty slots:\u00A0</string>
     <string name="all_stations">All stations</string>
     <string name="favorite_stations">Favorites</string>

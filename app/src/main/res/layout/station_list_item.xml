@@ -2,6 +2,7 @@
 
 <!--
   ~ Copyright (c) 2014-2015 Bruno Parmentier.
+  ~ Copyright (c) 2020 François FERREIRA DE SOUSA.
   ~
   ~ This file is part of BikeSharingHub.
   ~ BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -64,6 +65,24 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:id="@+id/freeEBikesLogo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/station_list_item_logo_padding"
+            android:contentDescription="@string/free_ebikes"
+            android:src="@drawable/ic_electric_bike"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/freeEBikesValue"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/emptySlotsLogo"

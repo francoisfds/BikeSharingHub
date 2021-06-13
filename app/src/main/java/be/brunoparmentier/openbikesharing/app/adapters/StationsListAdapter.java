@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
+ * Copyright (c) 2020 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -60,6 +61,9 @@ public class StationsListAdapter extends ArrayAdapter<Station> {
         if (station != null) {
             TextView stationNameTitle = (TextView) v.findViewById(R.id.stationNameTitle);
             TextView freeBikesValue = (TextView) v.findViewById(R.id.freeBikesValue);
+            ImageView regularBikesLogo = (ImageView) v.findViewById(R.id.freeBikesLogo);
+            TextView freeEBikesValue = (TextView) v.findViewById(R.id.freeEBikesValue);
+            ImageView eBikesLogo = (ImageView) v.findViewById(R.id.freeEBikesLogo);
             TextView emptySlotsValue = (TextView) v.findViewById(R.id.emptySlotsValue);
             StationStatus stationStatus = station.getStatus();
 
@@ -75,7 +79,17 @@ public class StationsListAdapter extends ArrayAdapter<Station> {
 
             if (freeBikesValue != null) {
                 int bikes = station.getFreeBikes();
-                freeBikesValue.setText(String.valueOf(bikes));
+                if(station.getEBikes() != null && regularBikesLogo != null
+                && eBikesLogo != null && freeEBikesValue != null ) {
+                    int ebikes = station.getEBikes();
+                    freeBikesValue.setText(String.valueOf(bikes-ebikes));
+                    regularBikesLogo.setImageResource(R.drawable.ic_regular_bike);
+                    eBikesLogo.setVisibility(View.VISIBLE);
+                    freeEBikesValue.setVisibility(View.VISIBLE);
+                    freeEBikesValue.setText(String.valueOf(ebikes));
+                } else {
+                    freeBikesValue.setText(String.valueOf(bikes));
+                }
             }
 
             if (emptySlotsValue != null) {

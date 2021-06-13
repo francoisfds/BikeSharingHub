@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
+ * Copyright (c) 2020 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -147,6 +148,11 @@ public class BikeNetworkParser {
                             } else {
                                 station.setStatus(StationStatus.OPEN);
                             }
+                        }
+
+                        /* electric bikes */
+                        if (rawExtra.has("ebikes")) {
+                            station.setEBikes(rawExtra.getInt("ebikes"));
                         }
                     }
                     stations.add(station);

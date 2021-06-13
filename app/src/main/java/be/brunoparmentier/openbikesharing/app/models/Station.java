@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
+ * Copyright (c) 2020 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -38,6 +39,7 @@ public class Station implements Serializable, Comparable<Station> {
     private Boolean banking;
     private Boolean bonus;
     private StationStatus status;
+    private Integer eBikes;
 
     public Station(String id, String name, String lastUpdate, double latitude, double longitude, int freeBikes, int emptySlots) {
         this.id = id;
@@ -52,6 +54,7 @@ public class Station implements Serializable, Comparable<Station> {
         this.banking = null;
         this.bonus = null;
         this.status = null;
+        this.eBikes = null;
     }
 
     public String getId() {
@@ -98,6 +101,10 @@ public class Station implements Serializable, Comparable<Station> {
         return bonus;
     }
 
+    public Integer getEBikes() {
+        return eBikes;
+    }
+
     public StationStatus getStatus() {
         return status;
     }
@@ -112,6 +119,10 @@ public class Station implements Serializable, Comparable<Station> {
 
     public void setBonus(boolean bonus) {
         this.bonus = bonus;
+    }
+
+    public void setEBikes(int eBikes) {
+        this.eBikes = eBikes;
     }
 
     @Override

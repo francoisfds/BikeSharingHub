@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015 Bruno Parmentier.
+ * Copyright (c) 2020 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -60,7 +61,9 @@ public class StationsDataSource {
                     values.put(DatabaseHelper.STATIONS_COLUMN_BONUS, station.isBonus() ? 1 : 0);
                 if (station.getStatus() != null)
                     values.put(DatabaseHelper.STATIONS_COLUMN_STATUS, station.getStatus().name());
-
+                if (station.getEBikes() != null) {
+                    values.put(DatabaseHelper.STATIONS_COLUMN_EBIKES, String.valueOf(station.getEBikes()));
+                }
                 db.insert(DatabaseHelper.STATIONS_TABLE_NAME, null, values);
             }
             db.setTransactionSuccessful();
@@ -78,7 +81,7 @@ public class StationsDataSource {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         ArrayList<Station> stations = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT id as _id, name, last_update, latitude, longitude, "
-                + "free_bikes, empty_slots, address, banking, bonus, status "
+                + "free_bikes, empty_slots, address, banking, bonus, status, ebikes "
                 + "FROM " + DatabaseHelper.STATIONS_TABLE_NAME, null);
 
         try {
@@ -100,7 +103,7 @@ public class StationsDataSource {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor cursor = db.rawQuery("SELECT id as _id, name, last_update, latitude, longitude, "
-                + "free_bikes, empty_slots, address, banking, bonus, status "
+                + "free_bikes, empty_slots, address, banking, bonus, status, ebikes "
                 + "FROM " + DatabaseHelper.STATIONS_TABLE_NAME + " "
                 + "WHERE id = ?", new String[] { id });
         try {
@@ -130,7 +133,7 @@ public class StationsDataSource {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         ArrayList<Station> favStations = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT sta.id as _id, name, last_update, latitude, longitude, "
-                + "free_bikes, empty_slots, address, banking, bonus, status "
+                + "free_bikes, empty_slots, address, banking, bonus, status, ebikes "
                 + "FROM " + DatabaseHelper.FAV_STATIONS_TABLE_NAME + " sta "
                 + "INNER JOIN " + DatabaseHelper.STATIONS_TABLE_NAME + " fav "
                 + "ON sta.id = fav.id", null);
@@ -183,6 +186,9 @@ public class StationsDataSource {
         }
         if (!cursor.isNull(10)) {
             station.setStatus(StationStatus.valueOf(cursor.getString(10))); // status
+        }
+        if (!cursor.isNull(11)) {
+            station.setEBikes(cursor.getInt(11)); // ebikes
         }
 
         return station;

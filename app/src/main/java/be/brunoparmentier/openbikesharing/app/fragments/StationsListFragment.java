@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
+ * Copyright (c) 2021 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -48,6 +49,7 @@ public class StationsListFragment extends Fragment {
     private ArrayList<Station> stations;
     private StationsListAdapter stationsListAdapter;
     private int emptyListResourceId;
+    private TextView emptyView;
 
     /* newInstance constructor for creating fragment with arguments */
     public static StationsListFragment newInstance(ArrayList<Station> stations, int emptyListResourceId) {
@@ -74,7 +76,7 @@ public class StationsListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_stations_list, container, false);
         ListView listView = (ListView) view.findViewById(R.id.stationsListView);
         listView.setAdapter(stationsListAdapter);
-        TextView emptyView = (TextView) view.findViewById(R.id.emptyList);
+        emptyView = (TextView) view.findViewById(R.id.emptyList);
         emptyView.setText(emptyListResourceId);
         listView.setEmptyView(view.findViewById(R.id.emptyList));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -108,6 +110,10 @@ public class StationsListFragment extends Fragment {
             stationsListAdapter.addAll(stations);
             stationsListAdapter.notifyDataSetChanged();
         }
+    }
+
+    public void setEmptyView(int id) {
+        emptyView.setText(id);
     }
 
 }

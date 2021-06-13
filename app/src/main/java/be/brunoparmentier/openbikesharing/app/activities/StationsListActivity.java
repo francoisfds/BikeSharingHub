@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2020 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020-2021 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -21,6 +21,7 @@
 
 package be.brunoparmentier.openbikesharing.app.activities;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
@@ -30,16 +31,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.MatrixCursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.format.DateUtils;
@@ -75,7 +79,7 @@ import be.brunoparmentier.openbikesharing.app.parsers.BikeNetworkParser;
 import be.brunoparmentier.openbikesharing.app.widgets.StationsListAppWidgetProvider;
 
 
-public class StationsListActivity extends FragmentActivity implements ActionBar.TabListener {
+public class StationsListActivity extends FragmentActivity implements ActionBar.TabListener, ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = StationsListActivity.class.getSimpleName();
 
     private static final String DEFAULT_API_URL = "http://api.citybik.es/v2/";
@@ -93,6 +97,9 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     private static final String KEY_FAV_STATIONS = "favStations";
     private static final String KEY_NEARBY_STATIONS = "nearbyStations";
     private static final String KEY_NETWORK_ID = "network-id";
+
+    private static final String[] REQUEST_LOC_LIST = {Manifest.permission.ACCESS_FINE_LOCATION};
+    private static final int REQUEST_LOC_CODE = 1;
 
     protected static final int PICK_NETWORK_REQUEST = 1;
 
@@ -142,6 +149,14 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
+                if (ContextCompat.checkSelfPermission(StationsListActivity.this,
+                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && tabsPagerAdapter.getItem(position).equals(nearbyStationsFragment)) {
+
+                    //Ask permission if nearbyStationsFragment is selected
+                    ActivityCompat.requestPermissions(StationsListActivity.this,
+                        REQUEST_LOC_LIST, REQUEST_LOC_CODE);
+                }
             }
 
             @Override
@@ -198,6 +213,22 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_LOC_CODE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    setNearbyStations(stations);
+                } else if(!ActivityCompat.shouldShowRequestPermissionRationale(
+                        this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    nearbyStationsFragment.setEmptyView(R.string.loc_perm_forbidden);
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
@@ -208,7 +239,10 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
             /* Refresh list with latest data from database */
             stations = stationsDataSource.getStations();
             favStations = stationsDataSource.getFavoriteStations();
-            setNearbyStations(stations);
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                setNearbyStations(stations);
+            }
             tabsPagerAdapter.updateAllStationsListFragment(stations);
             tabsPagerAdapter.updateFavoriteStationsFragment(favStations);
             tabsPagerAdapter.updateNearbyStationsFragment(nearbyStations);
@@ -483,7 +517,14 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                             .apply();
                     setDBLastUpdateText();
 
-                    setNearbyStations(stations);
+                    if (ContextCompat.checkSelfPermission(StationsListActivity.this,
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        setNearbyStations(stations);
+                    } else if(nearbyStationsFragment.getUserVisibleHint()) {
+                        //Ask permission only if nearbyStationsFragment is currently shown
+                        ActivityCompat.requestPermissions(StationsListActivity.this,
+                            REQUEST_LOC_LIST, REQUEST_LOC_CODE);
+                    }
 
                     tabsPagerAdapter.updateAllStationsListFragment(stations);
                     tabsPagerAdapter.updateFavoriteStationsFragment(favStations);

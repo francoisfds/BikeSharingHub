@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2020 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020-2021 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -21,10 +21,12 @@
 
 package be.brunoparmentier.openbikesharing.app.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -32,7 +34,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,7 +68,7 @@ import be.brunoparmentier.openbikesharing.app.db.StationsDataSource;
 import be.brunoparmentier.openbikesharing.app.models.Station;
 import be.brunoparmentier.openbikesharing.app.models.StationStatus;
 
-public class MapActivity extends Activity implements MapEventsReceiver {
+public class MapActivity extends Activity implements MapEventsReceiver, ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "MapActivity";
     private static final String MAP_CURRENT_ZOOM_KEY = "map-current-zoom";
     private static final String MAP_CENTER_LAT_KEY = "map-center-lat";
@@ -77,6 +81,9 @@ public class MapActivity extends Activity implements MapEventsReceiver {
     private static final String MAP_LAYER_MAPNIK = "mapnik";
     private static final String MAP_LAYER_CYCLEMAP = "cyclemap";
     private static final String MAP_LAYER_OSMPUBLICTRANSPORT = "osmpublictransport";
+
+    private static final String[] REQUEST_LOC_LIST = {Manifest.permission.ACCESS_FINE_LOCATION};
+    private static final int REQUEST_LOC_PERMISSION_CODE = 1;
 
     private MapView map;
     private IMapController mapController;
@@ -168,9 +175,13 @@ public class MapActivity extends Activity implements MapEventsReceiver {
             mapController.setCenter(new GeoPoint(savedInstanceState.getDouble(MAP_CENTER_LAT_KEY),
                     savedInstanceState.getDouble(MAP_CENTER_LON_KEY)));
         } else {
-            LocationManager locationManager =
-                    (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-            Location userLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            Location userLocation = null;
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                LocationManager locationManager =
+                        (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+                userLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
             if (userLocation != null) {
                 mapController.setZoom(16);
                 mapController.animateTo(new GeoPoint(userLocation));
@@ -179,8 +190,6 @@ public class MapActivity extends Activity implements MapEventsReceiver {
                 double bikeNetworkLongitude = Double.longBitsToDouble(settings.getLong(PREF_KEY_NETWORK_LONGITUDE, 0));
                 mapController.setZoom(13);
                 mapController.setCenter(new GeoPoint(bikeNetworkLatitude, bikeNetworkLongitude));
-
-                Toast.makeText(this, R.string.location_not_found, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -207,18 +216,14 @@ public class MapActivity extends Activity implements MapEventsReceiver {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_my_location:
-                try {
-                    LocationManager locationManager =
-                            (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-                    GeoPoint userLocation = new GeoPoint(locationManager
-                            .getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
-                    mapController.animateTo(userLocation);
-                    return true;
-                } catch (NullPointerException ex) {
-                    Toast.makeText(this, getString(R.string.location_not_found), Toast.LENGTH_LONG).show();
-                    Log.e(TAG, "Location not found");
-                    return true;
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                        PackageManager.PERMISSION_GRANTED) {
+                    mooveToLocation();
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            REQUEST_LOC_LIST, REQUEST_LOC_PERMISSION_CODE);
                 }
+                return true;
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
@@ -236,6 +241,35 @@ public class MapActivity extends Activity implements MapEventsReceiver {
     @Override
     public boolean longPressHelper(GeoPoint geoPoint) {
         return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_LOC_PERMISSION_CODE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mooveToLocation();
+                } else if(!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    Toast.makeText(this, getString(R.string.location_not_granted), Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private void mooveToLocation() {
+        try {
+            LocationManager locationManager =
+                    (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+            GeoPoint userLocation = new GeoPoint(locationManager
+                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
+            mapController.animateTo(userLocation);
+        } catch (NullPointerException ex) {
+            Toast.makeText(this, getString(R.string.location_not_found), Toast.LENGTH_LONG).show();
+            Log.e(TAG, "Location not found");
+        }
     }
 
     private Marker createStationMarker(Station station) {

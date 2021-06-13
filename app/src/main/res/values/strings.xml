@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2014-2015 Bruno Parmentier.
-  ~ Copyright (c) 2020 François FERREIRA DE SOUSA.
+  ~ Copyright (c) 2020-2021 François FERREIRA DE SOUSA.
   ~
   ~ This file is part of BikeSharingHub.
   ~ BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -55,6 +55,7 @@
 
     <!-- Map -->
     <string name="location_not_found">Location not found</string>
+    <string name="location_not_granted">Location access denied</string>
     <string name="network_selected">selected</string>
     <string name="bike_network_downloading">Please wait while bike network is being downloaded</string>
 
@@ -72,6 +73,7 @@
     <string name="no_stations">No stations</string>
     <string name="no_favorite_stations">No favorite stations</string>
     <string name="no_nearby_stations">No nearby stations</string>
+    <string name="loc_perm_forbidden">Access to location is denied.\nYou can choose another default tab for startup.\nOtherwise grant permission in your system settings.</string>
     <string name="station_added_to_favorites">Station added to favorites</string>
     <string name="stations_removed_from_favorites">Station removed from favorites</string>
     <string name="no_nav_application">You don\'t have any navigation application installed</string>

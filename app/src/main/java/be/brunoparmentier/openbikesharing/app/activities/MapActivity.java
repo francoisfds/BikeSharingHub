@@ -53,6 +53,7 @@ import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
@@ -120,6 +121,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         /* handling map events */
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, this);
         map.getOverlays().add(0, mapEventsOverlay);
+        map.getOverlays().add(new CopyrightOverlay(context));
 
         /* markers list */
         GridMarkerClusterer stationsMarkers = new GridMarkerClusterer();

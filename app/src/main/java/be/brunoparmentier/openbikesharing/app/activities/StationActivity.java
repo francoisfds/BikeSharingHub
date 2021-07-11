@@ -45,6 +45,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.Marker;
 
 import java.text.ParseException;
@@ -149,6 +150,7 @@ public class StationActivity extends Activity {
         }
 
         map.getOverlays().add(marker);
+        map.getOverlays().add(new CopyrightOverlay(context));
 
         TextView stationName = (TextView) findViewById(R.id.stationName);
         TextView stationEmptySlots = (TextView) findViewById(R.id.stationEmptySlots);

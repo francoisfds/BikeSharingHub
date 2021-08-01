@@ -6,6 +6,10 @@ It uses the [CityBikes API](https://api.citybik.es/v2/) that provides data for m
 
 It is a fork of the [OpenBikeSharing](https://github.com/bparmentier/OpenBikeSharing) application, which adds few improvements for recent Android versions.
 
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/fr.fdesousa.bikesharinghub/)
+
 ## Contribute
 
 Bug reports and feature requests can be reported in [Issues](https://github.com/francoisfds/BikeSharingHub/issues).

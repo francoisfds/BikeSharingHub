@@ -1,0 +1,2 @@
+* Liste des services de vélos maintenant triée par pays (et non plus par ville)
+* Mise à jour de la langue russe

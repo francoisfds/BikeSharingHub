@@ -2,8 +2,8 @@
 BikeSharingHub permet de visualiser la disponibilté des vélos partagés dans plus de 400 villes. La vôtre doit en faire partie !
 </p>
 <p>
-<p>
 Les informations proviennent de l'API en source libre <a href="https://api.citybik.es">CityBik.es</a>, qui agrège les données en source ouverte mises à disposition par les opérateurs de vélos partagés disponibles.
 </p>
-L'application est basée sur <a href="https://f-droid.org/fr/packages/be.brunoparmentier.openbikesharing.app/">OpenBikeSharing</a> et ajoute des améliorations pour les versions récentes d'Android.
+<p>
+L'application est basée sur <a href="https://github.com/bparmentier/OpenBikeSharing">OpenBikeSharing</a> et ajoute des améliorations pour les versions récentes d'Android.
 </p>

@@ -1,0 +1,2 @@
+* Bikesharing networks list now sorted by country (instead of city)
+* Updated Russian translation

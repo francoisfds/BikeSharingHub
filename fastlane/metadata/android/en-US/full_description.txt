@@ -5,5 +5,5 @@ BikeSharingHub displays the availability of shared bikes in more than 400 cities
 It syncs with an Open-Source API called <a href="https://api.citybik.es">CityBik.es</a>, which gathers open data provided by the available shared bikes operators.
 </p>
 <p>
-It is based on the <a href="https://f-droid.org/fr/packages/be.brunoparmentier.openbikesharing.app/">OpenBikeSharing</a> application, with few improvements for recent Android versions.
+It is based on the <a href="https://github.com/bparmentier/OpenBikeSharing">OpenBikeSharing</a> application, with few improvements for recent Android versions.
 </p>

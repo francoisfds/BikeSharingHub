@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
+ * Copyright (c) 2021 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -45,6 +46,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 import be.brunoparmentier.openbikesharing.app.R;
 import be.brunoparmentier.openbikesharing.app.adapters.BikeNetworksListAdapter;
@@ -62,6 +64,14 @@ public class BikeNetworksListActivity extends Activity {
     private static final String PREF_KEY_NETWORK_LATITUDE = "network-latitude";
     private static final String PREF_KEY_NETWORK_LONGITUDE = "network-longitude";
     private static final String KEY_NETWORK_ID = "network-id";
+
+    private Comparator<BikeNetworkInfo> mLocationComparator = new Comparator<BikeNetworkInfo>() {
+        public int compare(BikeNetworkInfo network1, BikeNetworkInfo network2) {
+            int res = String.CASE_INSENSITIVE_ORDER.compare(
+                        network1.getLocationName(), network2.getLocationName());
+            return res;
+        }
+    };
 
     private ListView listView;
     private ArrayList<BikeNetworkInfo> bikeNetworks;
@@ -106,10 +116,11 @@ public class BikeNetworksListActivity extends Activity {
                 searchedBikeNetworks = new ArrayList<>();
                 for (BikeNetworkInfo network : bikeNetworks) {
                     if (network.getName().toLowerCase().contains(s.toLowerCase())
-                            || network.getLocation().getCity().toLowerCase().contains(s.toLowerCase())) {
+                            || network.getLocationName().toLowerCase().contains(s.toLowerCase())) {
                         searchedBikeNetworks.add(network);
                     }
                 }
+                Collections.sort(searchedBikeNetworks, mLocationComparator);
                 bikeNetworksListAdapter = new BikeNetworksListAdapter(BikeNetworksListActivity.this,
                         android.R.layout.simple_expandable_list_item_2,
                         android.R.id.text1,
@@ -196,7 +207,7 @@ public class BikeNetworksListActivity extends Activity {
                 /* parse result */
                 BikeNetworksListParser bikeNetworksListParser = new BikeNetworksListParser(result);
                 bikeNetworks = bikeNetworksListParser.getNetworks();
-                Collections.sort(bikeNetworks);
+                Collections.sort(bikeNetworks, mLocationComparator);
 
                 bikeNetworksListAdapter = new BikeNetworksListAdapter(BikeNetworksListActivity.this,
                         android.R.layout.simple_expandable_list_item_2,

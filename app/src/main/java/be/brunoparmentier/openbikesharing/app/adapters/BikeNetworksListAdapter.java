@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
+ * Copyright (c) 2021 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -56,8 +57,7 @@ public class BikeNetworksListAdapter extends ArrayAdapter<BikeNetworkInfo> {
             TextView text1 = (TextView) v.findViewById(android.R.id.text1);
             TextView text2 = (TextView) v.findViewById(android.R.id.text2);
 
-            text1.setText(network.getLocation().getCity()
-                    + " (" + network.getLocation().getCountry() + ")");
+            text1.setText(network.getLocationName());
             text2.setText(network.getName());
         }
 

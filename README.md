@@ -29,6 +29,13 @@ Clone the repo and type:
 The Gradle script will take care of downloading the necessary libraries and will generate the APK's
 in `app/build/outputs/apk`.
 
+
+## Translations
+
+[![Translation status](https://hosted.weblate.org/widgets/bikesharinghub/-/open-graph.png)](https://hosted.weblate.org/engage/bikesharinghub/)
+
+Help translate the app to your language from [our Hosted Weblate page](https://hosted.weblate.org/projects/bikesharinghub/).
+
 ## LICENSE
 
     BikeSharingHub. Shared bikes availability in your city.

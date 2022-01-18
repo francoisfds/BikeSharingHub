@@ -11,10 +11,8 @@
     <string name="pref_title_osmbonuspack_library">OSMBonusPack-kirjasto</string>
     <string name="pref_title_osmdroid_library">osmdroid-kirjasto</string>
     <string name="pref_title_citybikes_api">CityBikes-ohjelmointirajapinta</string>
-    <string name="pref_title_donate_bitcoin">Lahjoita Bitcoineja</string>
     <string name="pref_title_developers_website">Kehittäjän verkkosivusto</string>
     <string name="pref_title_source_code">Lähdekoodi</string>
-    <string name="pref_title_website">Verkkosivusto</string>
     <string name="pref_title_about">Tietoja</string>
     <string name="pref_title_license">Lisenssi</string>
     <string name="pref_title_bike_networks_list">Valitse verkko</string>

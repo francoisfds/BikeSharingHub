@@ -96,4 +96,9 @@
     <string name="pref_title_advanced">Avancé</string>
     <string name="pref_title_api_url">URL de l\'API</string>
     <string name="pref_title_default_tab">Onglet par défaut</string>
+    <string name="location_not_granted">Accès à la localisation refusé</string>
+    <string name="loc_perm_forbidden">L\'accès à la localisation est refusé.
+\nVous pouvez choisir un autre onglet par défaut pour le démarrage.
+\nSinon, accordez l\'autorisation dans vos paramètres système.</string>
+    <string name="free_ebikes">Vélos électriques : </string>
 </resources>

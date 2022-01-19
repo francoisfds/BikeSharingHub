@@ -68,4 +68,10 @@
     <string name="pref_title_advanced">Avansert</string>
     <string name="pref_title_api_url">Nettadresse til API</string>
     <string name="pref_title_default_tab">Forvalgt fane</string>
+    <string name="location_not_granted">Posisjonstilgang nektet</string>
+    <string name="pref_title_fork">Forgrening av</string>
+    <string name="free_ebikes">El-sykler </string>
+    <string name="loc_perm_forbidden">Posisjonstilgang nektet.
+\nDu kan velge en annen forvalgt fane for oppstart.
+\nEllers kan du innvilge tilgang i systeminnstillingene dine.</string>
 </resources>

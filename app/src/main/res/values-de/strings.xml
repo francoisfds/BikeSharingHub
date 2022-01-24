@@ -95,4 +95,9 @@
     <string name="pref_title_advanced">Fortgeschritten</string>
     <string name="pref_title_api_url">API URL</string>
     <string name="pref_title_default_tab">Standardregisterkarte</string>
+    <string name="location_not_granted">Zugang zum Standort verweigert</string>
+    <string name="free_ebikes">Elektrofahrräder: </string>
+    <string name="loc_perm_forbidden">Der Zugriff auf den Standort wird verweigert.
+\nSie können eine andere Standardregisterkarte für den Start auswählen.
+\nErteilen Sie andernfalls die Berechtigung in Ihren Systemeinstellungen.</string>
 </resources>

@@ -85,7 +85,7 @@
     <string name="pref_title_openstreetmap">OpenStreetMap</string>
     <string name="pref_title_version">Version</string>
     <string name="pref_map_layer_title">Fond de carte</string>
-    <string name="pref_title_strip_station_id">Masquer l\'ID de la station</string>
+    <string name="pref_title_strip_station_id">Masquer le code de la station</string>
     <string name="pref_title_strip_station_id_summary">
         Supprime l\'identifiant dans le nom de la station (utile pour certains réseaux uniquement)
     </string>
@@ -101,4 +101,5 @@
 \nVous pouvez choisir un autre onglet par défaut pour le démarrage.
 \nSinon, accordez l\'autorisation dans vos paramètres système.</string>
     <string name="free_ebikes">Vélos électriques : </string>
+    <string name="pref_title_fork">Fork de</string>
 </resources>

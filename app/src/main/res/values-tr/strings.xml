@@ -36,17 +36,15 @@
     <string name="title_activity_map">Harita</string>
     <string name="title_activity_settings">Ayarlar</string>
     <!-- Welcome dialog -->
-    <string name="welcome_dialog_message">
-        Başlamadan önce, lütfen listeden bir bisiklet ağı seçin.
-        \nAyrıca, İnternet\'e bağlı olduğunuzdan emin olun.
-    </string>
+    <string name="welcome_dialog_message">Başlamadan önce, lütfen listeden bir bisiklet ağı seçin.
+\nAyrıca, İnternet\'e bağlı olduğunuzdan emin olun.</string>
     <string name="welcome_dialog_ok">Tamam</string>
     <string name="welcome_dialog_cancel">İptal</string>
     <string name="welcome_dialog_title">Hoş geldiniz</string>
     <!-- Map -->
     <string name="location_not_found">Konum bulunamadı</string>
     <string name="network_selected">seçildi</string>
-    <string name="bike_network_downloading">Lütfen, bisiklet ağı indirilirken bekleyin</string>
+    <string name="bike_network_downloading">Bisiklet ağı indirilirken lütfen bekleyin</string>
     <!-- Various -->
     <string name="free_bikes">Uygun bisikletler: </string>
     <string name="empty_slots">Boş yerler: </string>
@@ -85,9 +83,7 @@
     <string name="pref_title_version">Sürüm</string>
     <string name="pref_map_layer_title">Harita katmanı</string>
     <string name="pref_title_strip_station_id">İstasyon numarasını çıkar</string>
-    <string name="pref_title_strip_station_id_summary">
-        İstasyon adından kimlik numarasını kaldır (sadece bazı ağlar için yararlıdır)
-    </string>
+    <string name="pref_title_strip_station_id_summary">İstasyon adından kimlik numarasını kaldır (sadece bazı ağlar için yararlıdır)</string>
     <string name="pref_title_default_tab">Öntanımlı sekme</string>
     <string name="pref_title_advanced">Gelişmiş</string>
     <string name="no_nearby_stations">Yakın istasyon yok</string>
@@ -96,5 +92,16 @@
     <string name="widget_title_favorite_stations">Sık kullanılan istasyonlar</string>
     <string name="widget_no_fav_stations">Sık kullanılan istasyon yok</string>
     <string name="no_favorite_stations">Sık kullanılan istasyon yok</string>
-    <string name="pref_title_api_url">API URL</string>
+    <string name="pref_title_api_url">API URL\'si</string>
+    <string name="app_name" translatable="false"/>
+    <string name="free_ebikes">Elektrikli bisikletler: </string>
+    <string name="pref_title_license_message" translatable="false"/>
+    <string name="pref_map_layer_osmpublictransport" translatable="false"/>
+    <string name="loc_perm_forbidden">Konum erişimi reddedildi.
+\nBaşlangıç için başka bir öntanımlı sekme seçebilirsiniz.
+\nAksi takdirde, sistem ayarlarınızda izin verin.</string>
+    <string name="location_not_granted">Konum erişimi reddedildi</string>
+    <string name="pref_map_layer_cyclemap" translatable="false"/>
+    <string name="pref_map_layer_mapnik" translatable="false"/>
+    <string name="pref_title_fork">Çatal</string>
 </resources>

@@ -1,7 +1,7 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="connection_error">Anslutningsfel</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="connection_error">Anslutningsfel</string>
     <string name="json_error">Fel inträffade vid mottagning av data</string>
-
     <string name="action_settings">Inställningar</string>
     <string name="action_refresh">Uppdatera</string>
     <string name="action_map">Karta</string>
@@ -9,25 +9,21 @@
     <string name="action_favorite">Favorit</string>
     <string name="action_my_location">Min plats</string>
     <string name="action_search">Sök</string>
-
     <string name="title_activity_stations_list">Stationer</string>
     <string name="title_activity_station">Station</string>
     <string name="title_activity_networks_list">Välj ett nätverk</string>
     <string name="title_activity_map">Karta</string>
     <string name="title_activity_settings">Inställningar</string>
-
-    <string name="welcome_dialog_message">" Innan du loggar in, vänligen välj ett cykelnätverk i listan.\nFörsäkra dig också om att du är ansluten till internet. "</string>
+    <string name="welcome_dialog_message">" Innan du loggar in, vänligen välj ett cykelnätverk i listan.
+\nFörsäkra dig också om att du är ansluten till internet. "</string>
     <string name="welcome_dialog_ok">OK</string>
     <string name="welcome_dialog_cancel">Avbryt</string>
     <string name="welcome_dialog_title">Välkommen</string>
-
     <string name="location_not_found">Platsen kunde inte hittas</string>
     <string name="network_selected">valt</string>
     <string name="bike_network_downloading">Vänligen vänta medans cykelnätverket laddas ner</string>
-
     <string name="widget_title_favorite_stations">Favoritstationer</string>
     <string name="widget_no_fav_stations">Inga favoritstationer</string>
-
     <string name="free_bikes">Gratis cyklar: </string>
     <string name="all_stations">Alla stationer</string>
     <string name="favorite_stations">Favoriter</string>
@@ -44,18 +40,17 @@
     <string name="db_last_update_never">aldrig</string>
     <string name="updated_just_now">Just nu</string>
     <plurals name="updated_minutes_ago">
-	<item quantity="one">%d minut sedan</item>
-	<item quantity="other">%d minuter sedan</item>
-</plurals>
+        <item quantity="one">%d minut sedan</item>
+        <item quantity="other">%d minuter sedan</item>
+    </plurals>
     <plurals name="updated_hours_ago">
-	<item quantity="one">%d timme sedan</item>
-	<item quantity="other">%d timmar sedan</item>
-</plurals>
+        <item quantity="one">%d timme sedan</item>
+        <item quantity="other">%d timmar sedan</item>
+    </plurals>
     <plurals name="updated_days_ago">
-	<item quantity="one">%d dag sedan</item>
-	<item quantity="other">%d dagar sedan</item>
-</plurals>
-
+        <item quantity="one">%d dag sedan</item>
+        <item quantity="other">%d dagar sedan</item>
+    </plurals>
     <string name="pref_header_general">Generell</string>
     <string name="pref_title_bike_networks_list">Välj ett nätverk</string>
     <string name="pref_title_license">Licens</string>
@@ -71,6 +66,15 @@
     <string name="pref_title_advanced">Avancerat</string>
     <string name="pref_title_api_url">URL för API</string>
     <string name="pref_title_default_tab">Standardflik</string>
-<string name="empty_slots">Tomma luckor: </string>
+    <string name="empty_slots">Tomma luckor: </string>
     <string name="pref_title_strip_station_id">Skala bort stations-ID</string>
-    </resources>
+    <string name="pref_title_license_message" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="location_not_granted"></string>
+    <string name="free_ebikes"></string>
+    <string name="pref_title_fork"></string>
+    <string name="loc_perm_forbidden"></string>
+    <string name="pref_map_layer_mapnik" translatable="false"></string>
+    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
+    <string name="pref_map_layer_cyclemap" translatable="false"></string>
+</resources>

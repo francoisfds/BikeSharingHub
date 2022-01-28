@@ -1,7 +1,7 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="connection_error">连接错误</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="connection_error">连接错误</string>
     <string name="json_error">取得数据时出现问题</string>
-
     <string name="action_settings">设置</string>
     <string name="action_refresh">刷新</string>
     <string name="action_map">地图</string>
@@ -9,26 +9,21 @@
     <string name="action_favorite">收藏</string>
     <string name="action_my_location">我的位置</string>
     <string name="action_search">搜索</string>
-
     <string name="title_activity_stations_list">单车站</string>
     <string name="title_activity_station">单车站</string>
     <string name="title_activity_networks_list">选择一个网络</string>
     <string name="title_activity_map">地图</string>
     <string name="title_activity_settings">设置</string>
-
     <string name="welcome_dialog_message">请先在清单中选择一个单车网络。
 \n另外，请确保你有可用的网络连接。</string>
     <string name="welcome_dialog_ok">确定</string>
     <string name="welcome_dialog_cancel">取消</string>
     <string name="welcome_dialog_title">欢迎</string>
-
     <string name="location_not_found">找不到位置</string>
     <string name="network_selected">已选取</string>
     <string name="bike_network_downloading">请等待单车网络下载完毕</string>
-
     <string name="widget_title_favorite_stations">收藏中的单车站</string>
     <string name="widget_no_fav_stations">没有收藏单车站</string>
-
     <string name="free_bikes">空置单车： </string>
     <string name="empty_slots">空位： </string>
     <string name="all_stations">全部单车站</string>
@@ -46,15 +41,14 @@
     <string name="db_last_update_never">从未更新</string>
     <string name="updated_just_now">刚更新</string>
     <plurals name="updated_minutes_ago">
-	<item quantity="other">%d分钟前</item>
-</plurals>
+        <item quantity="other">%d分钟前</item>
+    </plurals>
     <plurals name="updated_hours_ago">
-	<item quantity="other">%d小时前</item>
-</plurals>
+        <item quantity="other">%d小时前</item>
+    </plurals>
     <plurals name="updated_days_ago">
-	<item quantity="other">%d天前</item>
-</plurals>
-
+        <item quantity="other">%d天前</item>
+    </plurals>
     <string name="pref_header_general">通用</string>
     <string name="pref_title_bike_networks_list">选择一个网络</string>
     <string name="pref_title_license">许可协议</string>
@@ -71,4 +65,13 @@
     <string name="pref_title_advanced">高级</string>
     <string name="pref_title_api_url">API URL</string>
     <string name="pref_title_default_tab">默认分页</string>
+    <string name="pref_map_layer_cyclemap" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="loc_perm_forbidden"></string>
+    <string name="pref_map_layer_mapnik" translatable="false"></string>
+    <string name="pref_title_license_message" translatable="false"></string>
+    <string name="pref_title_fork"></string>
+    <string name="location_not_granted"></string>
+    <string name="free_ebikes"></string>
+    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
 </resources>

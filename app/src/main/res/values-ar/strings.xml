@@ -14,4 +14,78 @@
     <string name="action_refresh">أنعش</string>
     <string name="action_settings">اعدادات</string>
     <string name="connection_error">عُطل في الاتصال</string>
+    <string name="loc_perm_forbidden"></string>
+    <string name="pref_title_version"></string>
+    <string name="pref_map_layer_mapnik" translatable="false"></string>
+    <string name="pref_map_layer_title"></string>
+    <string name="no_stations"></string>
+    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
+    <string name="welcome_dialog_cancel"></string>
+    <string name="no_nearby_stations"></string>
+    <string name="json_error"></string>
+    <string name="location_not_granted"></string>
+    <string name="pref_title_api_url"></string>
+    <string name="welcome_dialog_ok"></string>
+    <string name="pref_title_license_message" translatable="false"></string>
+    <string name="no_favorite_stations"></string>
+    <string name="free_bikes"></string>
+    <string name="stations_removed_from_favorites"></string>
+    <string name="pref_title_strip_station_id_summary"></string>
+    <string name="bike_network_downloading"></string>
+    <string name="empty_slots"></string>
+    <string name="favorite_stations"></string>
+    <string name="pref_title_advanced"></string>
+    <string name="pref_map_layer_cyclemap" translatable="false"></string>
+    <string name="widget_title_favorite_stations"></string>
+    <string name="welcome_dialog_message"></string>
+    <string name="network_selected"></string>
+    <string name="nearby_stations"></string>
+    <string name="db_last_update"></string>
+    <string name="db_last_update_never"></string>
+    <string name="pref_title_default_tab"></string>
+    <string name="free_ebikes"></string>
+    <string name="pref_title_openstreetmap"></string>
+    <string name="all_stations"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="action_favorite"></string>
+    <string name="widget_no_fav_stations"></string>
+    <string name="station_added_to_favorites"></string>
+    <string name="no_nav_application"></string>
+    <string name="is_bonus_station"></string>
+    <string name="cards_accepted"></string>
+    <string name="updated_just_now"></string>
+    <plurals name="updated_minutes_ago">
+        <item quantity="zero"></item>
+        <item quantity="one"></item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <plurals name="updated_hours_ago">
+        <item quantity="zero"></item>
+        <item quantity="one"></item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <plurals name="updated_days_ago">
+        <item quantity="zero"></item>
+        <item quantity="one"></item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="pref_header_general"></string>
+    <string name="pref_title_bike_networks_list"></string>
+    <string name="pref_title_license"></string>
+    <string name="pref_title_about"></string>
+    <string name="pref_title_source_code"></string>
+    <string name="pref_title_osmdroid_library"></string>
+    <string name="pref_title_citybikes_api"></string>
+    <string name="pref_title_fork"></string>
+    <string name="pref_title_osmbonuspack_library"></string>
+    <string name="pref_title_strip_station_id"></string>
 </resources>

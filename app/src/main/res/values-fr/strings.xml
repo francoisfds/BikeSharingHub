@@ -36,8 +36,8 @@
     <string name="title_activity_map">Carte</string>
     <string name="title_activity_settings">Paramètres</string>
     <!-- Welcome dialog -->
-    <string name="welcome_dialog_message">"Avant de commencer, veuillez choisir un réseau de vélos dans la liste.
-\nAssurez-vous d\'être connecté à internet."</string>
+    <string name="welcome_dialog_message">Avant de commencer, veuillez choisir un réseau de vélos dans la liste.
+\nAssurez-vous d\'être connecté à internet.</string>
     <string name="welcome_dialog_ok">OK</string>
     <string name="welcome_dialog_cancel">Annuler</string>
     <string name="welcome_dialog_title">Bienvenue</string>
@@ -49,8 +49,8 @@
     <string name="widget_no_fav_stations">Aucune station en favoris</string>
     <string name="widget_title_favorite_stations">Stations favorites</string>
     <!-- Various -->
-    <string name="free_bikes">Vélos restants\u00A0:\u00A0</string>
-    <string name="empty_slots">Emplacements vides\u00A0:\u00A0</string>
+    <string name="free_bikes">Vélos restants : </string>
+    <string name="empty_slots">Emplacements vides : </string>
     <string name="all_stations">Toutes les stations</string>
     <string name="favorite_stations">Favoris</string>
     <string name="station_added_to_favorites">Station ajoutée aux favoris</string>
@@ -58,7 +58,7 @@
     <string name="no_nav_application">Vous n\'avez pas d\'application de navigation installée</string>
     <string name="is_bonus_station">Station bonus</string>
     <string name="cards_accepted">Cartes acceptées</string>
-    <string name="db_last_update">Dernière mise à jour\u00A0: %1$s</string>
+    <string name="db_last_update">Dernière mise à jour : %1$s</string>
     <string name="db_last_update_never">jamais</string>
     <string name="updated_just_now">À l\'instant</string>
     <plurals name="updated_minutes_ago">
@@ -86,9 +86,7 @@
     <string name="pref_title_version">Version</string>
     <string name="pref_map_layer_title">Fond de carte</string>
     <string name="pref_title_strip_station_id">Masquer le code de la station</string>
-    <string name="pref_title_strip_station_id_summary">
-        Supprime l\'identifiant dans le nom de la station (utile pour certains réseaux uniquement)
-    </string>
+    <string name="pref_title_strip_station_id_summary">Supprime l\'identifiant dans le nom de la station (utile pour certains réseaux uniquement)</string>
     <string name="nearby_stations">À proximité</string>
     <string name="no_favorite_stations">Pas de stations favorites</string>
     <string name="no_nearby_stations">Pas de stations à proximité</string>
@@ -102,4 +100,9 @@
 \nSinon, accordez l\'autorisation dans vos paramètres système.</string>
     <string name="free_ebikes">Vélos électriques : </string>
     <string name="pref_title_fork">Fork de</string>
+    <string name="app_name" translatable="false"></string>
+    <string name="pref_title_license_message" translatable="false"></string>
+    <string name="pref_map_layer_mapnik" translatable="false"></string>
+    <string name="pref_map_layer_cyclemap" translatable="false"></string>
+    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
 </resources>

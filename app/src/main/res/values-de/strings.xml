@@ -36,8 +36,8 @@
     <string name="title_activity_map">Karte</string>
     <string name="title_activity_settings">Einstellungen</string>
     <!-- Welcome dialog -->
-    <string name="welcome_dialog_message">" Bevor Sie beginnen, wählen Sie bitte ein Fahrradnetz in der Liste aus.
-\nStellen Sie auch sicher, dass Sie mit dem Internet verbunden sind. "</string>
+    <string name="welcome_dialog_message">Bevor Sie beginnen, wählen Sie bitte ein Fahrradnetz in der Liste aus.
+\nStellen Sie auch sicher, dass Sie mit dem Internet verbunden sind.</string>
     <string name="welcome_dialog_ok">OK</string>
     <string name="welcome_dialog_cancel">Abbrechen</string>
     <string name="welcome_dialog_title">Willkommen</string>
@@ -46,8 +46,8 @@
     <string name="network_selected">ausgewählt</string>
     <string name="bike_network_downloading">Bitte warten Sie während das Rad-Netzwerk heruntergeladen wird</string>
     <!-- Various -->
-    <string name="free_bikes">Freie Fahrräder:\u00A0</string>
-    <string name="empty_slots">Freie Stellplätze:\u00A0</string>
+    <string name="free_bikes">Freie Fahrräder: </string>
+    <string name="empty_slots">Freie Stellplätze: </string>
     <string name="all_stations">Alle Stationen</string>
     <string name="favorite_stations">Favoriten</string>
     <string name="station_added_to_favorites">Zu Favoriten hinzugefügt</string>
@@ -83,9 +83,7 @@
     <string name="pref_title_version">Version</string>
     <string name="pref_map_layer_title">Kartenebene</string>
     <string name="pref_title_strip_station_id">Station ID verschleiern</string>
-    <string name="pref_title_strip_station_id_summary">
-		Entfernen Sie die ID aus dem Stationnamen (nur bei einigen Netzwerken nützlich)
-    </string>
+    <string name="pref_title_strip_station_id_summary">Entfernen Sie die ID aus dem Stationnamen (nur bei einigen Netzwerken nützlich)</string>
     <string name="widget_title_favorite_stations">Lieblingsstationen</string>
     <string name="widget_no_fav_stations">Keine Lieblingsstationen</string>
     <string name="nearby_stations">In der Nähe</string>
@@ -100,4 +98,10 @@
     <string name="loc_perm_forbidden">Der Zugriff auf den Standort wird verweigert.
 \nSie können eine andere Standardregisterkarte für den Start auswählen.
 \nErteilen Sie andernfalls die Berechtigung in Ihren Systemeinstellungen.</string>
+    <string name="pref_title_fork">Fork von</string>
+    <string name="app_name" translatable="false"></string>
+    <string name="pref_map_layer_cyclemap" translatable="false"></string>
+    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
+    <string name="pref_title_license_message" translatable="false"></string>
+    <string name="pref_map_layer_mapnik" translatable="false"></string>
 </resources>

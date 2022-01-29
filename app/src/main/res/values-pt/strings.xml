@@ -37,6 +37,7 @@
     <string name="title_activity_settings">Configurações</string>
     <!-- Welcome dialog -->
     <string name="welcome_dialog_message">" Antes de começar, escolha uma rede de bicicletas na lista. 
+\n
 \nCertifique-se que está conectado à Internet. "</string>
     <string name="welcome_dialog_ok">OK</string>
     <string name="welcome_dialog_cancel">Cancelar</string>
@@ -46,7 +47,7 @@
     <string name="network_selected">selecionado</string>
     <string name="bike_network_downloading">Aguarde enquanto a rede de bicicletas está a ser descarregada</string>
     <!-- Various -->
-    <string name="free_bikes">Bicicletas livres:\u00A0</string>
+    <string name="free_bikes">Bicicletas livres: </string>
     <string name="empty_slots">Lugares vazios: </string>
     <string name="all_stations">Todas as estações</string>
     <string name="favorite_stations">Favoritos</string>
@@ -93,4 +94,13 @@
     <string name="pref_title_advanced">Avançado</string>
     <string name="pref_title_api_url">URL da API</string>
     <string name="pref_title_default_tab">Separador padrão</string>
+    <string name="pref_title_license_message" translatable="false"></string>
+    <string name="loc_perm_forbidden"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="pref_map_layer_mapnik" translatable="false"></string>
+    <string name="location_not_granted"></string>
+    <string name="free_ebikes"></string>
+    <string name="pref_title_fork"></string>
+    <string name="pref_map_layer_cyclemap" translatable="false"></string>
+    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
 </resources>

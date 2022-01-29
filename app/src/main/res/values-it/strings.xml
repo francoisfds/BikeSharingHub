@@ -37,6 +37,7 @@
     <string name="title_activity_settings">Impostazioni</string>
     <!-- Welcome dialog -->
     <string name="welcome_dialog_message">" Prima di cominciare, seleziona la rete nella lista. 
+\n
 \nVerifica di essere connesso a internet. "</string>
     <string name="welcome_dialog_ok">OK</string>
     <string name="welcome_dialog_cancel">Annulla</string>
@@ -47,7 +48,7 @@
     <string name="bike_network_downloading">Attendi mentre la lista delle stazioni viene scaricata</string>
     <!-- Various -->
     <string name="free_bikes">Bici disponibili: </string>
-    <string name="empty_slots">Posti vuoti:\u00A0</string>
+    <string name="empty_slots">Posti vuoti: </string>
     <string name="all_stations">Tutte le stazioni</string>
     <string name="favorite_stations">Preferite</string>
     <string name="station_added_to_favorites">Stazione aggiunta alle preferite</string>
@@ -83,9 +84,7 @@
     <string name="pref_title_openstreetmap">OpenStreetMap</string>
     <string name="pref_title_version">Versione</string>
     <string name="pref_map_layer_title">Mappa usata</string>
-    <string name="pref_title_strip_station_id_summary">
-        Rimuovi codice dal nome della stazione (utile solo per alcune reti)
-    </string>
+    <string name="pref_title_strip_station_id_summary">Rimuovi codice dal nome della stazione (utile solo per alcune reti)</string>
     <string name="pref_title_api_url">URL dell\'API</string>
     <string name="pref_title_advanced">Avanzato</string>
     <string name="no_nearby_stations">Nessuna stazione nelle vicinanze</string>
@@ -95,4 +94,13 @@
     <string name="pref_title_default_tab">Scheda predefinita</string>
     <string name="widget_no_fav_stations">Nessuna stazione preferita</string>
     <string name="widget_title_favorite_stations">Stazioni preferite</string>
+    <string name="pref_title_license_message" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="pref_title_fork"></string>
+    <string name="pref_map_layer_mapnik" translatable="false"></string>
+    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
+    <string name="pref_map_layer_cyclemap" translatable="false"></string>
+    <string name="location_not_granted"></string>
+    <string name="free_ebikes"></string>
+    <string name="loc_perm_forbidden"></string>
 </resources>

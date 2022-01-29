@@ -1,5 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="connection_error">Error de connexió</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="connection_error">Error de connexió</string>
     <string name="action_settings">Configuració</string>
     <string name="action_refresh">Refresca</string>
     <string name="action_map">Mapa</string>
@@ -7,26 +8,21 @@
     <string name="action_favorite">Preferida</string>
     <string name="action_my_location">La meva ubicació</string>
     <string name="action_search">Cerca</string>
-
     <string name="title_activity_stations_list">Estacions</string>
     <string name="title_activity_station">Estació</string>
     <string name="title_activity_networks_list">Trieu una xarxa</string>
     <string name="title_activity_map">Mapa</string>
     <string name="title_activity_settings">Configuració</string>
-
     <string name="welcome_dialog_message">Abans de començar, trieu una xarxa de bicicletes de la llista.
 \nAssegureu-vos d\'estar connectats a Internet.</string>
     <string name="welcome_dialog_ok">D\'acord</string>
     <string name="welcome_dialog_cancel">Cancel·la</string>
     <string name="welcome_dialog_title">Benvinguts</string>
-
     <string name="location_not_found">Ubicació no trobada</string>
     <string name="network_selected">seleccionat</string>
     <string name="bike_network_downloading">Espereu mentre es baixa la xarxa de bicicletes</string>
-
     <string name="widget_title_favorite_stations">Estacions preferides</string>
     <string name="widget_no_fav_stations">No hi ha estacions preferides</string>
-
     <string name="free_bikes">Bicis lliures: </string>
     <string name="empty_slots">Buits: </string>
     <string name="all_stations">Totes les estacions</string>
@@ -42,18 +38,17 @@
     <string name="db_last_update_never">mai</string>
     <string name="updated_just_now">Ara</string>
     <plurals name="updated_minutes_ago">
-	<item quantity="one">fa %d minut</item>
-	<item quantity="other">fa %d minuts</item>
-</plurals>
+        <item quantity="one">fa %d minut</item>
+        <item quantity="other">fa %d minuts</item>
+    </plurals>
     <plurals name="updated_hours_ago">
-	<item quantity="one">fa %d hora</item>
-	<item quantity="other">fa %d hores</item>
-</plurals>
+        <item quantity="one">fa %d hora</item>
+        <item quantity="other">fa %d hores</item>
+    </plurals>
     <plurals name="updated_days_ago">
-	<item quantity="one">fa %d dia</item>
-	<item quantity="other">fa %d dies</item>
-</plurals>
-
+        <item quantity="one">fa %d dia</item>
+        <item quantity="other">fa %d dies</item>
+    </plurals>
     <string name="pref_title_bike_networks_list">Trieu una xarxa</string>
     <string name="pref_title_license">Llicència</string>
     <string name="pref_title_source_code">Codi font</string>
@@ -61,7 +56,6 @@
     <string name="pref_map_layer_title">Capa de mapa</string>
     <string name="pref_title_advanced">avançat</string>
     <string name="json_error">Error en obtenir dades</string>
-
     <string name="is_bonus_station">Estació de bonificació</string>
     <string name="cards_accepted">Accepten targetes</string>
     <string name="pref_header_general">General</string>
@@ -74,4 +68,13 @@
     <string name="pref_title_strip_station_id_summary">Eliminar l\'ID del nom de l\'estació (útil només en algunes xarxes)</string>
     <string name="pref_title_api_url">URL de l\'API</string>
     <string name="pref_title_default_tab">Pestanya per defecte</string>
+    <string name="loc_perm_forbidden"></string>
+    <string name="pref_title_license_message" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="free_ebikes"></string>
+    <string name="location_not_granted"></string>
+    <string name="pref_title_fork"></string>
+    <string name="pref_map_layer_mapnik" translatable="false"></string>
+    <string name="pref_map_layer_cyclemap" translatable="false"></string>
+    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
 </resources>

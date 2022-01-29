@@ -14,7 +14,7 @@
     <string name="title_activity_networks_list">Odaberi mrežu</string>
     <string name="title_activity_map">Karta</string>
     <string name="title_activity_settings">Postavke</string>
-    <string name="welcome_dialog_message">Prije nego što počneš, odaberi biciklističku mrežu u popisu. 
+    <string name="welcome_dialog_message">Prije nego što počneš, odaberi biciklističku mrežu u popisu.
 \nTakođer provjeri vezu s internetom.</string>
     <string name="welcome_dialog_ok">U redu</string>
     <string name="welcome_dialog_cancel">Odustani</string>
@@ -71,4 +71,13 @@
     <string name="pref_title_advanced">Napredno</string>
     <string name="pref_title_api_url">URL sučelja</string>
     <string name="pref_title_default_tab">Standardna kartica</string>
+    <string name="pref_map_layer_mapnik" translatable="false"></string>
+    <string name="pref_title_license_message" translatable="false"></string>
+    <string name="pref_map_layer_cyclemap" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="location_not_granted"></string>
+    <string name="free_ebikes"></string>
+    <string name="loc_perm_forbidden"></string>
+    <string name="pref_title_fork"></string>
+    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
 </resources>

@@ -1,7 +1,7 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="connection_error">Forbindelsesfejl</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="connection_error">Forbindelsesfejl</string>
     <string name="json_error">Fejl under hentning af data</string>
-
     <string name="action_settings">Indstillinger</string>
     <string name="action_refresh">Opdater</string>
     <string name="action_map">Kort</string>
@@ -9,26 +9,21 @@
     <string name="action_favorite">Favorit</string>
     <string name="action_my_location">Min placering</string>
     <string name="action_search">Søg</string>
-
     <string name="title_activity_stations_list">Stationer</string>
     <string name="title_activity_station">Station</string>
     <string name="title_activity_networks_list">Vælg et netværk</string>
     <string name="title_activity_map">Kort</string>
     <string name="title_activity_settings">Indstillinger</string>
-
     <string name="welcome_dialog_message">" Før du begynder, skal du vælge et cykelnetværk på listen.
 \nSørg også for at du er tilsluttet internettet. "</string>
     <string name="welcome_dialog_ok">OK</string>
     <string name="welcome_dialog_cancel">Annuller</string>
     <string name="welcome_dialog_title">Velkommen</string>
-
     <string name="location_not_found">Sted ikke fundet</string>
     <string name="network_selected">valgt</string>
     <string name="bike_network_downloading">Vent, mens cykelnetværk bliver hentet</string>
-
     <string name="widget_title_favorite_stations">Foretrukne stationer</string>
     <string name="widget_no_fav_stations">Ingen foretrukne stationer</string>
-
     <string name="free_bikes">Ledige cykler: </string>
     <string name="empty_slots">Tomme pladser: </string>
     <string name="all_stations">Alle stationer</string>
@@ -46,18 +41,17 @@
     <string name="db_last_update_never">aldrig</string>
     <string name="updated_just_now">Lige nu</string>
     <plurals name="updated_minutes_ago">
-	<item quantity="one">%d minut siden</item>
-	<item quantity="other">%d minutter siden</item>
-</plurals>
+        <item quantity="one">%d minut siden</item>
+        <item quantity="other">%d minutter siden</item>
+    </plurals>
     <plurals name="updated_hours_ago">
-	<item quantity="one">%d time siden</item>
-	<item quantity="other">%d timer siden</item>
-</plurals>
+        <item quantity="one">%d time siden</item>
+        <item quantity="other">%d timer siden</item>
+    </plurals>
     <plurals name="updated_days_ago">
-	<item quantity="one">%d dag siden</item>
-	<item quantity="other">%d dage siden</item>
-</plurals>
-
+        <item quantity="one">%d dag siden</item>
+        <item quantity="other">%d dage siden</item>
+    </plurals>
     <string name="pref_header_general">Generelt</string>
     <string name="pref_title_bike_networks_list">Vælg et netværk</string>
     <string name="pref_title_license">Licens</string>
@@ -74,4 +68,13 @@
     <string name="pref_title_advanced">Avanceret</string>
     <string name="pref_title_api_url">API URL</string>
     <string name="pref_title_default_tab">Standardfaneblad</string>
+    <string name="free_ebikes"></string>
+    <string name="pref_map_layer_cyclemap" translatable="false"></string>
+    <string name="pref_map_layer_mapnik" translatable="false"></string>
+    <string name="pref_title_fork"></string>
+    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
+    <string name="loc_perm_forbidden"></string>
+    <string name="location_not_granted"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="pref_title_license_message" translatable="false"></string>
 </resources>

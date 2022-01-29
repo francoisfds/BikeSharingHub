@@ -15,6 +15,7 @@
     <string name="title_activity_map">Térkép</string>
     <string name="title_activity_settings">Beállítások</string>
     <string name="welcome_dialog_message">" Mielőtt elkezdené, válasszon egy kerékpárhálózatot a listából. 
+\n
 \nGyőződjön meg arról is, hogy kapcsolódik-e az internethez. "</string>
     <string name="welcome_dialog_ok">OK</string>
     <string name="welcome_dialog_cancel">Mégse</string>
@@ -68,4 +69,13 @@
     <string name="pref_title_advanced">Speciális</string>
     <string name="pref_title_api_url">API URL</string>
     <string name="pref_title_default_tab">Alapértelmezett lap</string>
+    <string name="pref_title_license_message" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="loc_perm_forbidden"></string>
+    <string name="pref_title_fork"></string>
+    <string name="pref_map_layer_mapnik" translatable="false"></string>
+    <string name="location_not_granted"></string>
+    <string name="free_ebikes"></string>
+    <string name="pref_map_layer_cyclemap" translatable="false"></string>
+    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
 </resources>

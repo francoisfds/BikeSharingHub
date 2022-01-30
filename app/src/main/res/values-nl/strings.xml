@@ -68,13 +68,8 @@
     <string name="pref_title_advanced">Geavanceerd</string>
     <string name="pref_title_api_url">API-url</string>
     <string name="pref_title_default_tab">Standaard tabblad</string>
-    <string name="pref_map_layer_mapnik" translatable="false"></string>
-    <string name="app_name" translatable="false"></string>
     <string name="location_not_granted"></string>
     <string name="pref_title_fork"></string>
-    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
-    <string name="pref_map_layer_cyclemap" translatable="false"></string>
-    <string name="pref_title_license_message" translatable="false"></string>
     <string name="free_ebikes"></string>
     <string name="loc_perm_forbidden"></string>
 </resources>

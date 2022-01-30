@@ -100,9 +100,4 @@
 \nSinon, accordez l\'autorisation dans vos paramètres système.</string>
     <string name="free_ebikes">Vélos électriques : </string>
     <string name="pref_title_fork">Fork de</string>
-    <string name="app_name" translatable="false"></string>
-    <string name="pref_title_license_message" translatable="false"></string>
-    <string name="pref_map_layer_mapnik" translatable="false"></string>
-    <string name="pref_map_layer_cyclemap" translatable="false"></string>
-    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
 </resources>

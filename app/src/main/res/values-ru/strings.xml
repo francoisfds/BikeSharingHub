@@ -55,14 +55,11 @@
     <string name="title_activity_networks_list">Выбрать сеть</string>
     <string name="widget_no_fav_stations"></string>
     <string name="title_activity_stations_list"></string>
-    <string name="pref_map_layer_mapnik" translatable="false"></string>
-    <string name="pref_map_layer_cyclemap" translatable="false"></string>
     <string name="pref_title_default_tab"></string>
     <string name="pref_title_advanced"></string>
     <string name="title_activity_station"></string>
     <string name="pref_title_fork"></string>
     <string name="pref_title_source_code"></string>
-    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
     <string name="bike_network_downloading"></string>
     <string name="pref_title_strip_station_id_summary"></string>
     <string name="welcome_dialog_message"></string>
@@ -71,7 +68,6 @@
     <string name="no_stations"></string>
     <string name="widget_title_favorite_stations"></string>
     <string name="pref_title_strip_station_id"></string>
-    <string name="app_name" translatable="false"></string>
     <string name="json_error"></string>
     <string name="free_bikes"></string>
     <string name="free_ebikes"></string>
@@ -81,5 +77,4 @@
     <string name="loc_perm_forbidden"></string>
     <string name="station_added_to_favorites"></string>
     <string name="stations_removed_from_favorites"></string>
-    <string name="pref_title_license_message" translatable="false"></string>
 </resources>

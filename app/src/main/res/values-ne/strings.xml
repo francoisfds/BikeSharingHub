@@ -23,15 +23,12 @@
     <string name="widget_title_favorite_stations"></string>
     <string name="no_favorite_stations"></string>
     <string name="no_stations"></string>
-    <string name="pref_map_layer_cyclemap" translatable="false"></string>
     <string name="pref_title_openstreetmap"></string>
     <string name="pref_title_osmdroid_library"></string>
     <string name="network_selected"></string>
-    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
     <string name="welcome_dialog_ok"></string>
     <string name="location_not_found"></string>
     <string name="empty_slots"></string>
-    <string name="pref_map_layer_mapnik" translatable="false"></string>
     <string name="pref_title_version"></string>
     <string name="pref_title_default_tab"></string>
     <plurals name="updated_days_ago">
@@ -39,7 +36,6 @@
         <item quantity="other"></item>
     </plurals>
     <string name="welcome_dialog_cancel"></string>
-    <string name="pref_title_license_message" translatable="false"></string>
     <string name="updated_just_now"></string>
     <string name="pref_header_general"></string>
     <string name="no_nearby_stations"></string>
@@ -51,7 +47,6 @@
     <string name="welcome_dialog_message"></string>
     <string name="pref_title_fork"></string>
     <string name="free_ebikes"></string>
-    <string name="app_name" translatable="false"></string>
     <string name="bike_network_downloading"></string>
     <string name="widget_no_fav_stations"></string>
     <string name="all_stations"></string>

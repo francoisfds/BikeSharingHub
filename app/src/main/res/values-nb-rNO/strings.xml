@@ -74,9 +74,4 @@
     <string name="loc_perm_forbidden">Posisjonstilgang nektet.
 \nDu kan velge en annen forvalgt fane for oppstart.
 \nEllers kan du innvilge tilgang i systeminnstillingene dine.</string>
-    <string name="pref_title_license_message" translatable="false"></string>
-    <string name="pref_map_layer_mapnik" translatable="false"></string>
-    <string name="pref_map_layer_cyclemap" translatable="false"></string>
-    <string name="app_name" translatable="false"></string>
-    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
 </resources>

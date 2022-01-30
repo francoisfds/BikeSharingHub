@@ -99,9 +99,4 @@
 \nSie können eine andere Standardregisterkarte für den Start auswählen.
 \nErteilen Sie andernfalls die Berechtigung in Ihren Systemeinstellungen.</string>
     <string name="pref_title_fork">Fork von</string>
-    <string name="app_name" translatable="false"></string>
-    <string name="pref_map_layer_cyclemap" translatable="false"></string>
-    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
-    <string name="pref_title_license_message" translatable="false"></string>
-    <string name="pref_map_layer_mapnik" translatable="false"></string>
 </resources>

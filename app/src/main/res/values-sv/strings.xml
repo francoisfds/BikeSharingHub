@@ -68,13 +68,13 @@
     <string name="pref_title_default_tab">Standardflik</string>
     <string name="empty_slots">Tomma luckor: </string>
     <string name="pref_title_strip_station_id">Skala bort stations-ID</string>
-    <string name="pref_title_license_message" translatable="false"></string>
-    <string name="app_name" translatable="false"></string>
-    <string name="location_not_granted"></string>
-    <string name="free_ebikes"></string>
-    <string name="pref_title_fork"></string>
-    <string name="loc_perm_forbidden"></string>
-    <string name="pref_map_layer_mapnik" translatable="false"></string>
-    <string name="pref_map_layer_osmpublictransport" translatable="false"></string>
-    <string name="pref_map_layer_cyclemap" translatable="false"></string>
+    <string name="pref_title_license_message" translatable="false"/>
+    <string name="app_name" translatable="false"/>
+    <string name="location_not_granted">Platsåtkomst nekad</string>
+    <string name="free_ebikes">Elcyklar: </string>
+    <string name="pref_title_fork"/>
+    <string name="loc_perm_forbidden"/>
+    <string name="pref_map_layer_mapnik" translatable="false"/>
+    <string name="pref_map_layer_osmpublictransport" translatable="false"/>
+    <string name="pref_map_layer_cyclemap" translatable="false"/>
 </resources>

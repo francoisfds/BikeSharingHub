@@ -94,8 +94,10 @@
     <string name="pref_title_advanced">Avançado</string>
     <string name="pref_title_api_url">URL da API</string>
     <string name="pref_title_default_tab">Separador padrão</string>
-    <string name="loc_perm_forbidden"></string>
-    <string name="location_not_granted"></string>
-    <string name="free_ebikes"></string>
-    <string name="pref_title_fork"></string>
+    <string name="loc_perm_forbidden">O acesso à localização é negado.
+\nPode escolher outro separador padrão para a inicialização.
+\nCaso contrário, conceda permissão nas configurações do seu sistema.</string>
+    <string name="location_not_granted">Acesso à localização negado</string>
+    <string name="free_ebikes">Bicicletas elétricas: </string>
+    <string name="pref_title_fork">Bifurcação de</string>
 </resources>

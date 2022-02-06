@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2020-2021 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020-2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -65,7 +65,9 @@ import java.util.ArrayList;
 
 import be.brunoparmentier.openbikesharing.app.R;
 import be.brunoparmentier.openbikesharing.app.BuildConfig;
+import be.brunoparmentier.openbikesharing.app.db.NetworksDataSource;
 import be.brunoparmentier.openbikesharing.app.db.StationsDataSource;
+import be.brunoparmentier.openbikesharing.app.models.BikeNetworkLocation;
 import be.brunoparmentier.openbikesharing.app.models.Station;
 import be.brunoparmentier.openbikesharing.app.models.StationStatus;
 
@@ -75,8 +77,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     private static final String MAP_CENTER_LAT_KEY = "map-center-lat";
     private static final String MAP_CENTER_LON_KEY = "map-center-lon";
 
-    private static final String PREF_KEY_NETWORK_LATITUDE = "network-latitude";
-    private static final String PREF_KEY_NETWORK_LONGITUDE = "network-longitude";
     private static final String PREF_KEY_MAP_LAYER = "pref_map_layer";
     private static final String KEY_STATION = "station";
     private static final String MAP_LAYER_MAPNIK = "mapnik";
@@ -90,6 +90,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     private IMapController mapController;
     private MyLocationNewOverlay myLocationOverlay;
     private StationMarkerInfoWindow stationMarkerInfoWindow;
+    private NetworksDataSource networksDataSource;
     private StationsDataSource stationsDataSource;
 
     @Override
@@ -109,6 +110,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 
         stationsDataSource = new StationsDataSource(this);
+        networksDataSource = new NetworksDataSource(this);
         ArrayList<Station> stations = stationsDataSource.getStations();
 
         final Context context = getApplicationContext();
@@ -188,8 +190,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 mapController.setZoom(16);
                 mapController.animateTo(new GeoPoint(userLocation));
             } else {
-                double bikeNetworkLatitude = Double.longBitsToDouble(settings.getLong(PREF_KEY_NETWORK_LATITUDE, 0));
-                double bikeNetworkLongitude = Double.longBitsToDouble(settings.getLong(PREF_KEY_NETWORK_LONGITUDE, 0));
+                //Arbitrary use the first location of the list
+                BikeNetworkLocation currentNetworkLocation = networksDataSource.getNetworkInfoList().get(0).getLocation();
+                double bikeNetworkLatitude = currentNetworkLocation.getLatitude();
+                double bikeNetworkLongitude = currentNetworkLocation.getLongitude();
                 mapController.setZoom(13);
                 mapController.setCenter(new GeoPoint(bikeNetworkLatitude, bikeNetworkLongitude));
             }

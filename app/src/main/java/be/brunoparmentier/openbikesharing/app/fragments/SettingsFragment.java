@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
+ * Copyright (c) 2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -37,6 +38,8 @@ import java.util.List;
 
 import be.brunoparmentier.openbikesharing.app.BuildConfig;
 import be.brunoparmentier.openbikesharing.app.R;
+import be.brunoparmentier.openbikesharing.app.db.NetworksDataSource;
+import be.brunoparmentier.openbikesharing.app.models.BikeNetworkInfo;
 
 /**
  * Settings fragment
@@ -44,9 +47,7 @@ import be.brunoparmentier.openbikesharing.app.R;
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = "SettingsFragment";
-    private static final String PREF_KEY_NETWORK_ID = "network-id";
-    private static final String PREF_KEY_NETWORK_NAME = "network-name";
-    private static final String PREF_KEY_NETWORK_CITY = "network-city";
+    private static final String PREF_KEY_CHOOSE_NETWORK = "choose_network";
     private static final String PREF_KEY_API_URL = "pref_api_url";
 
     @Override
@@ -97,7 +98,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         updatePreference(PREF_KEY_API_URL);
-        updatePreference(PREF_KEY_NETWORK_ID);
+        updatePreference(PREF_KEY_CHOOSE_NETWORK);
     }
 
     @Override
@@ -120,17 +121,26 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 EditTextPreference editTextPreference =  (EditTextPreference) preference;
                 editTextPreference.setSummary(editTextPreference.getText());
             //}
-        } else if (key.equals(PREF_KEY_NETWORK_ID)) {
+        } else if (key.equals(PREF_KEY_CHOOSE_NETWORK)) {
             Preference preference = findPreference(key);
-            String networkName = PreferenceManager
-                    .getDefaultSharedPreferences(getActivity())
-                    .getString(PREF_KEY_NETWORK_NAME, "");
-            String networkCity = PreferenceManager
-                    .getDefaultSharedPreferences(getActivity())
-                    .getString(PREF_KEY_NETWORK_CITY, "");
-            if (!networkName.isEmpty() && !networkCity.isEmpty()) {
-                preference.setSummary(networkName + " (" + networkCity + ")");
-            }
+            NetworksDataSource networksDataSource = new NetworksDataSource(getContext());
+            List<String> idList = networksDataSource.getNetworksId();
+            switch(idList.size()) {
+                case 0:
+                    preference.setSummary(getString(R.string.pref_title_bike_networks_list_summary_none));
+                    break;
+                case 1:
+                    BikeNetworkInfo networkInfo = networksDataSource.getNetworkInfoFromId(idList.get(0));
+                    String networkName = networkInfo.getName();
+                    String networkCity = networkInfo.getLocation().getCity();
+                    preference.setSummary(networkName + " (" + networkCity + ")");
+                    break;
+                default:
+                    preference.setSummary(getResources().getString(
+                            R.string.pref_title_bike_networks_list_summary_multiple_selection,
+                            idList.size()));
+                    break;
+                }
         }
     }
 }

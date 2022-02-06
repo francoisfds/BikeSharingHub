@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2021 François FERREIRA DE SOUSA.
+ * Copyright (c) 2021-2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -31,12 +31,14 @@ public class BikeNetworkInfo implements Serializable, Comparable<BikeNetworkInfo
     private String name;
     private String company;
     private BikeNetworkLocation location;
+    private String color;
 
     public BikeNetworkInfo(String id, String name, String company, BikeNetworkLocation location) {
         this.id = id;
         this.name = name;
         this.company = company;
         this.location = location;
+        this.color = null;
     }
 
     public String getId() {
@@ -57,6 +59,10 @@ public class BikeNetworkInfo implements Serializable, Comparable<BikeNetworkInfo
 
     public String getLocationName() {
         return (getLocation().getCountry() + " : " + getLocation().getCity());
+    }
+
+    public String getColor() {
+        return color;
     }
 
     @Override

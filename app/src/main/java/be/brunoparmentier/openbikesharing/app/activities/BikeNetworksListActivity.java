@@ -44,11 +44,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
 import be.brunoparmentier.openbikesharing.app.R;
 import be.brunoparmentier.openbikesharing.app.adapters.BikeNetworksListAdapter;
+import be.brunoparmentier.openbikesharing.app.db.NetworksDataSource;
 import be.brunoparmentier.openbikesharing.app.models.BikeNetworkInfo;
 import be.brunoparmentier.openbikesharing.app.parsers.BikeNetworksListParser;
 
@@ -57,12 +59,6 @@ public class BikeNetworksListActivity extends Activity {
 
     private static final String DEFAULT_API_URL = "https://api.citybik.es/v2/";
     private static final String PREF_KEY_API_URL = "pref_api_url";
-    private static final String PREF_KEY_NETWORK_ID = "network-id";
-    private static final String PREF_KEY_NETWORK_NAME = "network-name";
-    private static final String PREF_KEY_NETWORK_CITY = "network-city";
-    private static final String PREF_KEY_NETWORK_LATITUDE = "network-latitude";
-    private static final String PREF_KEY_NETWORK_LONGITUDE = "network-longitude";
-    private static final String KEY_NETWORK_ID = "network-id";
 
     private Comparator<BikeNetworkInfo> mLocationComparator = new Comparator<BikeNetworkInfo>() {
         public int compare(BikeNetworkInfo network1, BikeNetworkInfo network2) {
@@ -76,12 +72,15 @@ public class BikeNetworksListActivity extends Activity {
     private ArrayList<BikeNetworkInfo> bikeNetworks;
     private ArrayList<BikeNetworkInfo> searchedBikeNetworks;
     private BikeNetworksListAdapter bikeNetworksListAdapter;
+    private NetworksDataSource networksDataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bike_networks_list);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        networksDataSource = new NetworksDataSource(this);
 
         listView = (ListView) findViewById(R.id.networksListView);
         String apiUrl = PreferenceManager
@@ -130,23 +129,12 @@ public class BikeNetworksListActivity extends Activity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
-                        SharedPreferences settings = PreferenceManager
-                                .getDefaultSharedPreferences(BikeNetworksListActivity.this);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString(PREF_KEY_NETWORK_ID, searchedBikeNetworks.get(position).getId());
-                        editor.putString(PREF_KEY_NETWORK_NAME, searchedBikeNetworks.get(position).getName());
-                        editor.putString(PREF_KEY_NETWORK_CITY, searchedBikeNetworks.get(position).getLocation().getCity());
-                        editor.putLong(PREF_KEY_NETWORK_LATITUDE, Double.doubleToRawLongBits(
-                                        searchedBikeNetworks.get(position).getLocation().getLatitude())
-                        );
-                        editor.putLong(PREF_KEY_NETWORK_LONGITUDE, Double.doubleToRawLongBits(
-                                        searchedBikeNetworks.get(position).getLocation().getLongitude())
-                        );
-                        editor.apply();
+                        BikeNetworkInfo selectedNetwork = searchedBikeNetworks.get(position);
+                        networksDataSource.storeNetworks(new ArrayList<BikeNetworkInfo>(Arrays.asList(selectedNetwork)));
                         Toast.makeText(BikeNetworksListActivity.this,
-                                searchedBikeNetworks.get(position).getName()
+                                selectedNetwork.getName()
                                         + " ("
-                                        + searchedBikeNetworks.get(position).getLocation().getCity()
+                                        + selectedNetwork.getLocation().getCity()
                                         + ") " + getString(R.string.network_selected),
                                 Toast.LENGTH_SHORT).show();
 
@@ -216,23 +204,12 @@ public class BikeNetworksListActivity extends Activity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
-                        SharedPreferences settings = PreferenceManager
-                                .getDefaultSharedPreferences(BikeNetworksListActivity.this);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString(PREF_KEY_NETWORK_ID, bikeNetworks.get(position).getId());
-                        editor.putString(PREF_KEY_NETWORK_NAME, bikeNetworks.get(position).getName());
-                        editor.putString(PREF_KEY_NETWORK_CITY, bikeNetworks.get(position).getLocation().getCity());
-                        editor.putLong(PREF_KEY_NETWORK_LATITUDE, Double.doubleToRawLongBits(
-                                        bikeNetworks.get(position).getLocation().getLatitude())
-                        );
-                        editor.putLong(PREF_KEY_NETWORK_LONGITUDE, Double.doubleToRawLongBits(
-                                        bikeNetworks.get(position).getLocation().getLongitude())
-                        );
-                        editor.apply();
+                        BikeNetworkInfo selectedNetwork = bikeNetworks.get(position);
+                        networksDataSource.storeNetworks(new ArrayList<BikeNetworkInfo>(Arrays.asList(selectedNetwork)));
                         Toast.makeText(BikeNetworksListActivity.this,
-                                bikeNetworks.get(position).getName()
+                                selectedNetwork.getName()
                                         + " ("
-                                        + bikeNetworks.get(position).getLocation().getCity()
+                                        + selectedNetwork.getLocation().getCity()
                                         + ") " + getString(R.string.network_selected),
                                 Toast.LENGTH_SHORT).show();
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015 Bruno Parmentier.
- * Copyright (c) 2020 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020, 2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -81,7 +81,7 @@ public class StationsDataSource {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         ArrayList<Station> stations = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT id as _id, name, last_update, latitude, longitude, "
-                + "free_bikes, empty_slots, address, banking, bonus, status, ebikes "
+                + "free_bikes, empty_slots, address, banking, bonus, status, ebikes, network_id "
                 + "FROM " + DatabaseHelper.STATIONS_TABLE_NAME, null);
 
         try {
@@ -133,7 +133,7 @@ public class StationsDataSource {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         ArrayList<Station> favStations = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT sta.id as _id, name, last_update, latitude, longitude, "
-                + "free_bikes, empty_slots, address, banking, bonus, status, ebikes "
+                + "free_bikes, empty_slots, address, banking, bonus, status, ebikes, network_id "
                 + "FROM " + DatabaseHelper.FAV_STATIONS_TABLE_NAME + " sta "
                 + "INNER JOIN " + DatabaseHelper.STATIONS_TABLE_NAME + " fav "
                 + "ON sta.id = fav.id", null);

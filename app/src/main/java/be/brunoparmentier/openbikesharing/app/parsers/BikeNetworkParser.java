@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2020 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020,2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -161,7 +161,7 @@ public class BikeNetworkParser {
 
             bikeNetwork = new BikeNetwork(networkId, networkName, networkCompany, networkLocation, stations);
         } catch (JSONException e) {
-            throw new ParseException("Error parsing JSON", 0);
+            throw new ParseException(e.getMessage(), 0);
         }
     }
 

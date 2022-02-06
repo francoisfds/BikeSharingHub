@@ -71,6 +71,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import be.brunoparmentier.openbikesharing.app.R;
 import be.brunoparmentier.openbikesharing.app.adapters.SearchStationAdapter;
 import be.brunoparmentier.openbikesharing.app.db.StationsDataSource;
@@ -472,25 +476,29 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                 error = new Exception("No URL to fetch");
                 return null;
             }
-            try {
-                StringBuilder response = new StringBuilder();
-
-                URL url = new URL(urls[0]);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    BufferedReader input = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String strLine;
-                    while ((strLine = input.readLine()) != null) {
-                        response.append(strLine);
+            JSONArray networksArray = new JSONArray();
+            for (int i=0; i<urls.length; i++) {
+                try {
+                    StringBuilder response = new StringBuilder();
+                    URL url = new URL(urls[i]);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                        BufferedReader input = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        String strLine;
+                        while ((strLine = input.readLine()) != null) {
+                            response.append(strLine);
+                        }
+                        input.close();
                     }
-                    input.close();
+                    networksArray.put(new JSONObject(response.toString()));
+                } catch (Exception e) {
+                    Log.e(TAG, urls[i] + ": " + e.getClass().getSimpleName() + " (" + e.getMessage() + ")");
                 }
-                return response.toString();
-            } catch (IOException e) {
-                error = e;
-                Log.d(TAG, e.getMessage());
-                return e.getMessage();
             }
+            if(networksArray.length() == 0) {
+                error = new Exception("Unable to fetch any response");
+            }
+            return networksArray.toString();
         }
 
         @Override
@@ -503,13 +511,33 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                 setRefreshActionButtonState(false);
                 refreshLayout.setRefreshing(false);
             } else {
+                /* parse result */
+                boolean stripId = settings.getBoolean(PREF_KEY_STRIP_ID_STATION, false);
+                stations = null;
                 try {
-                    /* parse result */
-                    boolean stripId = settings.getBoolean(PREF_KEY_STRIP_ID_STATION, false);
-                    BikeNetworkParser bikeNetworkParser = new BikeNetworkParser(result, stripId);
-                    bikeNetwork = bikeNetworkParser.getNetwork();
+                    JSONArray rawNetworks = new JSONArray(result);
 
-                    stations = bikeNetwork.getStations();
+                    for (int i = 0; i < rawNetworks.length(); i++) {
+                        JSONObject rawNetwork = rawNetworks.getJSONObject(i);
+                        try{
+                            BikeNetworkParser bikeNetworkParser = new BikeNetworkParser(rawNetwork.toString(), stripId);
+
+                            BikeNetwork bikeNetwork = bikeNetworkParser.getNetwork();
+                            if(stations == null) {
+                                stations = bikeNetwork.getStations();
+                            } else {
+                                stations.addAll(bikeNetwork.getStations());
+                            }
+                        } catch (ParseException e) {
+                            Log.e(TAG, "Error retreiving data of network " + (i+1) + " : " + e.getMessage());
+                        }
+                    }
+                } catch (JSONException e) {
+                        Log.e(TAG, e.getMessage());
+                        Toast.makeText(StationsListActivity.this,
+                                R.string.json_error, Toast.LENGTH_LONG).show();
+                }
+                if(stations != null) {
                     Collections.sort(stations);
                     stationsDataSource.storeStations(stations);
                     favStations = stationsDataSource.getFavoriteStations();
@@ -538,14 +566,12 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                     refreshWidgetIntent.putExtra(StationsListAppWidgetProvider.EXTRA_REFRESH_LIST_ONLY, true);
                     sendBroadcast(refreshWidgetIntent);
 
-                } catch (ParseException e) {
-                    Log.e(TAG, e.getMessage());
+                } else {
                     Toast.makeText(StationsListActivity.this,
                             R.string.json_error, Toast.LENGTH_LONG).show();
-                } finally {
-                    setRefreshActionButtonState(false);
-                    refreshLayout.setRefreshing(false);
                 }
+                setRefreshActionButtonState(false);
+                refreshLayout.setRefreshing(false);
             }
         }
     }

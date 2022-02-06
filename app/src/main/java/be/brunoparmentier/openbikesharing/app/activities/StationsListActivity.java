@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2020-2021 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020-2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -58,10 +58,12 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.IndexOutOfBoundsException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -69,11 +71,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import be.brunoparmentier.openbikesharing.app.R;
 import be.brunoparmentier.openbikesharing.app.adapters.SearchStationAdapter;
 import be.brunoparmentier.openbikesharing.app.db.StationsDataSource;
+import be.brunoparmentier.openbikesharing.app.db.NetworksDataSource;
 import be.brunoparmentier.openbikesharing.app.fragments.StationsListFragment;
 import be.brunoparmentier.openbikesharing.app.models.BikeNetwork;
+import be.brunoparmentier.openbikesharing.app.models.BikeNetworkInfo;
+import be.brunoparmentier.openbikesharing.app.models.BikeNetworkLocation;
 import be.brunoparmentier.openbikesharing.app.models.Station;
 import be.brunoparmentier.openbikesharing.app.parsers.BikeNetworkParser;
 import be.brunoparmentier.openbikesharing.app.widgets.StationsListAppWidgetProvider;
@@ -85,6 +94,8 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     private static final String DEFAULT_API_URL = "https://api.citybik.es/v2/";
     private static final String PREF_KEY_API_URL = "pref_api_url";
     private static final String PREF_KEY_NETWORK_ID = "network-id";
+    private static final String PREF_KEY_NETWORK_NAME = "network-name";
+    private static final String PREF_KEY_NETWORK_CITY = "network-city";
     private static final String PREF_KEY_NETWORK_LATITUDE = "network-latitude";
     private static final String PREF_KEY_NETWORK_LONGITUDE = "network-longitude";
     private static final String PREF_KEY_FAV_STATIONS = "fav-stations";
@@ -108,6 +119,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     private ArrayList<Station> favStations;
     private ArrayList<Station> nearbyStations;
     private StationsDataSource stationsDataSource;
+    private NetworksDataSource networksDataSource;
 
     private JSONDownloadTask jsonDownloadTask;
 
@@ -170,6 +182,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
         });
 
         stationsDataSource = new StationsDataSource(this);
+        networksDataSource = new NetworksDataSource(this);
         stations = stationsDataSource.getStations();
         favStations = stationsDataSource.getFavoriteStations();
         nearbyStations = new ArrayList<>();
@@ -190,7 +203,13 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        boolean firstRun = settings.getString(PREF_KEY_NETWORK_ID, "").isEmpty();
+        if(settings.contains(PREF_KEY_NETWORK_ID)) {
+            upgradeAppSinceVersion25();
+        }
+        boolean firstRun = false;
+        try {
+            firstRun = networksDataSource.getNetworksId().size() == 0;
+        } catch (IndexOutOfBoundsException e) {}
         setDBLastUpdateText();
 
         if (firstRun) {
@@ -203,11 +222,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                 favStations = (ArrayList<Station>) savedInstanceState.getSerializable(KEY_FAV_STATIONS);
                 nearbyStations = (ArrayList<Station>) savedInstanceState.getSerializable(KEY_NEARBY_STATIONS);
             } else {
-                String networkId = settings.getString(PREF_KEY_NETWORK_ID, "");
-                String stationUrl = settings.getString(PREF_KEY_API_URL, DEFAULT_API_URL)
-                        + "networks/" + networkId;
-                jsonDownloadTask = new JSONDownloadTask();
-                jsonDownloadTask.execute(stationUrl);
+                executeDownloadTask();
             }
         }
     }
@@ -250,11 +265,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
 
             /* Update automatically if data is more than 10 min old */
             if ((dbLastUpdate != -1) && ((currentTime - dbLastUpdate) > 600000)) {
-                String networkId = settings.getString(PREF_KEY_NETWORK_ID, "");
-                String stationUrl = settings.getString(PREF_KEY_API_URL, DEFAULT_API_URL)
-                        + "networks/" + networkId;
-                jsonDownloadTask = new JSONDownloadTask();
-                jsonDownloadTask.execute(stationUrl);
+                executeDownloadTask();
             }
         }
     }
@@ -324,13 +335,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                 startActivity(settingsIntent);
                 return true;
             case R.id.action_refresh:
-                String networkId = PreferenceManager
-                        .getDefaultSharedPreferences(this)
-                        .getString(PREF_KEY_NETWORK_ID, "");
-                String stationUrl = settings.getString(PREF_KEY_API_URL, DEFAULT_API_URL)
-                        + "networks/" + networkId;
-                jsonDownloadTask = new JSONDownloadTask();
-                jsonDownloadTask.execute(stationUrl);
+                executeDownloadTask();
                 return true;
             case R.id.action_map:
                 Intent mapIntent = new Intent(this, MapActivity.class);
@@ -346,10 +351,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
             Log.d(TAG, "PICK_NETWORK_REQUEST");
             if (resultCode == RESULT_OK) {
                 Log.d(TAG, "RESULT_OK");
-                String stationUrl = settings.getString(PREF_KEY_API_URL, DEFAULT_API_URL)
-                        + "networks/" + data.getExtras().getString(KEY_NETWORK_ID);
-                jsonDownloadTask = new JSONDownloadTask();
-                jsonDownloadTask.execute(stationUrl);
+                executeDownloadTask();
             }
         }
     }
@@ -406,13 +408,16 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     }
     //put here the code to update the bikes data
     private void executeDownloadTask(){
-        String networkId = PreferenceManager
-                .getDefaultSharedPreferences(this)
-                .getString(PREF_KEY_NETWORK_ID, "");
-        String stationUrl = settings.getString(PREF_KEY_API_URL, DEFAULT_API_URL)
-                + "networks/" + networkId;
+        ArrayList<String> networksId = networksDataSource.getNetworksId();
+        ArrayList<String> networksUrlList = new ArrayList<String>();
+        for (String id : networksId) {
+            String stationUrl = settings.getString(PREF_KEY_API_URL, DEFAULT_API_URL)
+                        + "networks/" + id;
+            networksUrlList.add(stationUrl);
+        }
+        String[] networksUrl = networksUrlList.toArray(new String[networksUrlList.size()]);
         jsonDownloadTask = new JSONDownloadTask();
-        jsonDownloadTask.execute(stationUrl);
+        jsonDownloadTask.execute(networksUrl);
     }
 
 
@@ -467,28 +472,33 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
 
         @Override
         protected String doInBackground(String... urls) {
-            if (urls[0].isEmpty()) {
-                finish();
+            if (urls.length == 0 || urls[0].isEmpty()) {
+                error = new Exception("No URL to fetch");
+                return null;
             }
-            try {
-                StringBuilder response = new StringBuilder();
-
-                URL url = new URL(urls[0]);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    BufferedReader input = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String strLine;
-                    while ((strLine = input.readLine()) != null) {
-                        response.append(strLine);
+            JSONArray networksArray = new JSONArray();
+            for (int i=0; i<urls.length; i++) {
+                try {
+                    StringBuilder response = new StringBuilder();
+                    URL url = new URL(urls[i]);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                        BufferedReader input = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        String strLine;
+                        while ((strLine = input.readLine()) != null) {
+                            response.append(strLine);
+                        }
+                        input.close();
                     }
-                    input.close();
+                    networksArray.put(new JSONObject(response.toString()));
+                } catch (Exception e) {
+                    Log.e(TAG, urls[i] + ": " + e.getClass().getSimpleName() + " (" + e.getMessage() + ")");
                 }
-                return response.toString();
-            } catch (IOException e) {
-                error = e;
-                Log.d(TAG, e.getMessage());
-                return e.getMessage();
             }
+            if(networksArray.length() == 0) {
+                error = new Exception("Unable to fetch any response");
+            }
+            return networksArray.toString();
         }
 
         @Override
@@ -501,13 +511,33 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                 setRefreshActionButtonState(false);
                 refreshLayout.setRefreshing(false);
             } else {
+                /* parse result */
+                boolean stripId = settings.getBoolean(PREF_KEY_STRIP_ID_STATION, false);
+                stations = null;
                 try {
-                    /* parse result */
-                    boolean stripId = settings.getBoolean(PREF_KEY_STRIP_ID_STATION, false);
-                    BikeNetworkParser bikeNetworkParser = new BikeNetworkParser(result, stripId);
-                    bikeNetwork = bikeNetworkParser.getNetwork();
+                    JSONArray rawNetworks = new JSONArray(result);
 
-                    stations = bikeNetwork.getStations();
+                    for (int i = 0; i < rawNetworks.length(); i++) {
+                        JSONObject rawNetwork = rawNetworks.getJSONObject(i);
+                        try{
+                            BikeNetworkParser bikeNetworkParser = new BikeNetworkParser(rawNetwork.toString(), stripId);
+
+                            BikeNetwork bikeNetwork = bikeNetworkParser.getNetwork();
+                            if(stations == null) {
+                                stations = bikeNetwork.getStations();
+                            } else {
+                                stations.addAll(bikeNetwork.getStations());
+                            }
+                        } catch (ParseException e) {
+                            Log.e(TAG, "Error retreiving data of network " + (i+1) + " : " + e.getMessage());
+                        }
+                    }
+                } catch (JSONException e) {
+                        Log.e(TAG, e.getMessage());
+                        Toast.makeText(StationsListActivity.this,
+                                R.string.json_error, Toast.LENGTH_LONG).show();
+                }
+                if(stations != null) {
                     Collections.sort(stations);
                     stationsDataSource.storeStations(stations);
                     favStations = stationsDataSource.getFavoriteStations();
@@ -536,15 +566,12 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                     refreshWidgetIntent.putExtra(StationsListAppWidgetProvider.EXTRA_REFRESH_LIST_ONLY, true);
                     sendBroadcast(refreshWidgetIntent);
 
-                    upgradeAppToVersion13();
-                } catch (ParseException e) {
-                    Log.e(TAG, e.getMessage());
+                } else {
                     Toast.makeText(StationsListActivity.this,
                             R.string.json_error, Toast.LENGTH_LONG).show();
-                } finally {
-                    setRefreshActionButtonState(false);
-                    refreshLayout.setRefreshing(false);
                 }
+                setRefreshActionButtonState(false);
+                refreshLayout.setRefreshing(false);
             }
         }
     }
@@ -626,24 +653,26 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
         }
     }
 
-    private void upgradeAppToVersion13() {
-        if (settings.contains(PREF_KEY_FAV_STATIONS)) {
-            Set<String> favorites = settings.getStringSet(PREF_KEY_FAV_STATIONS, new HashSet<String>());
+    /* On VERSIONCODE 25 network-id was store in shared-pref, migrate data into database. */
+    private void upgradeAppSinceVersion25() {
 
-            for (String favorite : favorites) {
-                stationsDataSource.addFavoriteStation(favorite);
-            }
+        //Write current network-id and its attributes in the 'networks' table
+        String id = settings.getString(PREF_KEY_NETWORK_ID, "");
+        String name = settings.getString(PREF_KEY_NETWORK_NAME, "");
+        String city = settings.getString(PREF_KEY_NETWORK_CITY, "");
+        double latitude = Double.longBitsToDouble(settings.getLong(
+                        PREF_KEY_NETWORK_LATITUDE, 0));
+        double longitude = Double.longBitsToDouble(settings.getLong(
+                        PREF_KEY_NETWORK_LONGITUDE, 0));
+        BikeNetworkLocation loc = new BikeNetworkLocation(latitude, longitude, city, "");
+        BikeNetworkInfo savedNetwork = new BikeNetworkInfo(id, name, "", loc);
+        networksDataSource.storeNetworks(new ArrayList<BikeNetworkInfo>(Arrays.asList(savedNetwork)));
 
-            settings.edit().remove(PREF_KEY_FAV_STATIONS).apply();
-        }
-
-        if (!settings.contains(PREF_KEY_NETWORK_LATITUDE) || !settings.contains(PREF_KEY_NETWORK_LONGITUDE)) {
-            settings.edit()
-                    .putLong(PREF_KEY_NETWORK_LATITUDE,
-                            Double.doubleToRawLongBits(bikeNetwork.getLocation().getLatitude()))
-                    .putLong(PREF_KEY_NETWORK_LONGITUDE,
-                            Double.doubleToRawLongBits(bikeNetwork.getLocation().getLongitude()))
-                    .apply();
-        }
+        //Delete obsolete shared preferences
+        settings.edit().remove(PREF_KEY_NETWORK_ID).apply();
+        settings.edit().remove(PREF_KEY_NETWORK_NAME).apply();
+        settings.edit().remove(PREF_KEY_NETWORK_CITY).apply();
+        settings.edit().remove(PREF_KEY_NETWORK_LATITUDE).apply();
+        settings.edit().remove(PREF_KEY_NETWORK_LONGITUDE).apply();
     }
 }

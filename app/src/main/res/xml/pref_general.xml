@@ -1,5 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2014-2015 Bruno Parmentier.
+  ~ Copyright (c) 2021-2022 François FERREIRA DE SOUSA.
   ~
   ~ This file is part of BikeSharingHub.
   ~ BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -21,7 +23,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
-        android:key="network-id"
+        android:key="choose_network"
         android:title="@string/pref_title_bike_networks_list">
         <intent
             android:targetClass="be.brunoparmentier.openbikesharing.app.activities.BikeNetworksListActivity"

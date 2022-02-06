@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright (c) 2014-2015 Bruno Parmentier.
-  ~ Copyright (c) 2020-2021 François FERREIRA DE SOUSA.
+  ~ Copyright (c) 2020-2022 François FERREIRA DE SOUSA.
   ~
   ~ This file is part of BikeSharingHub.
   ~ BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -97,7 +98,9 @@
 
     <!-- Settings -->
     <string name="pref_header_general">General</string>
-    <string name="pref_title_bike_networks_list">Choose a network</string>
+    <string name="pref_title_bike_networks_list">Network choice</string>
+    <string name="pref_title_bike_networks_list_summary_none">None</string>
+    <string name="pref_title_bike_networks_list_summary_multiple_selection">%d selected</string>
     <string name="pref_title_license">License</string>
     <string name="pref_title_license_message" translatable="false">
         BikeSharingHub

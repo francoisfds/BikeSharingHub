@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2021 François FERREIRA DE SOUSA.
+ * Copyright (c) 2021-2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -22,14 +22,19 @@
 package be.brunoparmentier.openbikesharing.app.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import be.brunoparmentier.openbikesharing.app.R;
+import be.brunoparmentier.openbikesharing.app.db.NetworksDataSource;
 import be.brunoparmentier.openbikesharing.app.models.BikeNetworkInfo;
 
 /**
@@ -37,8 +42,16 @@ import be.brunoparmentier.openbikesharing.app.models.BikeNetworkInfo;
  */
 public class BikeNetworksListAdapter extends ArrayAdapter<BikeNetworkInfo> {
 
-    public BikeNetworksListAdapter(Context context, int resource, int textViewResourceId, ArrayList<BikeNetworkInfo> networks) {
+    private ArrayList<String> savedNetworksList;
+    private ArrayList<String> cannotFetchNetworksList;
+
+    public BikeNetworksListAdapter(Context context, int resource, int textViewResourceId,
+        ArrayList<BikeNetworkInfo> networks, ArrayList<String> cannotFetch) {
         super(context, resource, textViewResourceId, networks);
+
+        NetworksDataSource networksDataSource = new NetworksDataSource(context);
+        savedNetworksList = networksDataSource.getNetworksId();
+        cannotFetchNetworksList = cannotFetch;
     }
 
     @Override
@@ -48,17 +61,27 @@ public class BikeNetworksListAdapter extends ArrayAdapter<BikeNetworkInfo> {
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(android.R.layout.simple_list_item_2, parent, false);
+            v = vi.inflate(R.layout.bike_network_item, parent, false);
         }
 
         BikeNetworkInfo network = getItem(position);
 
         if (network != null) {
-            TextView text1 = (TextView) v.findViewById(android.R.id.text1);
-            TextView text2 = (TextView) v.findViewById(android.R.id.text2);
+            TextView network_title = (TextView) v.findViewById(R.id.network_title);
 
-            text1.setText(network.getLocationName());
-            text2.setText(network.getName());
+            network_title.setText(network.getLocationName());
+            if (savedNetworksList.contains(network.getId())) {
+                ((ListView)parent).setItemChecked(position, true);
+            }
+            if (cannotFetchNetworksList != null &&
+                cannotFetchNetworksList.contains(network.getId())) {
+                // put unreachable networks in greyscale
+                network_title.setTextColor(Color.GRAY);
+                network_title.setTypeface(null, Typeface.ITALIC);
+            } else {
+                network_title.setTextColor(Color.BLACK);
+                network_title.setTypeface(null, Typeface.NORMAL);
+            }
         }
 
         return v;

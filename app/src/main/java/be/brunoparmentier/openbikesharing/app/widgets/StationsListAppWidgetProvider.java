@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015 Bruno Parmentier.
+ * Copyright (c) 2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -26,6 +27,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -43,6 +45,7 @@ import java.util.ArrayList;
 import be.brunoparmentier.openbikesharing.app.R;
 import be.brunoparmentier.openbikesharing.app.activities.StationsListActivity;
 import be.brunoparmentier.openbikesharing.app.db.StationsDataSource;
+import be.brunoparmentier.openbikesharing.app.db.NetworksDataSource;
 import be.brunoparmentier.openbikesharing.app.models.BikeNetwork;
 import be.brunoparmentier.openbikesharing.app.models.Station;
 import be.brunoparmentier.openbikesharing.app.parsers.BikeNetworkParser;
@@ -54,8 +57,8 @@ import be.brunoparmentier.openbikesharing.app.parsers.BikeNetworkParser;
 public class StationsListAppWidgetProvider extends AppWidgetProvider {
     private static final String TAG = StationsListAppWidgetProvider.class.getSimpleName();
 
-    private static final String BASE_URL = "https://api.citybik.es/v2/networks";
-    private static final String PREF_KEY_NETWORK_ID = "network-id";
+    private static final String DEFAULT_API_URL = "https://api.citybik.es/v2/";
+    private static final String PREF_KEY_API_URL = "pref_api_url";
     private static final String PREF_KEY_DB_LAST_UPDATE = "db_last_update";
 
     public static final String EXTRA_ITEM = "be.brunoparmentier.openbikesharing.app.widget.EXTRA_ITEM";
@@ -135,10 +138,18 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
                 mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.widgetStationsList);
             } else {
                 /* Download new data then update widget list */
-                String networkId = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_KEY_NETWORK_ID, "");
-                String stationUrl = BASE_URL + "/" + networkId;
+                NetworksDataSource networksDataSource = new NetworksDataSource(context);
+                ArrayList<String> networksId = networksDataSource.getNetworksId();
+                ArrayList<String> networksUrlList = new ArrayList<String>();
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+                for (String id : networksId) {
+                    String stationUrl = settings.getString(PREF_KEY_API_URL, DEFAULT_API_URL)
+                                + "networks/" + id;
+                    networksUrlList.add(stationUrl);
+                }
+                String[] networksUrl = networksUrlList.toArray(new String[networksUrlList.size()]);
 
-                new JSONDownloadTask().execute(stationUrl);
+                new JSONDownloadTask().execute(networksUrl);
             }
         }
     }

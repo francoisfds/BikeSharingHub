@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015 Bruno Parmentier.
- * Copyright (c) 2020 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020, 2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -53,6 +53,7 @@ public class StationsDataSource {
                 values.put(DatabaseHelper.STATIONS_COLUMN_LONGITUDE, String.valueOf(station.getLongitude()));
                 values.put(DatabaseHelper.STATIONS_COLUMN_FREE_BIKES, String.valueOf(station.getFreeBikes()));
                 values.put(DatabaseHelper.STATIONS_COLUMN_EMPTY_SLOTS, String.valueOf(station.getEmptySlots()));
+                values.put(DatabaseHelper.STATIONS_COLUMN_NETWORK, station.getNetworkId());
                 if (station.getAddress() != null)
                     values.put(DatabaseHelper.STATIONS_COLUMN_ADDRESS, station.getAddress());
                 if (station.isBanking() != null)
@@ -81,7 +82,7 @@ public class StationsDataSource {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         ArrayList<Station> stations = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT id as _id, name, last_update, latitude, longitude, "
-                + "free_bikes, empty_slots, address, banking, bonus, status, ebikes "
+                + "free_bikes, empty_slots, address, banking, bonus, status, ebikes, network_id "
                 + "FROM " + DatabaseHelper.STATIONS_TABLE_NAME, null);
 
         try {
@@ -133,7 +134,7 @@ public class StationsDataSource {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         ArrayList<Station> favStations = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT sta.id as _id, name, last_update, latitude, longitude, "
-                + "free_bikes, empty_slots, address, banking, bonus, status, ebikes "
+                + "free_bikes, empty_slots, address, banking, bonus, status, ebikes, network_id "
                 + "FROM " + DatabaseHelper.FAV_STATIONS_TABLE_NAME + " sta "
                 + "INNER JOIN " + DatabaseHelper.STATIONS_TABLE_NAME + " fav "
                 + "ON sta.id = fav.id", null);
@@ -173,7 +174,8 @@ public class StationsDataSource {
                 cursor.getDouble(3), // latitude
                 cursor.getDouble(4), // longitude
                 cursor.getInt(5), // free_bikes
-                cursor.getInt(6) // empty_slots
+                cursor.getInt(6), // empty_slots
+                cursor.getString(12) // network_id
         );
         if (!cursor.isNull(7)) {
             station.setAddress(cursor.getString(7)); // address

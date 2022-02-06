@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2020-2021 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020-2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -203,11 +203,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                 favStations = (ArrayList<Station>) savedInstanceState.getSerializable(KEY_FAV_STATIONS);
                 nearbyStations = (ArrayList<Station>) savedInstanceState.getSerializable(KEY_NEARBY_STATIONS);
             } else {
-                String networkId = settings.getString(PREF_KEY_NETWORK_ID, "");
-                String stationUrl = settings.getString(PREF_KEY_API_URL, DEFAULT_API_URL)
-                        + "networks/" + networkId;
-                jsonDownloadTask = new JSONDownloadTask();
-                jsonDownloadTask.execute(stationUrl);
+                executeDownloadTask();
             }
         }
     }
@@ -250,11 +246,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
 
             /* Update automatically if data is more than 10 min old */
             if ((dbLastUpdate != -1) && ((currentTime - dbLastUpdate) > 600000)) {
-                String networkId = settings.getString(PREF_KEY_NETWORK_ID, "");
-                String stationUrl = settings.getString(PREF_KEY_API_URL, DEFAULT_API_URL)
-                        + "networks/" + networkId;
-                jsonDownloadTask = new JSONDownloadTask();
-                jsonDownloadTask.execute(stationUrl);
+                executeDownloadTask();
             }
         }
     }
@@ -324,13 +316,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                 startActivity(settingsIntent);
                 return true;
             case R.id.action_refresh:
-                String networkId = PreferenceManager
-                        .getDefaultSharedPreferences(this)
-                        .getString(PREF_KEY_NETWORK_ID, "");
-                String stationUrl = settings.getString(PREF_KEY_API_URL, DEFAULT_API_URL)
-                        + "networks/" + networkId;
-                jsonDownloadTask = new JSONDownloadTask();
-                jsonDownloadTask.execute(stationUrl);
+                executeDownloadTask();
                 return true;
             case R.id.action_map:
                 Intent mapIntent = new Intent(this, MapActivity.class);
@@ -346,10 +332,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
             Log.d(TAG, "PICK_NETWORK_REQUEST");
             if (resultCode == RESULT_OK) {
                 Log.d(TAG, "RESULT_OK");
-                String stationUrl = settings.getString(PREF_KEY_API_URL, DEFAULT_API_URL)
-                        + "networks/" + data.getExtras().getString(KEY_NETWORK_ID);
-                jsonDownloadTask = new JSONDownloadTask();
-                jsonDownloadTask.execute(stationUrl);
+                executeDownloadTask();
             }
         }
     }

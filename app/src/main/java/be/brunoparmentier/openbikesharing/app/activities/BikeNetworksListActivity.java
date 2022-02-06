@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2021 François FERREIRA DE SOUSA.
+ * Copyright (c) 2021-2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -24,7 +24,6 @@ package be.brunoparmentier.openbikesharing.app.activities;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -151,12 +150,10 @@ public class BikeNetworksListActivity extends Activity {
                                         + ") " + getString(R.string.network_selected),
                                 Toast.LENGTH_SHORT).show();
 
-                        Intent resultIntent = new Intent();
-                        resultIntent.putExtra(KEY_NETWORK_ID, searchedBikeNetworks.get(position).getId());
                         if (getParent() == null) {
-                            setResult(Activity.RESULT_OK, resultIntent);
+                            setResult(Activity.RESULT_OK);
                         } else {
-                            getParent().setResult(Activity.RESULT_OK, resultIntent);
+                            getParent().setResult(Activity.RESULT_OK);
                         }
                         finish();
                     }
@@ -239,12 +236,10 @@ public class BikeNetworksListActivity extends Activity {
                                         + ") " + getString(R.string.network_selected),
                                 Toast.LENGTH_SHORT).show();
 
-                        Intent resultIntent = new Intent();
-                        resultIntent.putExtra(KEY_NETWORK_ID, bikeNetworks.get(position).getId());
                         if (getParent() == null) {
-                            setResult(Activity.RESULT_OK, resultIntent);
+                            setResult(Activity.RESULT_OK);
                         } else {
-                            getParent().setResult(Activity.RESULT_OK, resultIntent);
+                            getParent().setResult(Activity.RESULT_OK);
                         }
                         finish();
                     }

@@ -22,6 +22,7 @@
 package be.brunoparmentier.openbikesharing.app.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +33,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import be.brunoparmentier.openbikesharing.app.R;
+import be.brunoparmentier.openbikesharing.app.db.NetworksDataSource;
 import be.brunoparmentier.openbikesharing.app.models.Station;
 import be.brunoparmentier.openbikesharing.app.models.StationStatus;
 
@@ -42,8 +45,12 @@ import be.brunoparmentier.openbikesharing.app.models.StationStatus;
  */
 public class StationsListAdapter extends ArrayAdapter<Station> {
 
+    private HashMap<String, String> colorMap;
+
     public StationsListAdapter(Context context, int resource, ArrayList<Station> stations) {
         super(context, resource, stations);
+        NetworksDataSource networksDataSource = new NetworksDataSource(context);
+        colorMap = networksDataSource.getNetworksColor();
     }
 
     @Override
@@ -103,6 +110,14 @@ public class StationsListAdapter extends ArrayAdapter<Station> {
                     emptySlotsValue.setVisibility(View.VISIBLE);
                     emptySlotsValue.setText(String.valueOf(emptySlots));
                 }
+            }
+
+            //Use the color's network as background ; or white if null
+            String colorNetwork = colorMap.get(station.getNetworkId());
+            if(colorNetwork == null) {
+                v.setBackgroundColor(Color.WHITE);
+            } else {
+                v.setBackgroundColor(Color.parseColor(colorNetwork));
             }
         }
 

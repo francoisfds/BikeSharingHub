@@ -27,6 +27,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import be.brunoparmentier.openbikesharing.app.models.BikeNetworkInfo;
 import be.brunoparmentier.openbikesharing.app.models.BikeNetworkLocation;
@@ -41,6 +42,9 @@ public class NetworksDataSource {
                 + " WHERE " + DatabaseHelper.NETWORKS_COLUMN_ID + " = ";
     private static final String QUERY_NETWORK_ID_LIST = "SELECT "
                 + DatabaseHelper.NETWORKS_COLUMN_ID
+                + " FROM " + DatabaseHelper.NETWORKS_TABLE_NAME;
+    private static final String QUERY_COLOR_BY_ID_LIST = "SELECT "
+                + DatabaseHelper.NETWORKS_COLUMN_ID + ", " + DatabaseHelper.NETWORKS_COLUMN_COLOR
                 + " FROM " + DatabaseHelper.NETWORKS_TABLE_NAME;
 
     public NetworksDataSource(Context context) {
@@ -138,6 +142,24 @@ public class NetworksDataSource {
                 }
             }
             return networkInfoList;
+        } finally {
+            cursor.close();
+        }
+    }
+
+    public HashMap getNetworksColor() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        HashMap<String, String> colorMap = new HashMap<String, String>();
+        Cursor cursor = db.rawQuery(QUERY_COLOR_BY_ID_LIST, null);
+
+        try {
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    colorMap.put(cursor.getString(0), cursor.getString(1));
+                    cursor.moveToNext();
+                }
+            }
+            return colorMap;
         } finally {
             cursor.close();
         }

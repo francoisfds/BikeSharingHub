@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2020 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020,2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -96,6 +96,9 @@ public class StationsListAdapter extends ArrayAdapter<Station> {
                     freeEBikesValue.setText(String.valueOf(ebikes));
                 } else {
                     freeBikesValue.setText(String.valueOf(bikes));
+                    regularBikesLogo.setImageResource(R.drawable.ic_bike);
+                    eBikesLogo.setVisibility(View.GONE);
+                    freeEBikesValue.setVisibility(View.GONE);
                 }
             }
 

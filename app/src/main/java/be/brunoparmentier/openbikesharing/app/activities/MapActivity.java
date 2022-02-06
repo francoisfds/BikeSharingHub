@@ -349,6 +349,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 eBikesLogo.setVisibility(View.VISIBLE);
                 eBikesValue.setVisibility(View.VISIBLE);
                 eBikesValue.setText(String.valueOf(ebikes));
+            } else {
+                regularBikesLogo.setImageResource(R.drawable.ic_bike);
+                eBikesLogo.setVisibility(View.GONE);
+                eBikesValue.setVisibility(View.GONE);
             }
 
             layout.setClickable(true);

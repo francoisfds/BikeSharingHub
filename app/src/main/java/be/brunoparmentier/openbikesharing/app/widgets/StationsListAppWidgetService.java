@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015 Bruno Parmentier.
- * Copyright (c) 2020 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020,2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -103,6 +103,10 @@ class StationsListAppWidgetFactory implements RemoteViewsService.RemoteViewsFact
             rv.setViewVisibility(R.id.widgetEBikesValue, View.VISIBLE);
             rv.setTextViewText(R.id.widgetEBikesValue, String.valueOf(ebikes));
             bikes = bikes - ebikes;
+        } else {
+            rv.setImageViewResource(R.id.widgetFreeBikesLogo, R.drawable.ic_bike);
+            rv.setViewVisibility(R.id.widgetEBikesLogo, View.GONE);
+            rv.setViewVisibility(R.id.widgetEBikesValue, View.GONE);
         }
         rv.setTextViewText(R.id.widgetFreeBikesValue, String.valueOf(bikes));
         rv.setTextViewText(R.id.widgetEmptySlotsValue, String.valueOf(mStation.getEmptySlots()));

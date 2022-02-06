@@ -32,6 +32,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -47,6 +48,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import be.brunoparmentier.openbikesharing.app.R;
 import be.brunoparmentier.openbikesharing.app.adapters.BikeNetworksListAdapter;
@@ -62,17 +65,18 @@ public class BikeNetworksListActivity extends Activity {
 
     private Comparator<BikeNetworkInfo> mLocationComparator = new Comparator<BikeNetworkInfo>() {
         public int compare(BikeNetworkInfo network1, BikeNetworkInfo network2) {
-            int res = String.CASE_INSENSITIVE_ORDER.compare(
+            return String.CASE_INSENSITIVE_ORDER.compare(
                         network1.getLocationName(), network2.getLocationName());
-            return res;
         }
     };
 
     private ListView listView;
-    private ArrayList<BikeNetworkInfo> bikeNetworks;
-    private ArrayList<BikeNetworkInfo> searchedBikeNetworks;
+    private HashMap<String, BikeNetworkInfo> BikeNetworksHashMap;
+    private ArrayList<String> savedNetworksList;
+    private ArrayList<String> cannotFetchNetworksList;
     private BikeNetworksListAdapter bikeNetworksListAdapter;
     private NetworksDataSource networksDataSource;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +84,50 @@ public class BikeNetworksListActivity extends Activity {
         setContentView(R.layout.activity_bike_networks_list);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        BikeNetworksHashMap = new HashMap<String, BikeNetworkInfo>();
+        cannotFetchNetworksList = new ArrayList<String>();
         networksDataSource = new NetworksDataSource(this);
+        savedNetworksList = networksDataSource.getNetworksId();
 
         listView = (ListView) findViewById(R.id.networksListView);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                if(listView.getCheckedItemCount() == 0) {
+                    // Do not allow to uncheck all items, so now force this one
+                    listView.setItemChecked(position, true);
+                }
+                ArrayList<BikeNetworkInfo> networksToKeepList = new ArrayList<>();
+                for (BikeNetworkInfo network : BikeNetworksHashMap.values()) {
+                    if (savedNetworksList.contains(network.getId())) {
+                        networksToKeepList.add(network);
+                    }
+                }
+                BikeNetworkInfo selectedNetwork = (BikeNetworkInfo) listView.getItemAtPosition(position);
+                if(listView.isItemChecked(position)) {
+                    networksToKeepList.add(selectedNetwork);
+                    Toast.makeText(BikeNetworksListActivity.this,
+                            selectedNetwork.getName()
+                                    + " ("
+                                    + selectedNetwork.getLocation().getCity()
+                                    + ") " + getString(R.string.network_selected),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    networksToKeepList.remove(selectedNetwork);
+                }
+
+                if (getParent() == null) {
+                    setResult(Activity.RESULT_OK);
+                } else {
+                    getParent().setResult(Activity.RESULT_OK);
+                }
+                networksDataSource.storeNetworks(networksToKeepList);
+                finish();
+            }
+        });
+
         String apiUrl = PreferenceManager
                 .getDefaultSharedPreferences(this)
                 .getString(PREF_KEY_API_URL, DEFAULT_API_URL) + "networks";
@@ -106,51 +151,40 @@ public class BikeNetworksListActivity extends Activity {
             }
 
             @Override
-            // TODO: avoid redundancy
             public boolean onQueryTextChange(String s) {
-                if (bikeNetworks == null) {
-                    return false;
-                }
-                searchedBikeNetworks = new ArrayList<>();
-                for (BikeNetworkInfo network : bikeNetworks) {
-                    if (network.getName().toLowerCase().contains(s.toLowerCase())
-                            || network.getLocationName().toLowerCase().contains(s.toLowerCase())) {
-                        searchedBikeNetworks.add(network);
-                    }
-                }
-                Collections.sort(searchedBikeNetworks, mLocationComparator);
-                bikeNetworksListAdapter = new BikeNetworksListAdapter(BikeNetworksListActivity.this,
-                        android.R.layout.simple_expandable_list_item_2,
-                        android.R.id.text1,
-                        searchedBikeNetworks);
-                listView.setAdapter(bikeNetworksListAdapter);
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view,
-                                            int position, long id) {
-                        BikeNetworkInfo selectedNetwork = searchedBikeNetworks.get(position);
-                        networksDataSource.storeNetworks(new ArrayList<BikeNetworkInfo>(Arrays.asList(selectedNetwork)));
-                        Toast.makeText(BikeNetworksListActivity.this,
-                                selectedNetwork.getName()
-                                        + " ("
-                                        + selectedNetwork.getLocation().getCity()
-                                        + ") " + getString(R.string.network_selected),
-                                Toast.LENGTH_SHORT).show();
-
-                        if (getParent() == null) {
-                            setResult(Activity.RESULT_OK);
-                        } else {
-                            getParent().setResult(Activity.RESULT_OK);
-                        }
-                        finish();
-                    }
-                });
+                RefreshAdapter(s);
                 return true;
             }
         });
 
         return true;
+    }
+
+    private void RefreshAdapter(String textCondition) {
+        if(BikeNetworksHashMap == null) {
+            BikeNetworksHashMap = new HashMap<String, BikeNetworkInfo>();
+        }
+        ArrayList<BikeNetworkInfo> filteredBikeNetworks = new ArrayList<>();
+        int networksToKeepNb = 0;
+        for (BikeNetworkInfo network : BikeNetworksHashMap.values()) {
+            if (textCondition == null || (network.getName().toLowerCase().contains(textCondition.toLowerCase())
+                    || network.getLocationName().toLowerCase().contains(textCondition.toLowerCase()))) {
+                filteredBikeNetworks.add(network);
+                if (savedNetworksList.contains(network.getId())) {
+                    Collections.swap(filteredBikeNetworks, filteredBikeNetworks.indexOf(network), networksToKeepNb);
+                    networksToKeepNb++;
+                }
+            }
+        }
+
+        Collections.sort(filteredBikeNetworks.subList(0, networksToKeepNb), mLocationComparator);
+        Collections.sort(filteredBikeNetworks.subList(networksToKeepNb, filteredBikeNetworks.size()), mLocationComparator);
+        bikeNetworksListAdapter = new BikeNetworksListAdapter(BikeNetworksListActivity.this,
+                R.layout.bike_network_item,
+                R.id.network_title,
+                filteredBikeNetworks,
+                cannotFetchNetworksList);
+        listView.setAdapter(bikeNetworksListAdapter);
     }
 
     @Override
@@ -191,41 +225,26 @@ public class BikeNetworksListActivity extends Activity {
             try {
                 /* parse result */
                 BikeNetworksListParser bikeNetworksListParser = new BikeNetworksListParser(result);
-                bikeNetworks = bikeNetworksListParser.getNetworks();
-                Collections.sort(bikeNetworks, mLocationComparator);
-
-                bikeNetworksListAdapter = new BikeNetworksListAdapter(BikeNetworksListActivity.this,
-                        android.R.layout.simple_expandable_list_item_2,
-                        android.R.id.text1,
-                        bikeNetworks);
-
-                listView.setAdapter(bikeNetworksListAdapter);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view,
-                                            int position, long id) {
-                        BikeNetworkInfo selectedNetwork = bikeNetworks.get(position);
-                        networksDataSource.storeNetworks(new ArrayList<BikeNetworkInfo>(Arrays.asList(selectedNetwork)));
-                        Toast.makeText(BikeNetworksListActivity.this,
-                                selectedNetwork.getName()
-                                        + " ("
-                                        + selectedNetwork.getLocation().getCity()
-                                        + ") " + getString(R.string.network_selected),
-                                Toast.LENGTH_SHORT).show();
-
-                        if (getParent() == null) {
-                            setResult(Activity.RESULT_OK);
-                        } else {
-                            getParent().setResult(Activity.RESULT_OK);
-                        }
-                        finish();
-                    }
-                });
+                ArrayList<BikeNetworkInfo> bikeNetworks = bikeNetworksListParser.getNetworks();
+                for(int i = 0; i < bikeNetworks.size(); i++) {
+                    BikeNetworksHashMap.put(bikeNetworks.get(i).getId(), bikeNetworks.get(i));
+                }
             } catch (ParseException e) {
                 Log.e(TAG, e.getMessage());
                 Toast.makeText(BikeNetworksListActivity.this,
                         R.string.json_error, Toast.LENGTH_LONG).show();
+                BikeNetworksHashMap = new HashMap<String, BikeNetworkInfo>();
             }
+             /* Take into accounts saved networks: if they are missing
+              * in the fetch data, add them at the queue.
+              */
+            for (String network : savedNetworksList) {
+                if (!BikeNetworksHashMap.containsKey(network)) {
+                    cannotFetchNetworksList.add(network);
+                    BikeNetworksHashMap.put(network, networksDataSource.getNetworkInfoFromId(network));
+                }
+            }
+            RefreshAdapter(null);
         }
     }
 }

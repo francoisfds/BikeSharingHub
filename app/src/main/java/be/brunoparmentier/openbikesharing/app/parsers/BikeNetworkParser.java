@@ -88,7 +88,7 @@ public class BikeNetworkParser {
                     }
 
                     Station station = new Station(id, name, lastUpdate, latitude, longitude,
-                            freeBikes, emptySlots);
+                            freeBikes, emptySlots, networkId);
 
                     /* extra info */
                     if (rawStation.has("extra")) {

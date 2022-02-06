@@ -53,6 +53,7 @@ public class StationsDataSource {
                 values.put(DatabaseHelper.STATIONS_COLUMN_LONGITUDE, String.valueOf(station.getLongitude()));
                 values.put(DatabaseHelper.STATIONS_COLUMN_FREE_BIKES, String.valueOf(station.getFreeBikes()));
                 values.put(DatabaseHelper.STATIONS_COLUMN_EMPTY_SLOTS, String.valueOf(station.getEmptySlots()));
+                values.put(DatabaseHelper.STATIONS_COLUMN_NETWORK, station.getNetworkId());
                 if (station.getAddress() != null)
                     values.put(DatabaseHelper.STATIONS_COLUMN_ADDRESS, station.getAddress());
                 if (station.isBanking() != null)
@@ -173,7 +174,8 @@ public class StationsDataSource {
                 cursor.getDouble(3), // latitude
                 cursor.getDouble(4), // longitude
                 cursor.getInt(5), // free_bikes
-                cursor.getInt(6) // empty_slots
+                cursor.getInt(6), // empty_slots
+                cursor.getString(12) // network_id
         );
         if (!cursor.isNull(7)) {
             station.setAddress(cursor.getString(7)); // address

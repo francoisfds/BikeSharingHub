@@ -1,0 +1,9 @@
+<p>
+BikeSharingHub, aynı uygulamada yüzlerce şehir arasında paylaşılan bisikletlerin kullanılabilirliğini görüntüler.
+</p>
+<p>
+Veriler, kullanılabilir paylaşılan bisiklet operatörleri tarafından sağlanan açık verileri toplayan CityBik.es API'sinden alınmaktadır. Bu API açık kaynaklıdır ve uygulama, öntanımlı olandan başka bir API URL'si ayarlamaya izin verir.
+</p>
+<p>
+OpenBikeSharing uygulamasını ("F-Droid Archive" deposu) temel almaktadır.
+</p>

@@ -1,0 +1,2 @@
+* Bisiklet paylaşım ağları listesi artık (şehir yerine) ülkeye göre sıralanıyor
+* Rusça çeviri güncellendi

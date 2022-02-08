@@ -1,0 +1,4 @@
+* Gestion de plusieurs services de vélos de partagés simultanément (issue #3)
+* Correction de l'affichage de la liste des stations était rognée en bas lorsqu'elle dépassait la hauteur de l'écran (issue #5)
+* Changement de l'icône de l'application (issue #6)
+* Mise à jour des traductions

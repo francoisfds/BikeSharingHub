@@ -1,0 +1,4 @@
+* Handle multiple bikesharing systems simultaneously (issue #3)
+* Fixes bottom of station list being cropped when it doesn't fit the screen (issue #5)
+* Change app icon to avoid rendering problems (issue #6)
+* Update translations

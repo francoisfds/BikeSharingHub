@@ -72,7 +72,7 @@
     </plurals>
     <!-- Settings -->
     <string name="pref_header_general">Genel</string>
-    <string name="pref_title_bike_networks_list">Bir ağ seç</string>
+    <string name="pref_title_bike_networks_list">Ağ seçimi</string>
     <string name="pref_title_license">Lisans</string>
     <string name="pref_title_about">Hakkında</string>
     <string name="pref_title_source_code">Kaynak kodu</string>
@@ -99,4 +99,6 @@
 \nAksi takdirde, sistem ayarlarınızda izin verin.</string>
     <string name="location_not_granted">Konum erişimi reddedildi</string>
     <string name="pref_title_fork">Çatal</string>
+    <string name="pref_title_bike_networks_list_summary_none">Yok</string>
+    <string name="pref_title_bike_networks_list_summary_multiple_selection">%d seçildi</string>
 </resources>

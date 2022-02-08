@@ -41,7 +41,7 @@
     <!-- Activities titles -->
     <string name="title_activity_stations_list">Stations</string>
     <string name="title_activity_station">Station</string>
-    <string name="title_activity_networks_list">Choose a network</string>
+    <string name="title_activity_networks_list">Network choice</string>
     <string name="title_activity_map">Map</string>
     <string name="title_activity_settings">Settings</string>
 

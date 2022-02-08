@@ -32,7 +32,7 @@
     <!-- Activities titles -->
     <string name="title_activity_stations_list">Stations</string>
     <string name="title_activity_station">Station</string>
-    <string name="title_activity_networks_list">Choisir un réseau</string>
+    <string name="title_activity_networks_list">Choix de réseaux</string>
     <string name="title_activity_map">Carte</string>
     <string name="title_activity_settings">Paramètres</string>
     <!-- Welcome dialog -->

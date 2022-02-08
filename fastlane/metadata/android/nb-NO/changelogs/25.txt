@@ -1,0 +1,2 @@
+* Sykkeldelingsnettverk sortert per land (istedenfor by)
+* Oppdatert russisk oversettelse

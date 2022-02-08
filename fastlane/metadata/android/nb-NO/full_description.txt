@@ -1,0 +1,9 @@
+<p>
+BikeSharingHub viser hvilke utlånssykler som er tilgjengelig blandt hundrevis av byer, i samme program.
+</p>
+<p>
+Dataen hentes fra CityBik.es-API-et, som henter åpen data som tilbys av operatørene av de forskjellige tjenestene. API-et er fritt, og programmet tillater å bruke en annen API-nettadresse også.
+</p>
+<p>
+Det er basert på OpenBikeSharing-programmet (fra pakkebrønnen «F-Droid Archive»).
+</p>

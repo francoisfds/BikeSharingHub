@@ -32,7 +32,7 @@
     <!-- Activities titles -->
     <string name="title_activity_stations_list">İstasyonlar</string>
     <string name="title_activity_station">İstasyon</string>
-    <string name="title_activity_networks_list">Bir ağ seç</string>
+    <string name="title_activity_networks_list">Ağ seçimi</string>
     <string name="title_activity_map">Harita</string>
     <string name="title_activity_settings">Ayarlar</string>
     <!-- Welcome dialog -->

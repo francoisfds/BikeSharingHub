@@ -1,0 +1,4 @@
+* Birden fazla bisiklet paylaşım sistemini aynı anda kullan (sorun #3)
+* Ekrana sığmadığında istasyon listesinin alt kısmının kırpılmasını düzelt (sorun #5)
+* Görüntüleme sorunlarını önlemek için uygulama simgesini değiştir (sorun #6)
+* Çevirileri güncelle

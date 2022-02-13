@@ -11,7 +11,7 @@
     <string name="action_search">Traži</string>
     <string name="title_activity_stations_list">Stanice</string>
     <string name="title_activity_station">Stanica</string>
-    <string name="title_activity_networks_list">Odaberi mrežu</string>
+    <string name="title_activity_networks_list">Izbor mreže</string>
     <string name="title_activity_map">Karta</string>
     <string name="title_activity_settings">Postavke</string>
     <string name="welcome_dialog_message">Prije nego što počneš, odaberi biciklističku mrežu u popisu.
@@ -56,11 +56,11 @@
         <item quantity="other">prije %d dana</item>
     </plurals>
     <string name="pref_header_general">Opće</string>
-    <string name="pref_title_bike_networks_list">Odaberi mrežu</string>
+    <string name="pref_title_bike_networks_list">Izbor mreže</string>
     <string name="pref_title_license">Licenca</string>
     <string name="pref_title_about">Informacije</string>
     <string name="pref_title_source_code">Izvorni kȏd</string>
-    <string name="pref_title_citybikes_api">Sučelje za CityBikes</string>
+    <string name="pref_title_citybikes_api">API sučelje za CityBikes</string>
     <string name="pref_title_osmdroid_library">biblioteka osmdroid</string>
     <string name="pref_title_osmbonuspack_library">Bobilioteka OSMBonusPack</string>
     <string name="pref_title_openstreetmap">OpenStreetMap</string>
@@ -71,8 +71,12 @@
     <string name="pref_title_advanced">Napredno</string>
     <string name="pref_title_api_url">URL sučelja</string>
     <string name="pref_title_default_tab">Standardna kartica</string>
-    <string name="location_not_granted"></string>
-    <string name="free_ebikes"></string>
-    <string name="loc_perm_forbidden"></string>
-    <string name="pref_title_fork"></string>
+    <string name="location_not_granted">Pristup lokaciji je odbijen</string>
+    <string name="free_ebikes">Električni bicikli: </string>
+    <string name="loc_perm_forbidden">Pristup lokaciji je odbijen.
+\nMožeš odabrati jednu drugu standardnu karticu za pokretanje.
+\nInače dodijeli dozvolu u postavkama sustava.</string>
+    <string name="pref_title_fork">Kopija od</string>
+    <string name="pref_title_bike_networks_list_summary_none">Ništa</string>
+    <string name="pref_title_bike_networks_list_summary_multiple_selection">Odabrano: %d</string>
 </resources>

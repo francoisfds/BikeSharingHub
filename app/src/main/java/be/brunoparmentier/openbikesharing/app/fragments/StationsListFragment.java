@@ -113,7 +113,9 @@ public class StationsListFragment extends Fragment {
     }
 
     public void setEmptyView(int id) {
-        emptyView.setText(id);
-    }
+        if(emptyView != null) {
+            emptyView.setText(id);
+        }
+   }
 
 }

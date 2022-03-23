@@ -21,6 +21,8 @@
 
 package be.brunoparmentier.openbikesharing.app.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -49,6 +51,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private static final String TAG = "SettingsFragment";
     private static final String PREF_KEY_CHOOSE_NETWORK = "choose_network";
     private static final String PREF_KEY_API_URL = "pref_api_url";
+    private Context mContext = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         setupInstallOpenBikeSharing();
         setupVersionEntry();
+    }
+
+    @Override
+    public void onAttach (Activity activity) {
+        super.onAttach (activity);
+        mContext = (Context) activity;
     }
 
     private void setupInstallOpenBikeSharing() {
@@ -121,9 +130,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 EditTextPreference editTextPreference =  (EditTextPreference) preference;
                 editTextPreference.setSummary(editTextPreference.getText());
             //}
-        } else if (key.equals(PREF_KEY_CHOOSE_NETWORK)) {
+        } else if (key.equals(PREF_KEY_CHOOSE_NETWORK) && mContext != null) {
             Preference preference = findPreference(key);
-            NetworksDataSource networksDataSource = new NetworksDataSource(getContext());
+            NetworksDataSource networksDataSource = new NetworksDataSource(mContext);
             List<String> idList = networksDataSource.getNetworksId();
             switch(idList.size()) {
                 case 0:

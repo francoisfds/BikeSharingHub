@@ -69,7 +69,7 @@ public class BikeNetworksListAdapter extends ArrayAdapter<BikeNetworkInfo> {
         if (network != null) {
             TextView network_title = (TextView) v.findViewById(R.id.network_title);
 
-            network_title.setText(network.getLocationName());
+            network_title.setText(network.getLocationName() + "\n" + network.getName());
             if (savedNetworksList.contains(network.getId())) {
                 ((ListView)parent).setItemChecked(position, true);
             }

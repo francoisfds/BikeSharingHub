@@ -1,0 +1,9 @@
+<p>
+BikeSharingHub prikazuje dostupnost bicikala u stotinama gradova u istom programu.
+</p>
+<p>
+Podaci se dohvaćaju iz CITYBIK.ES API-ja, koji prikuplja otvorene podatke koje pružaju dostupni operatori bicikala. Ovaj API otvoreni kod i program omogućuje postavljanje jednog drugog API URL-a od standardnog.
+</p>
+<p>
+Temelji se na programu openBikeSharing (repozitorij „F-Droid Archive”).
+</p>

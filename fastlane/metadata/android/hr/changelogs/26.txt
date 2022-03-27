@@ -1,0 +1,4 @@
+* Istovremeno baratanje s više sustava zajedničkog korištenja bicikala (poroblem broj 3)
+* Ispravlja kraj popisa stanica koje se odrežu kad ne pašu u ekran (problem broj 5)
+* Promjena ikone programa za izbjegavanje problem s iscrtavanjem (problem broj 6)
+* Aktualizirani prijevodi

@@ -60,7 +60,7 @@
     <string name="pref_title_license">Licenca</string>
     <string name="pref_title_about">Informacije</string>
     <string name="pref_title_source_code">Izvorni kȏd</string>
-    <string name="pref_title_citybikes_api">API sučelje za CityBikes</string>
+    <string name="pref_title_citybikes_api">CityBikes API</string>
     <string name="pref_title_osmdroid_library">biblioteka osmdroid</string>
     <string name="pref_title_osmbonuspack_library">Bobilioteka OSMBonusPack</string>
     <string name="pref_title_openstreetmap">OpenStreetMap</string>

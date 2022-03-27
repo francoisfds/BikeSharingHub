@@ -32,13 +32,12 @@
     <!-- Activities titles -->
     <string name="title_activity_stations_list">Stazioni</string>
     <string name="title_activity_station">Stazione</string>
-    <string name="title_activity_networks_list">Seleziona una rete</string>
+    <string name="title_activity_networks_list">Scelta della rete</string>
     <string name="title_activity_map">Mappa</string>
     <string name="title_activity_settings">Impostazioni</string>
     <!-- Welcome dialog -->
-    <string name="welcome_dialog_message">" Prima di cominciare, seleziona la rete nella lista. 
-\n
-\nVerifica di essere connesso a internet. "</string>
+    <string name="welcome_dialog_message">Prima di iniziare, scegli una rete di biciclette nella lista.
+\nAssicurati anche di essere connesso a Internet.</string>
     <string name="welcome_dialog_ok">OK</string>
     <string name="welcome_dialog_cancel">Annulla</string>
     <string name="welcome_dialog_title">Benvenuto</string>
@@ -74,7 +73,7 @@
     <string name="pref_title_strip_station_id">Nascondi codice della stazione</string>
     <!-- Settings -->
     <string name="pref_header_general">Generale</string>
-    <string name="pref_title_bike_networks_list">Scegli una rete</string>
+    <string name="pref_title_bike_networks_list">Scelta della rete</string>
     <string name="pref_title_license">Licenza</string>
     <string name="pref_title_about">Dettagli</string>
     <string name="pref_title_source_code">Codice sorgente</string>
@@ -94,8 +93,12 @@
     <string name="pref_title_default_tab">Scheda predefinita</string>
     <string name="widget_no_fav_stations">Nessuna stazione preferita</string>
     <string name="widget_title_favorite_stations">Stazioni preferite</string>
-    <string name="pref_title_fork"></string>
-    <string name="location_not_granted"></string>
-    <string name="free_ebikes"></string>
-    <string name="loc_perm_forbidden"></string>
+    <string name="pref_title_fork">Fork di</string>
+    <string name="location_not_granted">Accesso alla posizione negato</string>
+    <string name="free_ebikes">Biciclette elettriche: </string>
+    <string name="loc_perm_forbidden">L\'accesso alla posizione è negato.
+\nPuoi scegliere un\'altra scheda predefinita per l\'avvio.
+\nAltrimenti concedi il permesso nelle impostazioni di sistema.</string>
+    <string name="pref_title_bike_networks_list_summary_none">Nessuna</string>
+    <string name="pref_title_bike_networks_list_summary_multiple_selection">%d selezionata/e</string>
 </resources>

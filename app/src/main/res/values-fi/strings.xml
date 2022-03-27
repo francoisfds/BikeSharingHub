@@ -14,7 +14,7 @@
     <string name="pref_title_source_code">Lähdekoodi</string>
     <string name="pref_title_about">Tietoja</string>
     <string name="pref_title_license">Lisenssi</string>
-    <string name="pref_title_bike_networks_list">Valitse verkko</string>
+    <string name="pref_title_bike_networks_list">Verkon valinta</string>
     <string name="pref_header_general">Yleiset</string>
     <plurals name="updated_days_ago">
         <item quantity="one">%d päivä sitten</item>
@@ -56,7 +56,7 @@
 \nVarmista myös, että sinulla on Internet-yhteys.</string>
     <string name="title_activity_settings">Asetukset</string>
     <string name="title_activity_map">Kartta</string>
-    <string name="title_activity_networks_list">Valitse verkko</string>
+    <string name="title_activity_networks_list">Verkon valinta</string>
     <string name="title_activity_station">Asema</string>
     <string name="title_activity_stations_list">Asemat</string>
     <string name="action_search">Etsi</string>
@@ -68,8 +68,12 @@
     <string name="action_settings">Asetukset</string>
     <string name="json_error">Virhe noudettaessa tietoja</string>
     <string name="connection_error">Yhteysvirhe</string>
-    <string name="free_ebikes"></string>
-    <string name="loc_perm_forbidden"></string>
-    <string name="location_not_granted"></string>
-    <string name="pref_title_fork"></string>
+    <string name="free_ebikes">Sähköpyörät: </string>
+    <string name="loc_perm_forbidden">Pääsy paikalle on estetty.
+\nVoit valita toisen oletusvälilehden käynnistystä varten.
+\nMuussa tapauksessa myönnä käyttöoikeus järjestelmäasetuksissa.</string>
+    <string name="location_not_granted">Sijainnin käyttöoikeus evätty</string>
+    <string name="pref_title_fork"/>
+    <string name="pref_title_bike_networks_list_summary_none">Ei mitään</string>
+    <string name="pref_title_bike_networks_list_summary_multiple_selection">%d valittu</string>
 </resources>

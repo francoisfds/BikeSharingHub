@@ -1,0 +1,2 @@
+* Popis mreža zajedničkog korištenja bicikala sada je razvrstan po zemlji (umjesto grada)
+* Aktualiziran je ruski prijevod

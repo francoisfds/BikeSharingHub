@@ -1,0 +1,2 @@
+* La lista de servicios de bicicletas compartidas ahora están ordenadas por país (en vez de por ciudad)
+* Se ha actualizado la traducción al ruso

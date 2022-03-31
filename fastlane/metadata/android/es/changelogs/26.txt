@@ -1,0 +1,4 @@
+* Gestiona múltiples servicios de bicicletas compartidas simultaneamente (issue #3)
+* Arreglado el botón de las listaciones que estaba cortado cuando no se ajustaba bien la pantalla (issue #5)
+* Cambio del icono de la aplicación para evitar problemas al mostrarlo (issue #6)
+* Actualización de las traducciones

@@ -104,8 +104,8 @@ public class BikeNetworkParser {
                         /* banking */
                         if (rawExtra.has("banking")) { // JCDecaux
                             station.setBanking(rawExtra.getBoolean("banking"));
-                        } else if (rawExtra.has("payment")) {
-                            if (rawExtra.getString("payment").equals("AVEC_TPE")) { // vlille
+                        } else if (rawExtra.has("payment-terminal")) {
+                            if (rawExtra.getBoolean("payment-terminal").equals(true)) {
                                 station.setBanking(true);
                             } else {
                                 station.setBanking(false);

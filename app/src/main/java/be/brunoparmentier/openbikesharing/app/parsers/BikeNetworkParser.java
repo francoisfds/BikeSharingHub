@@ -104,12 +104,8 @@ public class BikeNetworkParser {
                         /* banking */
                         if (rawExtra.has("banking")) { // JCDecaux
                             station.setBanking(rawExtra.getBoolean("banking"));
-                        } else if (rawExtra.has("payment")) {
-                            if (rawExtra.getString("payment").equals("AVEC_TPE")) { // vlille
-                                station.setBanking(true);
-                            } else {
-                                station.setBanking(false);
-                            }
+                        } else if (rawExtra.has("payment-terminal")) {
+                            station.setBanking(rawExtra.getBoolean("payment-terminal"));
                         } else if (rawExtra.has("ticket")) { // dublinbikes, citycycle
                             station.setBanking(rawExtra.getBoolean("ticket"));
                         }

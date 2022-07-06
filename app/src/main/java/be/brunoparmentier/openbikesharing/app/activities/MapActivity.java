@@ -123,7 +123,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         /* handling map events */
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, this);
         map.getOverlays().add(0, mapEventsOverlay);
-        map.getOverlays().add(new CopyrightOverlay(context));
 
         /* markers list */
         GridMarkerClusterer stationsMarkers = new GridMarkerClusterer();
@@ -138,6 +137,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         }
         map.invalidate();
 
+        map.getOverlays().add(new CopyrightOverlay(context));
         map.setMultiTouchControls(true);
         map.setBuiltInZoomControls(true);
         map.setMinZoomLevel(Double.valueOf(3));

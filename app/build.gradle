@@ -51,7 +51,7 @@ android {
 }
 
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:6.1.10'
+    compile 'org.osmdroid:osmdroid-android:6.1.11'
     compile 'com.github.MKergall:osmbonuspack:6.3'
     compile 'com.android.support:support-v4:23.0.1'
 }

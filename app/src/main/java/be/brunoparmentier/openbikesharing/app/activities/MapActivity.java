@@ -190,7 +190,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
             if (userLocation != null) {
                 mapController.setZoom(16);
                 mapController.animateTo(new GeoPoint(userLocation));
-            } else {
+            } else if (networksDataSource.getNetworkInfoList().size() != 0) {
                 //Arbitrary use the first location of the list
                 BikeNetworkLocation currentNetworkLocation = networksDataSource.getNetworkInfoList().get(0).getLocation();
                 double bikeNetworkLatitude = currentNetworkLocation.getLatitude();

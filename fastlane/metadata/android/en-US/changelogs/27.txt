@@ -1,0 +1,4 @@
+* Replacement of non fonctional map layers by new ones (issue #25)
+* Support a new payment terminal method on some bikesharing networks (issue #29)
+* Limit map caching size on device storage (issue #31)
+* Update translations

@@ -1,0 +1,4 @@
+* Remplacement des fonds de carte inopérants (issue #25)
+* Support d'une nouvelle signalisation pour terminaux de paiement prise en charge dans certains réseaux de vélos partagés (issue #29)
+* Limitation du volume occupé par le cache des images cartographiques dans la mémoire de l'appareil (issue #31)
+* Mise à jour des traductions

@@ -61,6 +61,8 @@ import be.brunoparmentier.openbikesharing.app.models.Station;
 import be.brunoparmentier.openbikesharing.app.models.StationStatus;
 import be.brunoparmentier.openbikesharing.app.widgets.StationsListAppWidgetProvider;
 
+import fr.fdesousa.bikesharinghub.tilesource.CustomTileSource;
+
 public class StationActivity extends Activity {
     private static final String PREF_KEY_MAP_LAYER = "pref_map_layer";
     private static final String KEY_STATION = "station";
@@ -89,7 +91,6 @@ public class StationActivity extends Activity {
 
         final Context context = getApplicationContext();
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
-        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
 
         map = (MapView) findViewById(R.id.mapView);
         final GeoPoint stationLocation = new GeoPoint((int) (station.getLatitude() * 1000000),
@@ -105,10 +106,10 @@ public class StationActivity extends Activity {
                 map.setTileSource(TileSourceFactory.MAPNIK);
                 break;
             case MAP_LAYER_CYCLEMAP:
-                map.setTileSource(TileSourceFactory.HIKEBIKEMAP);
+                map.setTileSource(CustomTileSource.CYCLOSM);
                 break;
             case MAP_LAYER_OSMPUBLICTRANSPORT:
-                map.setTileSource(TileSourceFactory.PUBLIC_TRANSPORT);
+                map.setTileSource(CustomTileSource.OPNVKARTE);
                 break;
             default:
                 map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);

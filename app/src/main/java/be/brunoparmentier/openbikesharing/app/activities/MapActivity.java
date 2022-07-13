@@ -71,6 +71,8 @@ import be.brunoparmentier.openbikesharing.app.models.BikeNetworkLocation;
 import be.brunoparmentier.openbikesharing.app.models.Station;
 import be.brunoparmentier.openbikesharing.app.models.StationStatus;
 
+import fr.fdesousa.bikesharinghub.tilesource.CustomTileSource;
+
 public class MapActivity extends Activity implements MapEventsReceiver, ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "MapActivity";
     private static final String MAP_CURRENT_ZOOM_KEY = "map-current-zoom";
@@ -115,7 +117,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
 
         final Context context = getApplicationContext();
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
-        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
 
         map = (MapView) findViewById(R.id.mapView);
         stationMarkerInfoWindow = new StationMarkerInfoWindow(R.layout.bonuspack_bubble, map);
@@ -149,10 +150,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 map.setTileSource(TileSourceFactory.MAPNIK);
                 break;
             case MAP_LAYER_CYCLEMAP:
-                map.setTileSource(TileSourceFactory.HIKEBIKEMAP);
+                map.setTileSource(CustomTileSource.CYCLOSM);
                 break;
             case MAP_LAYER_OSMPUBLICTRANSPORT:
-                map.setTileSource(TileSourceFactory.PUBLIC_TRANSPORT);
+                map.setTileSource(CustomTileSource.OPNVKARTE);
                 break;
             default:
                 map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);

@@ -1,0 +1,4 @@
+* İşlevsel olmayan harita katmanları yenileriyle değiştirildi (sorun #25)
+* Bazı bisiklet paylaşım ağlarında yeni bir ödeme terminali yöntemi desteği (sorun #29)
+* Aygıt depolama alanındaki harita önbellekleme boyutu sınırlandırıldı (sorun #31)
+* Çeviriler güncellendi

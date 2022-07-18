@@ -59,6 +59,8 @@
     <string name="location_not_granted">Location access denied</string>
     <string name="network_selected">selected</string>
     <string name="bike_network_downloading">Please wait while bike network is being downloaded</string>
+    <string name="map_cache_cleaning_started">Cleaning of map cache is in progress and may take a while</string>
+    <string name="map_cache_cleaning_done">Cleaning of map cache done</string>
 
     <!-- Widget -->
     <string name="widget_title_favorite_stations">Favorite stations</string>
@@ -140,4 +142,9 @@
     <string name="pref_title_advanced">Advanced</string>
     <string name="pref_title_api_url">API URL</string>
     <string name="pref_title_default_tab">Default tab</string>
+    <string name="pref_map_tiles_cache_max_size_title">Do not clean map cache if it is less than</string>
+    <string name="pref_map_tiles_cache_max_size_summary">%1$sMB (current cache size : %2$sMB)</string>
+    <string name="pref_map_tiles_cache_trim_size_title">Cleaning brings the map cache down to</string>
+    <string name="pref_map_tiles_cache_trim_size_summary">%1$sMB</string>
+    <string name="pref_map_tiles_cache_size_hint">Integer between %1$s and %2$s</string>
 </resources>

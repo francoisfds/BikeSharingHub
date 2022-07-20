@@ -101,4 +101,11 @@
     <string name="pref_title_fork">Çatal</string>
     <string name="pref_title_bike_networks_list_summary_none">Yok</string>
     <string name="pref_title_bike_networks_list_summary_multiple_selection">%d seçildi</string>
+    <string name="map_cache_cleaning_started">Harita önbelleğinin temizlenmesi devam ediyor ve biraz zaman alabilir</string>
+    <string name="pref_map_tiles_cache_max_size_summary">%1$sMB (şu anki önbellek boyutu : %2$sMB)</string>
+    <string name="pref_map_tiles_cache_trim_size_title">Temizleme işlemi harita önbelleğini şuna düşürür</string>
+    <string name="pref_map_tiles_cache_trim_size_summary">%1$sMB</string>
+    <string name="pref_map_tiles_cache_size_hint">%1$s ve %2$s arasında tam sayı</string>
+    <string name="map_cache_cleaning_done">Harita önbelleğinin temizlenmesi tamamlandı</string>
+    <string name="pref_map_tiles_cache_max_size_title">Şundan küçükse harita önbelleğini temizleme</string>
 </resources>

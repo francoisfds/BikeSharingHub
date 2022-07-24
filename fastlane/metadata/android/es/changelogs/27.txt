@@ -1,0 +1,4 @@
+* Se ha sustituido las capas de mapa disfuncionales por otras sanos (issue #25)
+* Se ha apoyado un nuevo medio de reconocer máquinas de pago (issue #29)
+* Se ha limitado la caché de las mapas en memoria (issue #31) 
+* Actualización de las traducciones

@@ -104,9 +104,9 @@
 \nSinon, accordez l\'autorisation dans vos paramètres système.</string>
     <string name="free_ebikes">Vélos électriques : </string>
     <string name="pref_title_fork">Fork de</string>
-    <string name="pref_map_tiles_cache_max_size_title">Ne pas nettoyer le cache des cartes si il est inférieur à</string>
-    <string name="pref_map_tiles_cache_max_size_summary">%1$sMo (taille actuelle du cache : %2$sMo)</string>
+    <string name="pref_map_tiles_cache_max_size_title">Nettoyer le cache des cartes si il dépasse</string>
+    <string name="pref_map_tiles_cache_max_size_summary">%1$s Mo (taille actuelle du cache : %2$s Mo)</string>
     <string name="pref_map_tiles_cache_trim_size_title">Le nettoyage abaisse le cache des cartes à</string>
-    <string name="pref_map_tiles_cache_trim_size_summary">%1$sMo</string>
+    <string name="pref_map_tiles_cache_trim_size_summary">%1$s Mo</string>
     <string name="pref_map_tiles_cache_size_hint">Entier entre %1$s et %2$s</string>
 </resources>

@@ -38,6 +38,11 @@ import android.util.Log;
 
 import java.util.List;
 
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.cachemanager.CacheManager;
+import org.osmdroid.tileprovider.tilesource.TileSourcePolicyException;
+import org.osmdroid.views.MapView;
+
 import be.brunoparmentier.openbikesharing.app.BuildConfig;
 import be.brunoparmentier.openbikesharing.app.R;
 import be.brunoparmentier.openbikesharing.app.db.NetworksDataSource;
@@ -51,13 +56,17 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private static final String TAG = "SettingsFragment";
     private static final String PREF_KEY_CHOOSE_NETWORK = "choose_network";
     private static final String PREF_KEY_API_URL = "pref_api_url";
+    private static final String PREF_KEY_MAP_CACHE_MAX_SIZE = "pref_map_tiles_cache_max_size";
+    private static final String PREF_KEY_MAP_CACHE_TRIM_SIZE = "pref_map_tiles_cache_trim_size";
     private Context mContext = null;
+    private SharedPreferences mPrefs = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_general);
 
+        mPrefs = getPreferenceScreen().getSharedPreferences();
         setupInstallOpenBikeSharing();
         setupVersionEntry();
     }
@@ -105,17 +114,18 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onResume(){
         super.onResume();
 
-        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        mPrefs.registerOnSharedPreferenceChangeListener(this);
         updatePreference(PREF_KEY_API_URL);
         updatePreference(PREF_KEY_CHOOSE_NETWORK);
+        updatePreference(PREF_KEY_MAP_CACHE_MAX_SIZE);
+        updatePreference(PREF_KEY_MAP_CACHE_TRIM_SIZE);
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        getPreferenceScreen().getSharedPreferences()
-                .unregisterOnSharedPreferenceChangeListener(this);
+        mPrefs.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -150,6 +160,29 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                             idList.size()));
                     break;
                 }
+        } else if (key.equals(PREF_KEY_MAP_CACHE_MAX_SIZE)){
+            Preference preference = findPreference(key);
+            EditTextPreference editTextPreference =  (EditTextPreference) preference;
+            try {
+                CacheManager mCacheManager = new CacheManager(new MapView(mContext));
+                long tileCacheUsed = mCacheManager.currentCacheUsage();
+                float approx = Float.valueOf(tileCacheUsed) / 1048576;
+                editTextPreference.setSummary(String.format(getString(
+                    R.string.pref_map_tiles_cache_max_size_summary,
+                    editTextPreference.getText(), String.format("%.2f", approx))));
+            } catch (TileSourcePolicyException e) {
+                // No cache usage to display (should not happen)
+                editTextPreference.setSummary(String.format(getString(
+                    R.string.pref_map_tiles_cache_trim_size_summary,
+                    editTextPreference.getText())));
+                e.printStackTrace();
+            }
+        } else if (key.equals(PREF_KEY_MAP_CACHE_TRIM_SIZE)){
+            Preference preference = findPreference(key);
+            EditTextPreference editTextPreference =  (EditTextPreference) preference;
+            editTextPreference.setSummary(String.format(getString(
+                    R.string.pref_map_tiles_cache_trim_size_summary,
+                    editTextPreference.getText())));
         }
     }
 }

@@ -50,7 +50,10 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
+import org.osmdroid.tileprovider.cachemanager.CacheManager;
+import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.TileSourcePolicyException;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
@@ -80,6 +83,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     private static final String MAP_CENTER_LON_KEY = "map-center-lon";
 
     private static final String PREF_KEY_MAP_LAYER = "pref_map_layer";
+    private static final String PREF_KEY_MAP_CACHE_MAX_SIZE = "pref_map_tiles_cache_max_size";
+    private static final String PREF_KEY_MAP_CACHE_TRIM_SIZE = "pref_map_tiles_cache_trim_size";
     private static final String KEY_STATION = "station";
     private static final String MAP_LAYER_MAPNIK = "mapnik";
     private static final String MAP_LAYER_CYCLEMAP = "cyclemap";
@@ -116,6 +121,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         ArrayList<Station> stations = stationsDataSource.getStations();
 
         final Context context = getApplicationContext();
+        long systemCacheMaxBytes = 1024 * 1024 * Long.valueOf(settings.getString(PREF_KEY_MAP_CACHE_MAX_SIZE, "100"));
+        long systemCacheTrimBytes = 1024 * 1024 * Long.valueOf(settings.getString(PREF_KEY_MAP_CACHE_TRIM_SIZE, "100"));
+        Configuration.getInstance().setTileFileSystemCacheMaxBytes(systemCacheMaxBytes);
+        Configuration.getInstance().setTileFileSystemCacheTrimBytes(systemCacheTrimBytes);
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
 
         map = (MapView) findViewById(R.id.mapView);
@@ -198,6 +207,43 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 mapController.setZoom(13);
                 mapController.setCenter(new GeoPoint(bikeNetworkLatitude, bikeNetworkLongitude));
             }
+        }
+
+        try {
+            CacheManager mCacheManager = new CacheManager(map);
+            long cacheUsed = mCacheManager.currentCacheUsage();
+
+            // If map cache is too big, launch cleaning in another thread because it may take a lot of time
+            if(cacheUsed > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MapActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MapActivity.this,
+                                    getString(R.string.map_cache_cleaning_started),
+                                    Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        SqlTileWriter sqlTileWriter = new SqlTileWriter();
+                        sqlTileWriter.runCleanupOperation();
+                        sqlTileWriter.onDetach();
+                        MapActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MapActivity.this,
+                                    getString(R.string.map_cache_cleaning_done),
+                                    Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        Log.d(TAG, "Map cache has been cleaned");
+                    }
+                }).start();
+            }
+        } catch (TileSourcePolicyException e) {
+            Log.e(TAG, "Enable to access cache manager, map cache could not be cleaned.");
+            e.printStackTrace();
         }
     }
 

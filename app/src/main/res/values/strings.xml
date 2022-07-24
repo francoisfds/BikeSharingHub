@@ -142,9 +142,9 @@
     <string name="pref_title_advanced">Advanced</string>
     <string name="pref_title_api_url">API URL</string>
     <string name="pref_title_default_tab">Default tab</string>
-    <string name="pref_map_tiles_cache_max_size_title">Do not clean map cache if it is less than</string>
-    <string name="pref_map_tiles_cache_max_size_summary">%1$sMB (current cache size : %2$sMB)</string>
+    <string name="pref_map_tiles_cache_max_size_title">Clean map cache if it exceeds</string>
+    <string name="pref_map_tiles_cache_max_size_summary">%1$s MB (current cache size : %2$s MB)</string>
     <string name="pref_map_tiles_cache_trim_size_title">Cleaning brings the map cache down to</string>
-    <string name="pref_map_tiles_cache_trim_size_summary">%1$sMB</string>
+    <string name="pref_map_tiles_cache_trim_size_summary">%1$s MB</string>
     <string name="pref_map_tiles_cache_size_hint">Integer between %1$s and %2$s</string>
 </resources>

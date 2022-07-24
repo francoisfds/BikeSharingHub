@@ -58,6 +58,21 @@
             android:key="pref_strip_id_station"
             android:summary="@string/pref_title_strip_station_id_summary"
             android:title="@string/pref_title_strip_station_id" />
+
+        <fr.fdesousa.bikesharinghub.preferences.CacheSizeEditTextPreference
+            android:key="pref_map_tiles_cache_max_size"
+            android:title="@string/pref_map_tiles_cache_max_size_title"
+            android:numeric="integer"
+            android:inputType="number"
+            android:defaultValue="100" />
+
+        <fr.fdesousa.bikesharinghub.preferences.CacheSizeEditTextPreference
+            android:key="pref_map_tiles_cache_trim_size"
+            android:title="@string/pref_map_tiles_cache_trim_size_title"
+            android:numeric="integer"
+            android:inputType="number"
+            android:defaultValue="20" />
+
     </PreferenceScreen>
 
     <PreferenceScreen android:title="@string/pref_title_about">

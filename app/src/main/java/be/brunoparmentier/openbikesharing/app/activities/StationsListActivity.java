@@ -216,14 +216,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
             FragmentManager fm = getSupportFragmentManager();
             WelcomeDialogFragment.getInstance().show(fm, "fragment_welcome");
         } else {
-            if (savedInstanceState != null) {
-                bikeNetwork = (BikeNetwork) savedInstanceState.getSerializable(KEY_BIKE_NETWORK);
-                stations = (ArrayList<Station>) savedInstanceState.getSerializable(KEY_STATIONS);
-                favStations = (ArrayList<Station>) savedInstanceState.getSerializable(KEY_FAV_STATIONS);
-                nearbyStations = (ArrayList<Station>) savedInstanceState.getSerializable(KEY_NEARBY_STATIONS);
-            } else {
-                executeDownloadTask();
-            }
+            executeDownloadTask();
         }
     }
 
@@ -282,15 +275,6 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                     DateUtils.formatSameDayTime(dbLastUpdate, System.currentTimeMillis(),
                             DateFormat.DEFAULT, DateFormat.DEFAULT)));
         }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable(KEY_BIKE_NETWORK, bikeNetwork);
-        outState.putSerializable(KEY_STATIONS, stations);
-        outState.putSerializable(KEY_FAV_STATIONS, favStations);
-        outState.putSerializable(KEY_NEARBY_STATIONS, nearbyStations);
     }
 
     @Override
@@ -456,7 +440,8 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                     }
                 });
             } else {
-                // TODO: update location?
+                nearbyStationsFragment.setEmptyView(R.string.location_not_found);
+                // TODO: listen for location
             }
         }
     }
@@ -582,12 +567,12 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
         public TabsPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
 
-            allStationsFragment = StationsListFragment.newInstance(stations,
-                    R.string.no_stations);
-            favoriteStationsFragment = StationsListFragment.newInstance(favStations,
-                    R.string.no_favorite_stations);
-            nearbyStationsFragment = StationsListFragment.newInstance(nearbyStations,
-                    R.string.no_nearby_stations);
+            allStationsFragment = StationsListFragment.newInstance(StationsListFragment.FRAGMENT_ALL,
+                    getResources().getString(R.string.no_stations));
+            favoriteStationsFragment = StationsListFragment.newInstance(StationsListFragment.FRAGMENT_FAVORITES,
+                    getResources().getString(R.string.no_favorite_stations));
+            nearbyStationsFragment = StationsListFragment.newInstance(StationsListFragment.FRAGMENT_NEARBY,
+                    getResources().getString(R.string.no_nearby_stations));
         }
 
         @Override

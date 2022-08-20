@@ -22,6 +22,9 @@
 package be.brunoparmentier.openbikesharing.app.fragments;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelStoreOwner;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,23 +43,28 @@ import be.brunoparmentier.openbikesharing.app.R;
 import be.brunoparmentier.openbikesharing.app.activities.StationActivity;
 import be.brunoparmentier.openbikesharing.app.adapters.StationsListAdapter;
 import be.brunoparmentier.openbikesharing.app.models.Station;
+import fr.fdesousa.bikesharinghub.models.StationsListViewModel;
+import fr.fdesousa.bikesharinghub.models.StationsListViewModelFactory;
 
-public class StationsListFragment extends Fragment {
+public class StationsListFragment extends Fragment implements ViewModelStoreOwner {
     private static final String KEY_STATION = "station";
-    private static final String KEY_STATIONS = "stations";
-    private static final String KEY_EMPTY_LIST_RESOURCE_ID = "emptyListResourceId";
+    private static final String KEY_EMPTY_LIST_TEXT = "empty_list_text_key";
+    private static final String KEY_FRAGMENT_ID = "fragment_id_key";
+    public static final int FRAGMENT_NEARBY = 1;
+    public static final int FRAGMENT_FAVORITES = 2;
+    public static final int FRAGMENT_ALL = 3;
 
     private ArrayList<Station> stations;
     private StationsListAdapter stationsListAdapter;
-    private int emptyListResourceId;
+    private String emptyViewContent;
     private TextView emptyView;
 
     /* newInstance constructor for creating fragment with arguments */
-    public static StationsListFragment newInstance(ArrayList<Station> stations, int emptyListResourceId) {
+    public static StationsListFragment newInstance(int fragmentId, String emptyListText) {
         StationsListFragment stationsListFragment = new StationsListFragment();
         Bundle args = new Bundle();
-        args.putSerializable(KEY_STATIONS, stations);
-        args.putInt(KEY_EMPTY_LIST_RESOURCE_ID, emptyListResourceId);
+        args.putString(KEY_EMPTY_LIST_TEXT, emptyListText);
+        args.putInt(KEY_FRAGMENT_ID, fragmentId);
         stationsListFragment.setArguments(args);
         return stationsListFragment;
     }
@@ -64,9 +72,24 @@ public class StationsListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        stations = (ArrayList<Station>) getArguments().getSerializable(KEY_STATIONS);
-        emptyListResourceId = getArguments().getInt(KEY_EMPTY_LIST_RESOURCE_ID);
-
+        if(savedInstanceState != null) {
+            emptyViewContent = savedInstanceState.getString(KEY_EMPTY_LIST_TEXT);
+        } else {
+            emptyViewContent = getArguments().getString(KEY_EMPTY_LIST_TEXT);
+        }
+        StationsListViewModelFactory factory = new StationsListViewModelFactory(getActivity().getApplication());
+        StationsListViewModel model = new ViewModelProvider(this, factory).get(StationsListViewModel.class);
+        switch(getArguments().getInt(KEY_FRAGMENT_ID)) {
+            case 1:
+                stations = new ArrayList<Station>();
+                break;
+            case 2:
+                stations = model.getFavoriteStations();
+                break;
+            case 3:
+                stations = model.getStations();
+                break;
+        }
         stationsListAdapter = new StationsListAdapter(getActivity(),
                 R.layout.station_list_item, stations);
     }
@@ -77,7 +100,7 @@ public class StationsListFragment extends Fragment {
         ListView listView = (ListView) view.findViewById(R.id.stationsListView);
         listView.setAdapter(stationsListAdapter);
         emptyView = (TextView) view.findViewById(R.id.emptyList);
-        emptyView.setText(emptyListResourceId);
+        emptyView.setText(emptyViewContent);
         listView.setEmptyView(view.findViewById(R.id.emptyList));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -103,6 +126,13 @@ public class StationsListFragment extends Fragment {
         });
         return view;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(KEY_EMPTY_LIST_TEXT, emptyView.getText().toString());
+    }
+
 
     public void updateStationsList(ArrayList<Station> stations) {
         if (stationsListAdapter != null) {

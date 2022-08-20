@@ -28,10 +28,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
@@ -47,7 +49,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
+import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
@@ -135,12 +137,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         map.getOverlays().add(0, mapEventsOverlay);
 
         /* markers list */
-        GridMarkerClusterer stationsMarkers = new GridMarkerClusterer();
-        Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_cluster);
-        Bitmap clusterIcon = ((BitmapDrawable) clusterIconD).getBitmap();
+        RadiusMarkerClusterer stationsMarkers = new RadiusMarkerClusterer(this);
+        Bitmap clusterIcon = getBitmapFromVectorDrawable(this, R.drawable.marker_cluster);
         map.getOverlays().add(stationsMarkers);
         stationsMarkers.setIcon(clusterIcon);
-        stationsMarkers.setGridSize(100);
+        stationsMarkers.setRadius(100);
 
         for (final Station station : stations) {
             stationsMarkers.add(createStationMarker(station));
@@ -413,4 +414,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
             });
         }
     }
+
+    public static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+
 }

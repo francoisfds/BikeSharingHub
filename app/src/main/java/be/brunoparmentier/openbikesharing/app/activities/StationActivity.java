@@ -59,7 +59,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import be.brunoparmentier.openbikesharing.app.R;
-import be.brunoparmentier.openbikesharing.app.BuildConfig;
 import be.brunoparmentier.openbikesharing.app.db.StationsDataSource;
 import be.brunoparmentier.openbikesharing.app.models.Station;
 import be.brunoparmentier.openbikesharing.app.models.StationStatus;
@@ -162,7 +161,8 @@ public class StationActivity extends Activity {
                 map.setTileSource(CustomTileSource.OPNVKARTE);
                 break;
             default:
-                map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
+                CustomTileSource customFactory = new CustomTileSource();
+                map.setTileSource(customFactory.getDefaultTileSource());
                 break;
         }
 

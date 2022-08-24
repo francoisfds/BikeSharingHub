@@ -29,11 +29,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
@@ -69,7 +67,6 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.ArrayList;
 
 import be.brunoparmentier.openbikesharing.app.R;
-import be.brunoparmentier.openbikesharing.app.BuildConfig;
 import be.brunoparmentier.openbikesharing.app.db.NetworksDataSource;
 import be.brunoparmentier.openbikesharing.app.db.StationsDataSource;
 import be.brunoparmentier.openbikesharing.app.models.BikeNetworkLocation;
@@ -166,7 +163,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 map.setTileSource(CustomTileSource.OPNVKARTE);
                 break;
             default:
-                map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
+                CustomTileSource customFactory = new CustomTileSource();
+                map.setTileSource(customFactory.getDefaultTileSource());
                 break;
         }
 

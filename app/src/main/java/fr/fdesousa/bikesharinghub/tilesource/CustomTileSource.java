@@ -18,7 +18,10 @@
  */
 package fr.fdesousa.bikesharinghub.tilesource;
 
+import android.os.Build;
+
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.tilesource.TileSourcePolicy;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 
@@ -49,4 +52,18 @@ public class CustomTileSource {
                             | TileSourcePolicy.FLAG_USER_AGENT_NORMALIZED
             ));
     // Free to use under the conditions of the CC-BY-SA and ODbL (cf FAQ section of https://%C3%B6pnvkarte.de)
+
+    public CustomTileSource() {
+
+    }
+
+    public OnlineTileSourceBase getDefaultTileSource() {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH) {
+            // MAPNIK's TLS level is not handle by Android 19 and lower
+            return OPNVKARTE;
+        } else {
+            return TileSourceFactory.MAPNIK;
+        }
+    }
+
 }

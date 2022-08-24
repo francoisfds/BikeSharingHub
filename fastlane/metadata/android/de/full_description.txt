@@ -1,0 +1,9 @@
+<p>
+BikeSharingHub zeigt die Verfügbarkeit von Leihfahrrädern in Hunderten von Städten in derselben App an.
+</p>
+<p>
+Die Daten werden von der CityBik.es-API abgerufen, die offene Daten sammelt, die von den Betreibern der verfügbaren Leihfahrrädern bereitgestellt werden. Diese API ist quelloffen und die Anwendung erlaubt es, eine andere API-URL als die Standard-URL zu nutzen.
+</p>
+<p>
+Sie basiert auf der Anwendung OpenBikeSharing (zu finden im "F-Droid Archive").
+</p>

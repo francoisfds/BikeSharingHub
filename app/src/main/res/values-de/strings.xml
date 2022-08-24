@@ -101,4 +101,11 @@
     <string name="pref_title_fork">Fork von</string>
     <string name="pref_title_bike_networks_list_summary_none">Keine</string>
     <string name="pref_title_bike_networks_list_summary_multiple_selection">%d ausgewählt</string>
+    <string name="map_cache_cleaning_started">Die Bereinigung des Kartencaches ist im Gange und kann eine Weile dauern</string>
+    <string name="map_cache_cleaning_done">Bereinigung des Kartencaches wurde abgeschlossen</string>
+    <string name="pref_map_tiles_cache_max_size_title">Kartencache leeren, wenn er größer ist als</string>
+    <string name="pref_map_tiles_cache_trim_size_title">Die Bereinigung reduziert den Kartencache auf</string>
+    <string name="pref_map_tiles_cache_trim_size_summary">%1$s Mb</string>
+    <string name="pref_map_tiles_cache_max_size_summary">%1$s Mb (aktuelle Cache-Größe: %2$s Mb)</string>
+    <string name="pref_map_tiles_cache_size_hint">Ganzzahl zwischen %1$s und %2$s</string>
 </resources>

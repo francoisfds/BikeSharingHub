@@ -93,7 +93,7 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
             final Intent refreshIntent = new Intent(context, StationsListAppWidgetProvider.class);
             refreshIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
             final PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 0,
-                    refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             rv.setOnClickPendingIntent(R.id.widgetRefreshButton, refreshPendingIntent);
 
             // Click on the widget title launches application
@@ -103,7 +103,7 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
             openAppIntent.setComponent(new ComponentName(context.getPackageName(),
                     StationsListActivity.class.getCanonicalName()));
             final PendingIntent openAppPendingIntent = PendingIntent.getActivity(context, 0,
-                    openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             rv.setOnClickPendingIntent(R.id.widgetTitle, openAppPendingIntent);
 
             appWidgetManager.updateAppWidget(appWidgetId, rv);
@@ -158,7 +158,7 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
 
         @Override
         protected String doInBackground(String... urls) {
-            if (urls[0].isEmpty()) {
+            if (urls.length == 0 || urls[0].isEmpty()) {
                 return null;
             }
             try {

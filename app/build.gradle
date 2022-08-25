@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
+ * Copyright (c) 2021-2022 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -21,12 +22,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "fr.fdesousa.bikesharinghub"
         minSdkVersion 14
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 27
         versionName "2.0.6"
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"

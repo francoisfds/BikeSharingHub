@@ -1,0 +1,2 @@
+* Update to Android 12
+* Fix broken map on Android 4.4 and lower

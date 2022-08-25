@@ -1,0 +1,2 @@
+* Mise à jour vers Android 12
+* Correction sur la carte pour Android 4.4 et inférieur

@@ -1,0 +1,2 @@
+* Actualización a android 13
+* Arreglado el mapa no funcional en android 4.4 y anterior

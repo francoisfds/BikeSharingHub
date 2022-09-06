@@ -1,2 +1,2 @@
-* Update auf Android 12
+* Update auf Android 13
 * Behebt defekte Karte auf Android 4.4 und niedriger

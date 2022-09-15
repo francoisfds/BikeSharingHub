@@ -1,0 +1,2 @@
+* Aktualiziranje za Android 13
+* Ispravak pokvarene karte na Androidu 4.4 i starijim verzijama

@@ -1,2 +1,4 @@
 * Update to Android 13
 * Fix broken map on Android 4.4 and lower
+* Fix cropped text in networks list
+* Display data update's date under the map

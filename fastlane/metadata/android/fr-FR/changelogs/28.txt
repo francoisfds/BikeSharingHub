@@ -1,2 +1,4 @@
 * Mise à jour vers Android 13
 * Correction sur la carte pour Android 4.4 et inférieur
+* Correction du texte rogné sur la liste des réseaux
+* Affichage de la date de récupération des données sous la carte

@@ -32,5 +32,15 @@
         android:id="@+id/mapView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_above="@+id/mapDbLastUpdate"
         android:focusableInTouchMode="false" />
+
+    <TextView
+        android:id="@id/mapDbLastUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/background_light"
+        android:gravity="center" />
 </RelativeLayout>

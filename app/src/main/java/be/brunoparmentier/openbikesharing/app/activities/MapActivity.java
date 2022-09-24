@@ -37,6 +37,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,6 +65,7 @@ import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 import be.brunoparmentier.openbikesharing.app.R;
@@ -84,6 +86,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     private static final String PREF_KEY_MAP_LAYER = "pref_map_layer";
     private static final String PREF_KEY_MAP_CACHE_MAX_SIZE = "pref_map_tiles_cache_max_size";
     private static final String PREF_KEY_MAP_CACHE_TRIM_SIZE = "pref_map_tiles_cache_trim_size";
+    private static final String PREF_KEY_DB_LAST_UPDATE = "db_last_update";
     private static final String KEY_STATION = "station";
     private static final String MAP_LAYER_MAPNIK = "mapnik";
     private static final String MAP_LAYER_CYCLEMAP = "cyclemap";
@@ -114,6 +117,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+
+        setDBLastUpdateText(settings);
 
         stationsDataSource = new StationsDataSource(this);
         networksDataSource = new NetworksDataSource(this);
@@ -421,6 +426,20 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    private void setDBLastUpdateText(SharedPreferences settings) {
+        TextView lastUpdate = (TextView) findViewById(R.id.mapDbLastUpdate);
+        long dbLastUpdate = settings.getLong(PREF_KEY_DB_LAST_UPDATE, -1);
+
+        if (dbLastUpdate == -1) {
+            lastUpdate.setText(String.format(getString(R.string.db_last_update),
+                    getString(R.string.db_last_update_never)));
+        } else {
+            lastUpdate.setText(String.format(getString(R.string.db_last_update),
+                    DateUtils.formatSameDayTime(dbLastUpdate, System.currentTimeMillis(),
+                            DateFormat.DEFAULT, DateFormat.DEFAULT)));
+        }
     }
 
 }

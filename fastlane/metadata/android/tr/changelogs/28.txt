@@ -1,2 +1,4 @@
 * Android 13 sürümüne güncellendi
 * Android 4.4 ve daha düşük sürümlerde bozuk harita düzeltildi
+* Ağlar listesindeki kırpılmış metin düzeltildi
+* Veri güncelleme tarihini harita altında görüntüle

@@ -121,14 +121,32 @@ public class BikeNetworkParser {
 
                         /* status */
                         if (rawExtra.has("status")) {
-                            String status = rawExtra.getString("status");
-                            if (status.equals("CLOSED") // villo
-                                    || status.equals("CLS") // ClearChannel
-                                    || status.equals("1") // vlille
-                                    || status.equals("offline")) { // idecycle
-                                station.setStatus(StationStatus.CLOSED);
-                            } else {
-                                station.setStatus(StationStatus.OPEN);
+                            JSONObject rawStatus = rawExtra.optJSONObject("status");
+                            if (rawStatus != null) {
+                                if (rawStatus.has("online")) {
+                                    if (!rawStatus.getBoolean("online")) {
+                                        station.setStatus(StationStatus.CLOSED);
+                                    } else {
+                                        station.setStatus(StationStatus.OPEN);
+                                    }
+                                }
+                            } else{
+                                String status = rawExtra.getString("status");
+                                status = status.toUpperCase();
+                                if (status.equals("CLOSED")
+                                        || status.equals("CLS")
+                                        || status.equals("1")
+                                        || status.equals("OFFLINE")
+                                        || status.equals("PLANNED")
+                                        || status.equals("UNDER CONSTRUCTION")
+                                        || status.equals("EN MAINTENANCE")
+                                        || status.equals("MAINTENANCE")
+                                        || status.equals("MAINTENANCE/IMPLEMENTATION")
+                                ) {
+                                    station.setStatus(StationStatus.CLOSED);
+                                } else {
+                                    station.setStatus(StationStatus.OPEN);
+                                }
                             }
                         } else if (rawExtra.has("statusValue")) {
                             if (rawExtra.getString("statusValue").equals("Not In Service")) { // Bike Share
@@ -144,6 +162,18 @@ public class BikeNetworkParser {
                             }
                         } else if (rawExtra.has("open")) {
                             if (!rawExtra.getBoolean("open")) { // dublinbikes, citycycle
+                                station.setStatus(StationStatus.CLOSED);
+                            } else {
+                                station.setStatus(StationStatus.OPEN);
+                            }
+                        }else if (rawExtra.has("online")) {
+                            if (!rawExtra.getBoolean("online")) {
+                                station.setStatus(StationStatus.CLOSED);
+                            } else {
+                                station.setStatus(StationStatus.OPEN);
+                            }
+                        }else if (rawExtra.has("installed")) {
+                            if (!rawExtra.getBoolean("installed")) {
                                 station.setStatus(StationStatus.CLOSED);
                             } else {
                                 station.setStatus(StationStatus.OPEN);

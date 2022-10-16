@@ -1,4 +1,5 @@
 * Actualización a android 13
 * Arreglado el mapa no funcional en android 4.4 y anterior
 * Arreglado el texto recortado en la lista de redes
-* Mostrar la fecha de actualización de los datos bajo el mapa
+* Visualización de la fecha de actualización de los datos bajo el mapa
+* Mejora de la detección de estaciones cerradas (gracias a sbssk8)

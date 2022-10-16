@@ -2,3 +2,4 @@
 * Correction sur la carte pour Android 4.4 et inférieur
 * Correction du texte rogné sur la liste des réseaux
 * Affichage de la date de récupération des données sous la carte
+* Amélioration de la détection des stations fermées grâce (merci à sbssk8)

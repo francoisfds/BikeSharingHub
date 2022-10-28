@@ -1,0 +1,5 @@
+* Oppdatering til Android 13
+* Fikset ødelagt kart på 4.4 og tidligere
+* Fikset beskjært tekst i nettverksliste
+* Vis dataoppdateringsdato under kartet
+* Forbedret retning for lukkede stasjoner (takket være sbssk8)

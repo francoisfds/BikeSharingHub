@@ -74,4 +74,13 @@
     <string name="loc_perm_forbidden">Posisjonstilgang nektet.
 \nDu kan velge en annen forvalgt fane for oppstart.
 \nEllers kan du innvilge tilgang i systeminnstillingene dine.</string>
+    <string name="pref_title_bike_networks_list_summary_multiple_selection">%d valgt</string>
+    <string name="pref_map_tiles_cache_trim_size_summary">%1$s MB</string>
+    <string name="pref_map_tiles_cache_size_hint">Heltall mellom %1$s og %2$s</string>
+    <string name="pref_title_bike_networks_list_summary_none">Ingen</string>
+    <string name="pref_map_tiles_cache_max_size_summary">%1$s MB (nåværende hurtiglagerstørrelse: %2$s MB)</string>
+    <string name="map_cache_cleaning_started">Tømming av hurtiglager pågår og kan ta sin tid …</string>
+    <string name="map_cache_cleaning_done">Karthurtiglager tømt</string>
+    <string name="pref_map_tiles_cache_trim_size_title">Tømming reduserer kartstørrelsen til</string>
+    <string name="pref_map_tiles_cache_max_size_title">Tøm karthurtiglager hvis det overstiger</string>
 </resources>

@@ -1,2 +1,5 @@
 * Aktualiziranje za Android 13
 * Ispravak pokvarene karte na Androidu 4.4 i starijim verzijama
+* Ispravak izrezanog teksta u popisu mreža
+* Prikaz datuma aktualiziranja podataka ispod karte
+* Poboljšano otkrivanje za zatvorene stanice (zahvaljujući sbssk8)

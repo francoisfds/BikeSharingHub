@@ -1,2 +1,5 @@
 * Update auf Android 13
 * Behebt defekte Karte auf Android 4.4 und niedriger
+* Fix cropped text in networks list
+* Display data update's date under the map
+* Improve detection for closed stations (thanks to sbssk8)

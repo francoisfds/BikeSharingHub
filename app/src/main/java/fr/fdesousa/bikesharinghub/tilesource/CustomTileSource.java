@@ -44,7 +44,7 @@ public class CustomTileSource {
     public static final OnlineTileSourceBase OPNVKARTE = new XYTileSource("Öpnvkarte",
             0, 18, 256, ".png",
             new String[]{"https://tile.memomaps.de/tilegen/"},
-            "© OpenStreetMap contributors, tiles by MeMoMaps CC-BY-SA",
+            "© OpenStreetMap contributors, tiles by MeMoMaps",
             new TileSourcePolicy(2,
                     TileSourcePolicy.FLAG_NO_BULK
                             | TileSourcePolicy.FLAG_NO_PREVENTIVE
@@ -53,12 +53,8 @@ public class CustomTileSource {
             ));
     // Free to use under the conditions of the CC-BY-SA and ODbL (cf FAQ section of https://%C3%B6pnvkarte.de)
 
-    public CustomTileSource() {
-
-    }
-
-    public OnlineTileSourceBase getDefaultTileSource() {
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH) {
+    public static OnlineTileSourceBase getDefaultTileSource() {
+        if(Build.VERSION.SDK_INT <= 19) {
             // MAPNIK's TLS level is not handle by Android 19 and lower
             return OPNVKARTE;
         } else {

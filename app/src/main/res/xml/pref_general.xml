@@ -31,7 +31,7 @@
     </Preference>
 
     <be.brunoparmentier.openbikesharing.app.preferences.UpdateListPreference
-        android:defaultValue="mapnik"
+        android:defaultValue="@string/pref_default_map_layer_value"
         android:dialogTitle="@string/pref_map_layer_title"
         android:entries="@array/pref_map_layer_entries"
         android:entryValues="@array/pref_map_layer_values"

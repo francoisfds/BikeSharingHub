@@ -161,8 +161,7 @@ public class StationActivity extends Activity {
                 map.setTileSource(CustomTileSource.OPNVKARTE);
                 break;
             default:
-                CustomTileSource customFactory = new CustomTileSource();
-                map.setTileSource(customFactory.getDefaultTileSource());
+                map.setTileSource(CustomTileSource.getDefaultTileSource());
                 break;
         }
 

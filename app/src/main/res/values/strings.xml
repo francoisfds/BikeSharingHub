@@ -95,7 +95,7 @@
     <string name="pref_title_license">License</string>
     <string name="pref_title_license_message" translatable="false">
         BikeSharingHub
-        \nCopyright © 2020-2021 François FERREIRA DE SOUSA
+        \nCopyright © 2020-2022 François FERREIRA DE SOUSA
         \nThis program incorporates a modified version of OpenBikeSharing
         \nCopyright © 2014-2015 Bruno Parmentier\n
 
@@ -124,6 +124,7 @@
     <string name="pref_map_layer_mapnik" translatable="false">Mapnik</string>
     <string name="pref_map_layer_cyclemap" translatable="false">CyclOSM</string>
     <string name="pref_map_layer_osmpublictransport" translatable="false">Öpnvkarte</string>
+    <string name="pref_default_map_layer_value" translatable="false">osmpublictransport</string>
     <string name="pref_title_strip_station_id">Strip station ID</string>
     <string name="pref_title_strip_station_id_summary">
         Remove ID from station name (only useful for some networks)

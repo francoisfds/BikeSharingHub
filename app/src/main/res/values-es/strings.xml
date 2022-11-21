@@ -32,11 +32,12 @@
     <!-- Activities titles -->
     <string name="title_activity_stations_list">Estaciones</string>
     <string name="title_activity_station">Estación</string>
-    <string name="title_activity_networks_list">Seleccionar una red</string>
+    <string name="title_activity_networks_list">Selección de la red</string>
     <string name="title_activity_map">Mapa</string>
     <string name="title_activity_settings">Ajustes</string>
     <!-- Welcome dialog -->
-    <string name="welcome_dialog_message">Antes de empezar, elija una red de bicicletas de la lista</string>
+    <string name="welcome_dialog_message">Antes de empezar, elija una red de bicicletas de la lista.
+\nAsegúrate también de que estás conectado a Internet.</string>
     <string name="welcome_dialog_ok">OK</string>
     <string name="welcome_dialog_cancel">Cancelar</string>
     <string name="welcome_dialog_title">Bienvenido</string>
@@ -59,19 +60,22 @@
     <string name="updated_just_now">Ahora mismo</string>
     <plurals name="updated_minutes_ago">
         <item quantity="one">Hace %d minuto</item>
+        <item quantity="many">Hace %d minutos</item>
         <item quantity="other">Hace %d minutos</item>
     </plurals>
     <plurals name="updated_hours_ago">
         <item quantity="one">Hace %d hora</item>
+        <item quantity="many">hace %d horas</item>
         <item quantity="other">Hace %d horas</item>
     </plurals>
     <plurals name="updated_days_ago">
         <item quantity="one">Hace %d día</item>
+        <item quantity="many">Hace %d días</item>
         <item quantity="other">Hace %d días</item>
     </plurals>
     <!-- Settings -->
     <string name="pref_header_general">General</string>
-    <string name="pref_title_bike_networks_list">Elija una red</string>
+    <string name="pref_title_bike_networks_list">Seleccione la red</string>
     <string name="pref_title_license">Licencia</string>
     <string name="pref_title_about">Acerca de</string>
     <string name="pref_title_source_code">Código fuente</string>
@@ -92,8 +96,19 @@
     <string name="pref_title_advanced">Avanzado</string>
     <string name="pref_title_api_url">URL de la API</string>
     <string name="pref_title_default_tab">Ficha predeterminada</string>
-    <string name="pref_title_fork"></string>
-    <string name="location_not_granted"></string>
-    <string name="free_ebikes"></string>
-    <string name="loc_perm_forbidden"></string>
+    <string name="pref_title_fork">Bifurcación de</string>
+    <string name="location_not_granted">Acceso denegado a la ubicación</string>
+    <string name="free_ebikes">Bicicletas eléctricas: </string>
+    <string name="loc_perm_forbidden">El acceso a la ubicación está denegado.
+\nPuede elegir otra pestaña por defecto para el inicio.
+\nDe lo contrario, conceda el permiso en la configuración de su sistema.</string>
+    <string name="pref_map_tiles_cache_trim_size_summary">%1$s MB</string>
+    <string name="pref_map_tiles_cache_size_hint">un número entero entre %1$s y %2$s</string>
+    <string name="map_cache_cleaning_started">La limpieza de la caché de los mapas está en curso y puede llevar un tiempo</string>
+    <string name="map_cache_cleaning_done">Limpieza de la caché de los mapas realizada</string>
+    <string name="pref_title_bike_networks_list_summary_none">Ninguno</string>
+    <string name="pref_title_bike_networks_list_summary_multiple_selection">%d seleccionado</string>
+    <string name="pref_map_tiles_cache_max_size_title">Limpiar la caché de los mapas si se sobrepasa</string>
+    <string name="pref_map_tiles_cache_max_size_summary">%1$s MB (tamaño de caché actual: %2$s MB)</string>
+    <string name="pref_map_tiles_cache_trim_size_title">La limpieza reduce la caché del mapa a</string>
 </resources>

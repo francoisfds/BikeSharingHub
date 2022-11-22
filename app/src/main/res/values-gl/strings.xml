@@ -56,7 +56,7 @@
 \nAsegúrate tamén de que tes conexión a internet.</string>
     <string name="title_activity_settings">Axustes</string>
     <string name="title_activity_map">Mapa</string>
-    <string name="title_activity_networks_list">Escolle unha rede</string>
+    <string name="title_activity_networks_list">Elección da rede</string>
     <string name="title_activity_station">Estación</string>
     <string name="title_activity_stations_list">Estacións</string>
     <string name="action_search">Buscar</string>
@@ -68,8 +68,19 @@
     <string name="action_settings">Axustes</string>
     <string name="json_error">Fallo ó obter os datos</string>
     <string name="connection_error">Fallo de conexión</string>
-    <string name="loc_perm_forbidden"></string>
-    <string name="free_ebikes"></string>
-    <string name="location_not_granted"></string>
-    <string name="pref_title_fork"></string>
+    <string name="loc_perm_forbidden">O acceso á localización é denegado.
+\nPodes escoller outra pestana predeterminada para o inicio.
+\nEn caso contrario, concede permiso na configuración do teu sistema.</string>
+    <string name="free_ebikes">Bicicletas eléctricas: </string>
+    <string name="location_not_granted">Acceso á localización non permitido</string>
+    <string name="pref_title_fork">Bifurcación de</string>
+    <string name="map_cache_cleaning_started">A limpeza da caché do mapa atopase en curso e pode levar un tempo</string>
+    <string name="pref_title_bike_networks_list_summary_none">Ningún</string>
+    <string name="pref_map_tiles_cache_trim_size_title">A limpeza reduce a caché do mapa</string>
+    <string name="pref_map_tiles_cache_max_size_title">Limpala caché do mapa se supera</string>
+    <string name="map_cache_cleaning_done">Limpandola caché dos mapas</string>
+    <string name="pref_title_bike_networks_list_summary_multiple_selection">%d seleccionado</string>
+    <string name="pref_map_tiles_cache_max_size_summary">%1$s MB (tamaño da caché actual: %2$s MB)</string>
+    <string name="pref_map_tiles_cache_trim_size_summary">%1$s MB</string>
+    <string name="pref_map_tiles_cache_size_hint">Número enteiro entre %1$s e %2$s</string>
 </resources>

@@ -1,0 +1,9 @@
+<p>
+BikeSharingHub muestra si hay bicicletas compartidas entre cientos de ciudades en la misma aplicación.
+</p>
+<p>
+Los datos se obtienen de la aplicación de CityBik.es, que recoge los datos proporcionados por los operadores de bicicletas compartidas disponibles. Esta aplicación es de código abierto y la aplicación permite establecer una URL a una aplicación diferente a la predeterminada.
+</p>
+<p>
+Se basa en la aplicación OpenBikeSharing (repo "F-Droid Archive").
+</p>

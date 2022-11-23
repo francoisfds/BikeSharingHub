@@ -1,10 +1,9 @@
 <p>
-BikeSharingHub muestra los servicios de bicicletas compertidos en cientos de ciudades en una misma aplicación.
+BikeSharingHub muestra la disponibilidad de bicicletas compartidas entre cientos de ciudades en la misma aplicación.
 </p>
 <p>
-Data is fetched from the CityBik.es API, which gathers open data provided by the available shared bikes operators. This API is open-source and the application allows to set another API URL than the default.
-Los datos see obtienen desde el API de CityBik.es, el cuial conjuga los datos abierto provisto desde los operadores de servicios de bicicletas compartidas. Este API es de código abierto y la aplicación permite fijar otra URL de API además del predefinido.
+Los datos se obtienen de la API de CityBik.es, que recoge datos abiertos proporcionados por los operadores de bicicletas compartidas disponibles. Esta API es de código abierto y la aplicación permite establecer otra URL de la API que la predeterminada.
 </p>
 <p>
-Está basado en la aplicación OpenBikeSharing (del repositorio "F-Droid Archive").
+Se basa en la aplicación OpenBikeSharing (repo "F-Droid Archive").
 </p>

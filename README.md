@@ -9,10 +9,12 @@ It is a fork of the [OpenBikeSharing](https://github.com/bparmentier/OpenBikeSha
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/fr.fdesousa.bikesharinghub/)
-
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
     alt="Get it on Google Play"
     height="80">](https://play.google.com/store/apps/details?id=fr.fdesousa.bikesharinghub)
+[<img src="https://user-images.githubusercontent.com/15369785/212381735-4f53e18c-39f2-4435-a9b8-2577e9cada77.png"
+    alt="Get it on Github"
+    height="80">](https://github.com/francoisfds/BikeSharingHub/releases)
 
 ## Contribute
 

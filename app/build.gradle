@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2021-2022 François FERREIRA DE SOUSA.
+ * Copyright (c) 2021-2023 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -28,7 +28,7 @@ android {
         applicationId "fr.fdesousa.bikesharinghub"
         minSdkVersion 14
         targetSdkVersion 33
-        versionCode 28
+        versionCode 29
         versionName "2.1.0"
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
     }
@@ -51,7 +51,12 @@ android {
 }
 
 dependencies {
-    implementation 'org.osmdroid:osmdroid-android:6.1.11'
+    implementation 'org.osmdroid:osmdroid-android:6.1.13'
     implementation 'com.github.MKergall:osmbonuspack:6.5.2'
-    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'androidx.core:core:1.9.0'
+    implementation 'androidx.fragment:fragment:1.5.5'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.viewpager:viewpager:1.0.0'
+    implementation 'androidx.fragment:fragment:1.5.5'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
 }

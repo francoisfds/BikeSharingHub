@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 François FERREIRA DE SOUSA.
+ * Copyright (c) 2022-2023 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  *
@@ -19,7 +19,7 @@
 package fr.fdesousa.bikesharinghub.models;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
+import androidx.lifecycle.AndroidViewModel;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
+ * Copyright (c) 2023 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -22,7 +23,7 @@ package be.brunoparmentier.openbikesharing.app.activities;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.v4.app.NavUtils;
+import androidx.core.app.NavUtils;
 import android.view.MenuItem;
 
 import be.brunoparmentier.openbikesharing.app.fragments.SettingsFragment;

@@ -1,0 +1,4 @@
+* Amélioration de l'interface graphique du widget
+* Correction pour synchroniser plus qu'un réseau depuis le widget
+* Récupération de la géolocalisation même si le GPS est la seule méthode disponible
+* Mise à jour des dépendances (osmdroid, androidx)

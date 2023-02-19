@@ -1,0 +1,4 @@
+* Improve user interface of the widget
+* Fix fetching more than one networks in the widget
+* Retrieve user location even if GPS is the only available method
+* Upgrade dependencies (osmdroid, androidx)

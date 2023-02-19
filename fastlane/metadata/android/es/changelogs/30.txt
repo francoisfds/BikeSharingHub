@@ -1,0 +1,4 @@
+* Mejorar la interfaz de usuario del widget
+* Arreglar la obtención de más de una red en el widget
+* Recuperar la ubicación del usuario incluso si el GPS es el único método disponible
+* Dependencias de actualización (osmdroid, androidx)

@@ -1,0 +1,4 @@
+* Poboljšano korisničko sučelje widgeta
+* Ispravljeno dohvaćanja više od jedne mreže u widgetu
+* Dohvaćanje lokacije korisnika čak i ako je GPS jedina dostupna metoda
+* Nadograđene ovisnosti (osmdroid, androidx)

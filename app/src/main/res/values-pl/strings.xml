@@ -32,7 +32,7 @@
     <!-- Activities titles -->
     <string name="title_activity_stations_list">Stacje</string>
     <string name="title_activity_station">Stacja</string>
-    <string name="title_activity_networks_list">Wybierz sieć</string>
+    <string name="title_activity_networks_list">Wybór sieci</string>
     <string name="title_activity_map">Mapa</string>
     <string name="title_activity_settings">Ustawienia</string>
     <!-- Welcome dialog -->
@@ -78,7 +78,7 @@
     </plurals>
     <!-- Settings -->
     <string name="pref_header_general">Ogólne</string>
-    <string name="pref_title_bike_networks_list">Wybierz sieć</string>
+    <string name="pref_title_bike_networks_list">Wybór sieci</string>
     <string name="pref_title_license">Licencja</string>
     <string name="pref_title_about">O BikeSharingHub</string>
     <string name="pref_title_source_code">Kod źródłowy</string>
@@ -99,8 +99,19 @@
     <string name="pref_title_advanced">Zaawansowane</string>
     <string name="pref_title_api_url">Url API</string>
     <string name="pref_title_default_tab">Domyślna zakładka</string>
-    <string name="loc_perm_forbidden"></string>
-    <string name="free_ebikes"></string>
-    <string name="pref_title_fork"></string>
-    <string name="location_not_granted"></string>
+    <string name="loc_perm_forbidden">Odmowa dostępu do lokalizacji.
+\nMożesz wybrać inną domyślną kartę do uruchamiania.
+\nW przeciwnym razie udziel uprawnień w ustawieniach systemu.</string>
+    <string name="free_ebikes">Rowery elektryczne: </string>
+    <string name="pref_title_fork"/>
+    <string name="location_not_granted">Odmowa dostępu do lokalizacji</string>
+    <string name="map_cache_cleaning_started">Czyszczenie pamięci podręcznej map jest w toku i może trochę potrwać</string>
+    <string name="map_cache_cleaning_done">Czyszczenie pamięci podręcznej mapy wykonane</string>
+    <string name="pref_title_bike_networks_list_summary_none">Brak</string>
+    <string name="pref_map_tiles_cache_max_size_summary">%1$s MB (aktualny rozmiar pamięci podręcznej: %2$s MB)</string>
+    <string name="pref_map_tiles_cache_trim_size_title">Czyszczenie sprowadza pamięć podręczną mapy do</string>
+    <string name="pref_map_tiles_cache_size_hint">Liczba całkowita pomiędzy %1$s a %2$s</string>
+    <string name="pref_title_bike_networks_list_summary_multiple_selection">Wybrano %d</string>
+    <string name="pref_map_tiles_cache_max_size_title">Wyczyść pamięć podręczną mapy, jeśli przekracza</string>
+    <string name="pref_map_tiles_cache_trim_size_summary">%1$s MB</string>
 </resources>

@@ -112,7 +112,10 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     private static final String KEY_NEARBY_STATIONS = "nearbyStations";
     private static final String KEY_NETWORK_ID = "network-id";
 
-    private static final String[] REQUEST_LOC_LIST = {Manifest.permission.ACCESS_FINE_LOCATION};
+    private static final String[] REQUEST_LOC_LIST = {
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    };
     private static final int REQUEST_LOC_CODE = 1;
 
     protected static final int PICK_NETWORK_REQUEST = 1;
@@ -230,7 +233,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     setNearbyStations(stations);
                 } else if(!ActivityCompat.shouldShowRequestPermissionRationale(
-                        this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
                     nearbyStationsFragment.setEmptyView(R.string.loc_perm_forbidden);
                 }
                 break;

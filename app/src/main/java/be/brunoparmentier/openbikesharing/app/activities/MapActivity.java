@@ -93,7 +93,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     private static final String MAP_LAYER_CYCLEMAP = "cyclemap";
     private static final String MAP_LAYER_OSMPUBLICTRANSPORT = "osmpublictransport";
 
-    private static final String[] REQUEST_LOC_LIST = {Manifest.permission.ACCESS_FINE_LOCATION};
+    private static final String[] REQUEST_LOC_LIST = {
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    };
     private static final int REQUEST_LOC_PERMISSION_CODE = 1;
 
     private MapView map;
@@ -305,9 +308,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         switch (requestCode) {
             case REQUEST_LOC_PERMISSION_CODE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (grantResults[1] == PackageManager.PERMISSION_DENIED) {
+                        Toast.makeText(this, getString(R.string.location_coarse_only), Toast.LENGTH_SHORT).show();
+                    }
                     mooveToLocation();
                 } else if(!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        Manifest.permission.ACCESS_COARSE_LOCATION)) {
                     Toast.makeText(this, getString(R.string.location_not_granted), Toast.LENGTH_LONG).show();
                 }
                 break;

@@ -56,6 +56,7 @@ import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.tilesource.TileSourcePolicyException;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.LocationUtils;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.MapEventsOverlay;
@@ -197,7 +198,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                     PackageManager.PERMISSION_GRANTED) {
                 LocationManager locationManager =
                         (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-                userLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                userLocation = LocationUtils.getLastKnownLocation(locationManager);
             }
             if (userLocation != null) {
                 mapController.setZoom(16);
@@ -319,8 +320,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         try {
             LocationManager locationManager =
                     (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-            GeoPoint userLocation = new GeoPoint(locationManager
-                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
+            GeoPoint userLocation = new GeoPoint(LocationUtils.getLastKnownLocation(locationManager));
             mapController.animateTo(userLocation);
         } catch (NullPointerException ex) {
             Toast.makeText(this, getString(R.string.location_not_found), Toast.LENGTH_LONG).show();

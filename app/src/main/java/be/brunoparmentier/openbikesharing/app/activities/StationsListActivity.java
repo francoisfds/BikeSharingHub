@@ -76,6 +76,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import org.osmdroid.util.LocationUtils;
+
 import be.brunoparmentier.openbikesharing.app.R;
 import be.brunoparmentier.openbikesharing.app.adapters.SearchStationAdapter;
 import be.brunoparmentier.openbikesharing.app.db.StationsDataSource;
@@ -412,39 +414,36 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
         nearbyStations = new ArrayList<>();
         LocationManager locationManager =
                 (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-            final Location userLocation = locationManager
-                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if (userLocation != null) {
-                for (Station station : stations) {
-                    if ((station.getLatitude() > userLocation.getLatitude() - radius)
-                            && (station.getLatitude() < userLocation.getLatitude() + radius)
-                            && (station.getLongitude() > userLocation.getLongitude() - radius)
-                            && (station.getLongitude() < userLocation.getLongitude() + radius)) {
-                        nearbyStations.add(station);
-                    }
+        final Location userLocation = LocationUtils.getLastKnownLocation(locationManager);
+        if (userLocation != null) {
+            for (Station station : stations) {
+                if ((station.getLatitude() > userLocation.getLatitude() - radius)
+                        && (station.getLatitude() < userLocation.getLatitude() + radius)
+                        && (station.getLongitude() > userLocation.getLongitude() - radius)
+                        && (station.getLongitude() < userLocation.getLongitude() + radius)) {
+                    nearbyStations.add(station);
                 }
-                Collections.sort(nearbyStations, new Comparator<Station>() {
-
-                    @Override
-                    public int compare(Station station1, Station station2) {
-                        float[] result1 = new float[3];
-                        Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(),
-                                station1.getLatitude(), station1.getLongitude(), result1);
-                        Float distance1 = result1[0];
-
-                        float[] result2 = new float[3];
-                        Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(),
-                                station2.getLatitude(), station2.getLongitude(), result2);
-                        Float distance2 = result2[0];
-
-                        return distance1.compareTo(distance2);
-                    }
-                });
-            } else {
-                nearbyStationsFragment.setEmptyView(R.string.location_not_found);
-                // TODO: listen for location
             }
+            Collections.sort(nearbyStations, new Comparator<Station>() {
+
+                @Override
+                public int compare(Station station1, Station station2) {
+                    float[] result1 = new float[3];
+                    Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(),
+                            station1.getLatitude(), station1.getLongitude(), result1);
+                    Float distance1 = result1[0];
+
+                    float[] result2 = new float[3];
+                    Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(),
+                            station2.getLatitude(), station2.getLongitude(), result2);
+                    Float distance2 = result2[0];
+
+                    return distance1.compareTo(distance2);
+                }
+            });
+        } else {
+            nearbyStationsFragment.setEmptyView(R.string.location_not_found);
+            // TODO: listen for location
         }
     }
 

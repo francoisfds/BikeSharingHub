@@ -167,13 +167,14 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
-                if (ContextCompat.checkSelfPermission(StationsListActivity.this,
-                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                        && tabsPagerAdapter.getItem(position).equals(nearbyStationsFragment)) {
-
-                    //Ask permission if nearbyStationsFragment is selected
-                    ActivityCompat.requestPermissions(StationsListActivity.this,
-                        REQUEST_LOC_LIST, REQUEST_LOC_CODE);
+                if (tabsPagerAdapter.getItem(position).equals(nearbyStationsFragment)) {
+                    if (ContextCompat.checkSelfPermission(StationsListActivity.this,
+                            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(StationsListActivity.this,
+                            REQUEST_LOC_LIST, REQUEST_LOC_CODE);
+                    } else {
+                        setNearbyStations();
+                    }
                 }
             }
 
@@ -230,10 +231,10 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_LOC_CODE:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    setNearbyStations(stations);
+                if (grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    setNearbyStations();
                 } else if(!ActivityCompat.shouldShowRequestPermissionRationale(
-                        this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                        this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                     nearbyStationsFragment.setEmptyView(R.string.loc_perm_forbidden);
                 }
                 break;
@@ -253,13 +254,8 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
             /* Refresh list with latest data from database */
             stations = stationsDataSource.getStations();
             favStations = stationsDataSource.getFavoriteStations();
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                setNearbyStations(stations);
-            }
             tabsPagerAdapter.updateAllStationsListFragment(stations);
             tabsPagerAdapter.updateFavoriteStationsFragment(favStations);
-            tabsPagerAdapter.updateNearbyStationsFragment(nearbyStations);
             setDBLastUpdateText();
 
             /* Update automatically if data is more than 10 min old */
@@ -412,7 +408,10 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     }
 
 
-    private void setNearbyStations(List<Station> stations) {
+    private void setNearbyStations() {
+        if (stations == null) {
+            return;
+        }
         final double radius = 0.01;
         nearbyStations = new ArrayList<>();
         LocationManager locationManager =
@@ -444,6 +443,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                     return distance1.compareTo(distance2);
                 }
             });
+            tabsPagerAdapter.updateNearbyStationsFragment(nearbyStations);
         } else {
             nearbyStationsFragment.setEmptyView(R.string.location_not_found);
             // TODO: listen for location
@@ -497,8 +497,6 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                 Toast.makeText(getApplicationContext(),
                         getApplicationContext().getResources().getString(R.string.connection_error),
                         Toast.LENGTH_SHORT).show();
-                setRefreshActionButtonState(false);
-                refreshLayout.setRefreshing(false);
             } else {
                 /* parse result */
                 boolean stripId = settings.getBoolean(PREF_KEY_STRIP_ID_STATION, false);
@@ -536,13 +534,14 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                             .apply();
                     setDBLastUpdateText();
 
-                    if (ContextCompat.checkSelfPermission(StationsListActivity.this,
-                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        setNearbyStations(stations);
-                    } else if(nearbyStationsFragment.getUserVisibleHint()) {
-                        //Ask permission only if nearbyStationsFragment is currently shown
-                        ActivityCompat.requestPermissions(StationsListActivity.this,
-                            REQUEST_LOC_LIST, REQUEST_LOC_CODE);
+                    if (nearbyStationsFragment.getUserVisibleHint()) {
+                        if (ContextCompat.checkSelfPermission(StationsListActivity.this,
+                                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(StationsListActivity.this,
+                                REQUEST_LOC_LIST, REQUEST_LOC_CODE);
+                        } else {
+                            setNearbyStations();
+                        }
                     }
 
                     tabsPagerAdapter.updateAllStationsListFragment(stations);
@@ -559,9 +558,9 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                     Toast.makeText(StationsListActivity.this,
                             R.string.json_error, Toast.LENGTH_LONG).show();
                 }
-                setRefreshActionButtonState(false);
-                refreshLayout.setRefreshing(false);
             }
+            setRefreshActionButtonState(false);
+            refreshLayout.setRefreshing(false);
         }
     }
 

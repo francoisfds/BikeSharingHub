@@ -100,6 +100,7 @@
     <string name="pref_title_default_tab">Onglet par défaut</string>
     <string name="location_not_granted">Accès à la localisation refusé</string>
     <string name="location_coarse_only">Utilisation de la position approximative due à un manque de permission</string>
+    <string name="location_outdated">Votre position est datée de plus de 10 minutes</string>
     <string name="loc_perm_forbidden">L\'accès à la localisation est refusé.
 \nVous pouvez choisir un autre onglet par défaut pour le démarrage.
 \nSinon, accordez l\'autorisation dans vos paramètres système.</string>

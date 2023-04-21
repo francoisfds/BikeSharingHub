@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015 Bruno Parmentier.
- * Copyright (c) 2020,2022 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020,2022-2023 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -109,7 +109,15 @@ class StationsListAppWidgetFactory implements RemoteViewsService.RemoteViewsFact
             rv.setViewVisibility(R.id.widgetEBikesValue, View.GONE);
         }
         rv.setTextViewText(R.id.widgetFreeBikesValue, String.valueOf(bikes));
-        rv.setTextViewText(R.id.widgetEmptySlotsValue, String.valueOf(mStation.getEmptySlots()));
+        int emptySlots = mStation.getEmptySlots();
+        if (emptySlots != -1) {
+            rv.setViewVisibility(R.id.widgetEmptySlotsLogo, View.VISIBLE);
+            rv.setViewVisibility(R.id.widgetEmptySlotsValue, View.VISIBLE);
+            rv.setTextViewText(R.id.widgetEmptySlotsValue, String.valueOf(emptySlots));
+        } else {
+            rv.setViewVisibility(R.id.widgetEmptySlotsLogo, View.GONE);
+            rv.setViewVisibility(R.id.widgetEmptySlotsValue, View.GONE);
+        }
 
         // Next, we set a fill-intent which will be used to fill-in the pending intent template
         // which is set on the collection view in StationsListAppWidgetProvider.

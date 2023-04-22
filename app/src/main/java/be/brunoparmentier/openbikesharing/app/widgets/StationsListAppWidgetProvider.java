@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015 Bruno Parmentier.
- * Copyright (c) 2022 François FERREIRA DE SOUSA.
+ * Copyright (c) 2022-2023 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -41,6 +41,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import be.brunoparmentier.openbikesharing.app.R;
 import be.brunoparmentier.openbikesharing.app.activities.StationsListActivity;
@@ -60,6 +65,7 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
     private static final String DEFAULT_API_URL = "https://api.citybik.es/v2/";
     private static final String PREF_KEY_API_URL = "pref_api_url";
     private static final String PREF_KEY_DB_LAST_UPDATE = "db_last_update";
+    private static final String PREF_KEY_STRIP_ID_STATION = "pref_strip_id_station";
 
     public static final String EXTRA_ITEM = "be.brunoparmentier.openbikesharing.app.widget.EXTRA_ITEM";
     public static final String EXTRA_REFRESH_LIST_ONLY =
@@ -156,44 +162,71 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
 
     private class JSONDownloadTask extends AsyncTask<String, Void, String> {
 
+        Exception error;
+
         @Override
         protected String doInBackground(String... urls) {
             if (urls.length == 0 || urls[0].isEmpty()) {
+                error = new Exception("No URL to fetch");
                 return null;
             }
-            try {
-                StringBuilder response = new StringBuilder();
-
-                URL url = new URL(urls[0]);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    BufferedReader input = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String strLine;
-                    while ((strLine = input.readLine()) != null) {
-                        response.append(strLine);
+            JSONArray networksArray = new JSONArray();
+            for (int i=0; i<urls.length; i++) {
+                try {
+                    StringBuilder response = new StringBuilder();
+                    URL url = new URL(urls[i]);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                        BufferedReader input = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        String strLine;
+                        while ((strLine = input.readLine()) != null) {
+                            response.append(strLine);
+                        }
+                        input.close();
                     }
-                    input.close();
+                    networksArray.put(new JSONObject(response.toString()));
+                } catch (Exception e) {
+                    Log.e(TAG, urls[i] + ": " + e.getClass().getSimpleName() + " (" + e.getMessage() + ")");
                 }
-                Log.d(TAG, "Stations downloaded");
-                return response.toString();
-            } catch (IOException e) {
-                Log.d(TAG, e.getMessage());
-                return e.getMessage();
             }
+            if(networksArray.length() == 0) {
+                error = new Exception("Unable to fetch any response");
+            }
+            return networksArray.toString();
         }
 
         @Override
         protected void onPostExecute(final String result) {
-            if (result == null) {
-                Log.d(TAG, "Result NOK");
+            if (error != null) {
+                Log.d(TAG, error.getMessage());
             } else {
+                /* parse result */
+                boolean stripId = PreferenceManager.getDefaultSharedPreferences(mContext)
+                    .getBoolean(PREF_KEY_STRIP_ID_STATION, false);
+                stations = null;
                 try {
-                    /* parse result */
-                    BikeNetworkParser bikeNetworkParser = new BikeNetworkParser(result, true);
-                    BikeNetwork bikeNetwork = bikeNetworkParser.getNetwork();
+                    JSONArray rawNetworks = new JSONArray(result);
 
-                    stations = bikeNetwork.getStations();
+                    for (int i = 0; i < rawNetworks.length(); i++) {
+                        JSONObject rawNetwork = rawNetworks.getJSONObject(i);
+                        try{
+                            BikeNetworkParser bikeNetworkParser = new BikeNetworkParser(rawNetwork.toString(), stripId);
 
+                            BikeNetwork bikeNetwork = bikeNetworkParser.getNetwork();
+                            if(stations == null) {
+                                stations = bikeNetwork.getStations();
+                            } else {
+                                stations.addAll(bikeNetwork.getStations());
+                            }
+                        } catch (ParseException e) {
+                            Log.e(TAG, "Error retreiving data of network " + (i+1) + " : " + e.getMessage());
+                        }
+                    }
+                } catch (JSONException e) {
+                        Log.e(TAG, e.getMessage());
+                }
+                if(stations != null) {
+                    Collections.sort(stations);
                     StationsDataSource stationsDataSource = new StationsDataSource(mContext);
                     stationsDataSource.storeStations(stations);
 
@@ -204,9 +237,6 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
                     final AppWidgetManager mgr = AppWidgetManager.getInstance(mContext);
                     final ComponentName cn = new ComponentName(mContext, StationsListAppWidgetProvider.class);
                     mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.widgetStationsList);
-
-                } catch (ParseException e) {
-                    Log.e(TAG, e.getMessage());
                 }
             }
         }

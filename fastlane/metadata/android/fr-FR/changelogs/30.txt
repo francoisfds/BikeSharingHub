@@ -1,4 +1,7 @@
 * Amélioration de l'interface graphique du widget
-* Correction pour synchroniser plus qu'un réseau depuis le widget
+* Correction pour synchroniser plus d'un réseau depuis le widget
 * Récupération de la géolocalisation même si le GPS est la seule méthode disponible
+* Ignorer les caractères accentués dans la recherche des réseaux
+* (Android 11+) Réparation du bouton pour partager la position d'une station vers les applis de navigation
+* Mise à jour des traducations grâce à tous les contributeurs :)
 * Mise à jour des dépendances (osmdroid, androidx)

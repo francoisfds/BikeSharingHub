@@ -1,4 +1,7 @@
 * Improve user interface of the widget
 * Fix fetching more than one networks in the widget
 * Retrieve user location even if GPS is the only available method
+* Ignore accents characters in network's search
+* (Android 11+) Fix non working button to open station's location in navigation apps
+* Update translation thanks to all contributors :)
 * Upgrade dependencies (osmdroid, androidx)

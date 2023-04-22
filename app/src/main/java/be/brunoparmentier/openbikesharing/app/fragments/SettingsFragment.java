@@ -67,7 +67,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         addPreferencesFromResource(R.xml.pref_general);
 
         mPrefs = getPreferenceScreen().getSharedPreferences();
-        setupInstallOpenBikeSharing();
         setupVersionEntry();
     }
 
@@ -75,22 +74,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onAttach (Activity activity) {
         super.onAttach (activity);
         mContext = (Context) activity;
-    }
-
-    private void setupInstallOpenBikeSharing() {
-        //Market link
-        final Preference openBikeSharingPref = findPreference("pref_open_bike_sharing");
-        Intent marketIntent = new Intent(Intent.ACTION_VIEW);
-        marketIntent.setData(Uri.parse("market://details?id=be.brunoparmentier.openbikesharing.app"));
-
-        PackageManager packageManager = getActivity().getPackageManager();
-        List<ResolveInfo> marketActivities =
-                packageManager.queryIntentActivities(marketIntent, 0);
-        boolean isMarketIntentSafe = marketActivities.size() > 0;
-
-        if (isMarketIntentSafe) {
-            openBikeSharingPref.setIntent(marketIntent);
-        }
     }
 
     /* Setup version entry */

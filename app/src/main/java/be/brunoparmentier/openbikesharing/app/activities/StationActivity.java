@@ -334,9 +334,13 @@ public class StationActivity extends Activity {
             case R.id.action_directions:
                 Intent intent = new Intent(Intent.ACTION_VIEW, getStationLocationUri());
                 PackageManager packageManager = getPackageManager();
-                List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
-                boolean isIntentSafe = activities.size() > 0;
-                if (isIntentSafe) {
+                List<ResolveInfo> activities = null;
+                if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                    activities = packageManager.queryIntentActivities(intent, PackageManager.ResolveInfoFlags.of(0));
+                } else {
+                    activities = packageManager.queryIntentActivities(intent, 0);
+                }
+                if (activities != null && activities.size() > 0) {
                     startActivity(intent);
                 } else {
                     Toast.makeText(this, getString(R.string.no_nav_application), Toast.LENGTH_LONG).show();

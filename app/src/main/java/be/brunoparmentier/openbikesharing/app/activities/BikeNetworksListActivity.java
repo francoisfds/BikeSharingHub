@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2021-2022 François FERREIRA DE SOUSA.
+ * Copyright (c) 2021-2023 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -44,6 +44,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -160,6 +161,11 @@ public class BikeNetworksListActivity extends Activity {
         return true;
     }
 
+    private String normalize(String str) {
+        return Normalizer.normalize(str, Normalizer.Form.NFD)
+            .replaceAll("\\p{InCombiningDiacriticalMarks}+|\\s|'|-|_", "").toLowerCase();
+    }
+
     private void RefreshAdapter(String textCondition) {
         if(BikeNetworksHashMap == null) {
             BikeNetworksHashMap = new HashMap<String, BikeNetworkInfo>();
@@ -167,8 +173,8 @@ public class BikeNetworksListActivity extends Activity {
         ArrayList<BikeNetworkInfo> filteredBikeNetworks = new ArrayList<>();
         int networksToKeepNb = 0;
         for (BikeNetworkInfo network : BikeNetworksHashMap.values()) {
-            if (textCondition == null || (network.getName().toLowerCase().contains(textCondition.toLowerCase())
-                    || network.getLocationName().toLowerCase().contains(textCondition.toLowerCase()))) {
+            if (textCondition == null || normalize(network.getLocationName()).contains(normalize(textCondition))
+                    || normalize(network.getName()).contains(normalize(textCondition))) {
                 filteredBikeNetworks.add(network);
                 if (savedNetworksList.contains(network.getId())) {
                     Collections.swap(filteredBikeNetworks, filteredBikeNetworks.indexOf(network), networksToKeepNb);

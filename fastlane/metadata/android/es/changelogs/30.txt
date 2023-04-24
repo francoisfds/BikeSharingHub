@@ -1,4 +1,7 @@
-* Mejorar la interfaz de usuario del widget
-* Arreglar la obtención de más de una red en el widget
+* Mejorada la interfaz del usuario del widget
+* Arreglada la obtención de varias redes en el widget
 * Recuperar la ubicación del usuario incluso si el GPS es el único método disponible
+* Ignorar las caracteres de los acentos en la búsqueda de la red
+* (Android 11+) Corrija el botón que no funciona para abrir la ubicación de la estación en las aplicaciones de navegación
+* Actualización de la traducción gracias a todos los colaboradores :)
 * Dependencias de actualización (osmdroid, androidx)

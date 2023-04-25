@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="6dp"
-        android:background="@android:drawable/screen_background_dark_transparent">
+        android:background="@android:color/background_dark">
 
         <TextView
             android:id="@+id/widgetTitle"

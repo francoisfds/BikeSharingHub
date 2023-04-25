@@ -1,5 +1,6 @@
 <!--
   ~ Copyright (c) 2015 Bruno Parmentier.
+  ~ Copyright (c) 2023 François FERREIRA DE SOUSA.
   ~
   ~ This file is part of BikeSharingHub.
   ~ BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -52,6 +53,15 @@
             android:src="@drawable/ic_menu_refresh" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/WidgetDbLastUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/background_light"
+        android:gravity="center" />
 
     <ListView
         android:id="@+id/widgetStationsList"

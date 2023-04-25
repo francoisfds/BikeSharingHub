@@ -31,6 +31,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -39,6 +40,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,6 +79,7 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.d(TAG, "onUpdate");
+        mContext = context;
 
         // update each of the widgets with the remote adapter
         for (int appWidgetId : appWidgetIds) {
@@ -112,6 +115,20 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
                     openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             rv.setOnClickPendingIntent(R.id.widgetTitle, openAppPendingIntent);
 
+            /* Set last checked time from database */
+            long dbLastUpdate = PreferenceManager.getDefaultSharedPreferences(context)
+                .getLong(PREF_KEY_DB_LAST_UPDATE, -1);
+
+            if (dbLastUpdate == -1) {
+                rv.setTextViewText(R.id.WidgetDbLastUpdate,
+                    String.format(context.getString(R.string.db_last_update),
+                    context.getString(R.string.db_last_update_never)));
+            } else {
+                rv.setTextViewText(R.id.WidgetDbLastUpdate, String.format(context.getString(R.string.db_last_update),
+                    DateUtils.formatSameDayTime(dbLastUpdate, System.currentTimeMillis(),
+                            DateFormat.DEFAULT, DateFormat.DEFAULT)));
+            }
+
             appWidgetManager.updateAppWidget(appWidgetId, rv);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -142,6 +159,9 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
                 final AppWidgetManager mgr = AppWidgetManager.getInstance(mContext);
                 final ComponentName cn = new ComponentName(mContext, StationsListAppWidgetProvider.class);
                 mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.widgetStationsList);
+
+                /* Update all views */
+                StationsListAppWidgetProvider.this.onUpdate(mContext, mgr, mgr.getAppWidgetIds(cn));
             } else {
                 /* Download new data then update widget list */
                 NetworksDataSource networksDataSource = new NetworksDataSource(context);
@@ -237,6 +257,9 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
                     final AppWidgetManager mgr = AppWidgetManager.getInstance(mContext);
                     final ComponentName cn = new ComponentName(mContext, StationsListAppWidgetProvider.class);
                     mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.widgetStationsList);
+
+                    /* Update all views */
+                    StationsListAppWidgetProvider.this.onUpdate(mContext, mgr, mgr.getAppWidgetIds(cn));
                 }
             }
         }

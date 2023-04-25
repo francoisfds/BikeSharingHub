@@ -33,6 +33,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import java.io.BufferedReader;
@@ -85,6 +86,8 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.app_widget);
 
+            rv.setViewVisibility(R.id.widgetRefreshButton, View.VISIBLE);
+
             // The empty view is displayed when the collection has no items. It should be a sibling
             // of the collection view.
             rv.setEmptyView(R.id.widgetStationsList, R.id.widgetEmptyView);
@@ -101,7 +104,8 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
             // Click on the refresh button updates the stations
             final Intent refreshIntent = new Intent(context, StationsListAppWidgetProvider.class);
             refreshIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            final PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 0,
+            refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+            final PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, appWidgetId,
                     refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             rv.setOnClickPendingIntent(R.id.widgetRefreshButton, refreshPendingIntent);
 
@@ -154,15 +158,21 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
         mContext = context;
 
         if (intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
+            final AppWidgetManager mgr = AppWidgetManager.getInstance(mContext);
+            final ComponentName cn = new ComponentName(mContext, StationsListAppWidgetProvider.class);
             if (intent.getBooleanExtra(EXTRA_REFRESH_LIST_ONLY, false)) {
                 /* Update widget list with data from database */
-                final AppWidgetManager mgr = AppWidgetManager.getInstance(mContext);
-                final ComponentName cn = new ComponentName(mContext, StationsListAppWidgetProvider.class);
                 mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.widgetStationsList);
 
                 /* Update all views */
                 StationsListAppWidgetProvider.this.onUpdate(mContext, mgr, mgr.getAppWidgetIds(cn));
             } else {
+                /* Hide the refresh button to show feedback */
+                RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.app_widget);
+                rv.setViewVisibility(R.id.widgetRefreshButton, View.GONE);
+                int widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
+                mgr.partiallyUpdateAppWidget(widgetId, rv);
+
                 /* Download new data then update widget list */
                 NetworksDataSource networksDataSource = new NetworksDataSource(context);
                 ArrayList<String> networksId = networksDataSource.getNetworksId();
@@ -217,6 +227,8 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
 
         @Override
         protected void onPostExecute(final String result) {
+            final AppWidgetManager mgr = AppWidgetManager.getInstance(mContext);
+            final ComponentName cn = new ComponentName(mContext, StationsListAppWidgetProvider.class);
             if (error != null) {
                 Log.d(TAG, error.getMessage());
             } else {
@@ -254,14 +266,11 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
                             .putLong(PREF_KEY_DB_LAST_UPDATE, System.currentTimeMillis())
                             .apply();
 
-                    final AppWidgetManager mgr = AppWidgetManager.getInstance(mContext);
-                    final ComponentName cn = new ComponentName(mContext, StationsListAppWidgetProvider.class);
                     mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.widgetStationsList);
-
-                    /* Update all views */
-                    StationsListAppWidgetProvider.this.onUpdate(mContext, mgr, mgr.getAppWidgetIds(cn));
                 }
             }
+            /* Update all views anyway */
+            StationsListAppWidgetProvider.this.onUpdate(mContext, mgr, mgr.getAppWidgetIds(cn));
         }
     }
 }

@@ -109,5 +109,5 @@
     <string name="map_cache_cleaning_done">Harita önbelleğinin temizlenmesi tamamlandı</string>
     <string name="pref_map_tiles_cache_max_size_title">Şunu aşarsa harita önbelleğini temizle</string>
     <string name="location_coarse_only">İzin eksikliği nedeniyle yaklaşık konum kullanılıyor</string>
-    <string name="location_outdated">Konumunuz 10 dakikadan daha eski</string>
+    <string name="location_outdated">Konumunuz %1$s dakikadan daha eski</string>
 </resources>

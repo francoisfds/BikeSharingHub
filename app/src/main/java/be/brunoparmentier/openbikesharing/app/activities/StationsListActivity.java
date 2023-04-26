@@ -444,10 +444,11 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                 }
             });
             tabsPagerAdapter.updateNearbyStationsFragment(nearbyStations);
-            if (nearbyStations.size() != 0 && ((System.currentTimeMillis() - userLocation.getTime()) > 600000)) {
+            int locationMinutes = (int) ((System.currentTimeMillis() - userLocation.getTime())/60000);
+            if (nearbyStations.size() != 0 && locationMinutes > 10) {
                 Toast.makeText(getApplicationContext(),
-                        getApplicationContext().getResources().getString(R.string.location_outdated),
-                        Toast.LENGTH_SHORT).show();
+                        getApplicationContext().getResources().getString(R.string.location_outdated,
+                        locationMinutes),Toast.LENGTH_SHORT).show();
             }
         } else {
             nearbyStationsFragment.setEmptyView(R.string.location_not_found);

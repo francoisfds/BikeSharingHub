@@ -86,6 +86,6 @@
     <string name="pref_map_tiles_cache_size_hint">Cijeli broj između %1$s i %2$s</string>
     <string name="pref_map_tiles_cache_max_size_summary">%1$s MB (aktualna količina predmemorije: %2$s MB)</string>
     <string name="pref_map_tiles_cache_trim_size_summary">%1$s MB</string>
-    <string name="location_outdated">Tvoja je lokacija starija od 10 minuta</string>
+    <string name="location_outdated">Tvoja je lokacija starija od %1$s minuta</string>
     <string name="location_coarse_only">Korištenje grubog određivanja lokacije zbog nedostatka dozvola</string>
 </resources>

@@ -50,7 +50,7 @@
     <string name="location_not_found">Location not found</string>
     <string name="location_not_granted">Location access denied</string>
     <string name="location_coarse_only">Using coarse location due to lack of permission</string>
-    <string name="location_outdated">Your location is more than 10 minutes old</string>
+    <string name="location_outdated">Your location is more than %1$s minutes old</string>
     <string name="network_selected">selected</string>
     <string name="bike_network_downloading">Please wait while bike network is being downloaded</string>
     <string name="map_cache_cleaning_started">Cleaning of map cache is in progress and may take a while</string>
@@ -97,7 +97,7 @@
     <string name="pref_title_license">License</string>
     <string name="pref_title_license_message" translatable="false">
         BikeSharingHub
-        \nCopyright © 2020-2023 François FERREIRA DE SOUSA
+        \nCopyright © 2020-2023 François FERREIRA DE SOUSA and contributors
         \nThis program incorporates a modified version of OpenBikeSharing
         \nCopyright © 2014-2015 Bruno Parmentier\n
 

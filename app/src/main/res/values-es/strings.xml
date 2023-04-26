@@ -111,6 +111,6 @@
     <string name="pref_map_tiles_cache_max_size_title">Limpiar la caché de los mapas si se sobrepasa</string>
     <string name="pref_map_tiles_cache_max_size_summary">%1$s MB (tamaño de caché actual: %2$s MB)</string>
     <string name="pref_map_tiles_cache_trim_size_title">La limpieza reduce la caché del mapa a</string>
-    <string name="location_outdated">Tu ubicación tiene más de 10 minutos</string>
+    <string name="location_outdated">Tu ubicación tiene más de %1$s minutos</string>
     <string name="location_coarse_only">Uso de una ubicación aproximada debido a la falta de permisos</string>
 </resources>

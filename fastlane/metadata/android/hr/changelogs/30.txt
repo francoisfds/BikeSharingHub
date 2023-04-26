@@ -1,4 +1,7 @@
 * Poboljšano korisničko sučelje widgeta
 * Ispravljeno dohvaćanja više od jedne mreže u widgetu
 * Dohvaćanje lokacije korisnika čak i ako je GPS jedina dostupna metoda
+* Zanemari znakove s naglascima u pretraživanju mreže
+* (Android 11+) Ispravljen gumb koji nije radio za otvaranje lokacije stanice u aplikacijama za navigaciju
+* Aktualiziran prijevod zahvaljujući svim doprinostieljima :)
 * Nadograđene ovisnosti (osmdroid, androidx)

@@ -20,7 +20,7 @@
     <string name="welcome_dialog_cancel">取消</string>
     <string name="welcome_dialog_title">欢迎</string>
     <string name="location_not_found">找不到位置</string>
-    <string name="network_selected">已选取</string>
+    <string name="network_selected">已选中</string>
     <string name="bike_network_downloading">请等待单车网络下载完毕</string>
     <string name="widget_title_favorite_stations">收藏中的单车站</string>
     <string name="widget_no_fav_stations">没有收藏单车站</string>
@@ -60,13 +60,20 @@
     <string name="pref_title_openstreetmap">OpenStreetMap</string>
     <string name="pref_title_version">版本</string>
     <string name="pref_map_layer_title">地图图层</string>
-    <string name="pref_title_strip_station_id">移除单车站编码</string>
+    <string name="pref_title_strip_station_id">移除单车站ID编码</string>
     <string name="pref_title_strip_station_id_summary">从单车站名移除编码（仅适用于部分网络）</string>
     <string name="pref_title_advanced">高级</string>
     <string name="pref_title_api_url">API URL</string>
     <string name="pref_title_default_tab">默认分页</string>
-    <string name="loc_perm_forbidden"/>
+    <string name="loc_perm_forbidden">地点无法获取.
+\n你可以选择另一个默认页栏
+\n或者在系统设置中赋予权限</string>
     <string name="pref_title_fork"/>
     <string name="location_not_granted">地点获取被拒绝</string>
-    <string name="free_ebikes"/>
+    <string name="free_ebikes">电动单车: </string>
+    <string name="pref_title_bike_networks_list_summary_multiple_selection">%d 已选中</string>
+    <string name="location_coarse_only">使用粗略定位，无精确定位权限</string>
+    <string name="map_cache_cleaning_started">等待直至地图缓存清理完成</string>
+    <string name="location_outdated">您的位置已过时 %1$s 分钟</string>
+    <string name="map_cache_cleaning_done">已清理地图缓存</string>
 </resources>

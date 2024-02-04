@@ -1,0 +1,7 @@
+* Widget'ın kullanıcı arayüzü iyileştirildi
+* Widget'ta birden fazla ağın getirilmesi düzeltildi
+* GPS kullanılabilir tek yöntem olsa bile kullanıcı konumunu al
+* Ağ aramasında aksan karakterlerini yok say
+* (Android 11+) Navigasyon uygulamalarında istasyonun konumunu açmak için çalışmayan düğme düzeltildi
+* Çeviriler güncellendi, katkıda bulunan herkese teşekkürler :)
+* Bağımlılıklar yükseltildi (osmdroid, androidx)

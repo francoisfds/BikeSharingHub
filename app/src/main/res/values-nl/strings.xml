@@ -11,7 +11,7 @@
     <string name="action_search">Zoeken</string>
     <string name="title_activity_stations_list">Stallingen</string>
     <string name="title_activity_station">Stalling</string>
-    <string name="title_activity_networks_list">Kies een netwerk</string>
+    <string name="title_activity_networks_list">Netwerkselectie</string>
     <string name="title_activity_map">Kaart</string>
     <string name="title_activity_settings">Instellingen</string>
     <string name="welcome_dialog_message">Kies een fietsnetwerk uit de lijst.
@@ -53,7 +53,7 @@
         <item quantity="other">%d dagen geleden</item>
     </plurals>
     <string name="pref_header_general">Algemeen</string>
-    <string name="pref_title_bike_networks_list">Kies een netwerk</string>
+    <string name="pref_title_bike_networks_list">Netwerkselectie</string>
     <string name="pref_title_license">Licentie</string>
     <string name="pref_title_about">Over</string>
     <string name="pref_title_source_code">Broncode</string>
@@ -68,8 +68,21 @@
     <string name="pref_title_advanced">Geavanceerd</string>
     <string name="pref_title_api_url">API-url</string>
     <string name="pref_title_default_tab">Standaard tabblad</string>
-    <string name="location_not_granted"></string>
-    <string name="pref_title_fork"></string>
-    <string name="free_ebikes"></string>
-    <string name="loc_perm_forbidden"></string>
+    <string name="location_not_granted">Locatietoegang geweigerd</string>
+    <string name="pref_title_fork">Fork van</string>
+    <string name="free_ebikes">Elektrische fietsen </string>
+    <string name="loc_perm_forbidden">Locatietoegang geweigerd.
+\nJe kan een ander standaardtabblad kiezen om op te starten.
+\nGeef anders toestemming in je systeeminstellingen.</string>
+    <string name="location_outdated">Je lactatie is meer dan %1$s minuten oud</string>
+    <string name="map_cache_cleaning_started">Opschonen van kaartcache in behandeling gang en kan even duren</string>
+    <string name="map_cache_cleaning_done">Opschonen van kaartcache voltooid</string>
+    <string name="pref_title_bike_networks_list_summary_none">Geen</string>
+    <string name="pref_title_bike_networks_list_summary_multiple_selection">%d geselecteerd</string>
+    <string name="location_coarse_only">Gebruik van grove locatie vanwege gebrek aan toestemming</string>
+    <string name="pref_map_tiles_cache_max_size_title">Schoon de kaartcache op als deze groter is dan</string>
+    <string name="pref_map_tiles_cache_max_size_summary">%1$s MB (huidige cachegrootte: %2$s MB)</string>
+    <string name="pref_map_tiles_cache_trim_size_title">Opschonen brengt de kaartcache terug naar</string>
+    <string name="pref_map_tiles_cache_trim_size_summary">%1$s MB</string>
+    <string name="pref_map_tiles_cache_size_hint">Geheel getal tussen %1$s en %2$s</string>
 </resources>

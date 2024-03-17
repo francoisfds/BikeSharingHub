@@ -1,0 +1,9 @@
+<p>
+BikeSharingHub toont de beschikbaarheid van gedeelde fietsen in honderden steden binnen dezelfde applicatie.
+</p>
+<p>
+Gegevens worden opgehaald uit de CityBik.es API, die open data verzamelt die wordt verstrekt door de beschikbare exploitanten van gedeelde fietsen. Deze API is open-source en de applicatie staat toe om een andere API-URL dan de standaard in te stellen.
+</p>
+<p>
+Het is gebaseerd op de OpenBikeSharing-applicatie (repo "F-Droid Archive").
+</p>

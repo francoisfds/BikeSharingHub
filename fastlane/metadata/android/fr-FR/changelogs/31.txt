@@ -1,0 +1,7 @@
+* Affichage du nombre exact de vélos dans les marqueurs sur la carte
+* Affichage du nom du réseau dans les détails de la station
+* Meilleure mise à l'échelle du zoom sur la carte
+* Cible Android 14 (supporte encore Android 4)
+* Mise à jour de la version osmdroid (ajoute le zoom à 1 doigt)
+* Amélioration des traductions pour l'allemand, le chinois, le néerlandais et le turc (merci aux contributeurs)
+* Corrections de bug

@@ -1,0 +1,7 @@
+* Display extact number of bikes in the markers on the map
+* Display network's name in the station's details
+* Better scaling of zoom on the map
+* Target Android 14 (still supporting Android 4)
+* Upgrade osmdroid version (adds one-finger zoom)
+* Improve translation for German, Chinese, Dutch, Turkish (many thanks to the contributors)
+* Bug Fixes

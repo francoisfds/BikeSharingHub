@@ -1,0 +1,7 @@
+* Haritadaki işaretçilerde tam bisiklet sayısını göster
+* İstasyonun ayrıntılarında ağın adını görüntüle
+* Harita üzerinde daha iyi yakınlaştırma ölçeklendirmesi
+* Android 14 hedeflendi ( Android 4 hala desteklenir)
+* osmdroid sürümü yükseltildi (tek parmakla yakınlaştırma eklendi)
+* Almanca, Çince, Felemenkçe ve Türkçe çeviriler iyileştirildi (katkıda bulunanlara çok teşekkürler)
+* Hata düzeltmeleri

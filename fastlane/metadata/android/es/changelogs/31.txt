@@ -1,0 +1,7 @@
+* Mostrar el número exacto de bicicletas en los marcadores del mapa.
+* Mostrar el nombre de la red en los detalles de la estación
+* Mejor escalado del zoom en el mapa
+* Objetivo Android 14 (aún compatible con Android 4)
+* Actualización de la versión osmdroid (añade zoom con un dedo)
+* Mejora de la traducción al alemán, chino, holandés y turco (muchas gracias a los colaboradores)
+* Corrección de errores

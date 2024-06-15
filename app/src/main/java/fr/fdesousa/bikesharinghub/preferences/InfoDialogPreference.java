@@ -18,22 +18,25 @@
  * along with BikeSharingHub.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package fr.fdesousa.bikesharinghub.preferences;
 
-buildscript {
-    repositories {
-        mavenCentral()
-        google()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.4.1'
-    }
-}
+import android.app.AlertDialog;
+import android.content.Context;
+import android.preference.DialogPreference;
+import android.util.AttributeSet;
 
-allprojects {
-    repositories {
-        mavenCentral()
-        google()
-        maven { url "https://jitpack.io" }
+/**
+ * Custom DialogPreference class without negative button.
+ */
+public class InfoDialogPreference extends DialogPreference {
+
+    public InfoDialogPreference(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    @Override
+    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+        super.onPrepareDialogBuilder(builder);
+        builder.setNegativeButton(null, null);
     }
 }

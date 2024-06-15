@@ -22,7 +22,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 33
+    compileSdk 33
+    namespace "fr.fdesousa.bikesharinghub"
 
     defaultConfig {
         applicationId "fr.fdesousa.bikesharinghub"
@@ -31,6 +32,10 @@ android {
         versionCode 30
         versionName "2.1.1"
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -44,10 +49,10 @@ android {
             }
         }
     }
-
-    lintOptions {
+    lint {
         abortOnError false
     }
+
 }
 
 dependencies {

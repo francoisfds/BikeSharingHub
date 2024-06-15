@@ -18,22 +18,11 @@
  * along with BikeSharingHub.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package fr.fdesousa.bikesharinghub.models;
 
-buildscript {
-    repositories {
-        mavenCentral()
-        google()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.4.1'
-    }
-}
-
-allprojects {
-    repositories {
-        mavenCentral()
-        google()
-        maven { url "https://jitpack.io" }
-    }
+/**
+ * Station status
+ */
+public enum StationStatus {
+    OPEN, CLOSED
 }

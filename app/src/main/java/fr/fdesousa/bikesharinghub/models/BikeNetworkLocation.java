@@ -18,22 +18,39 @@
  * along with BikeSharingHub.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package fr.fdesousa.bikesharinghub.models;
 
-buildscript {
-    repositories {
-        mavenCentral()
-        google()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.4.1'
-    }
-}
+import java.io.Serializable;
 
-allprojects {
-    repositories {
-        mavenCentral()
-        google()
-        maven { url "https://jitpack.io" }
+/**
+ * Represents the location of a bike network.
+ */
+public class BikeNetworkLocation implements Serializable {
+    private double latitude;
+    private double longitude;
+    private String city;
+    private String country;
+
+    public BikeNetworkLocation(double latitude, double longitude, String city, String country) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.country = country;
+        this.city = city;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
     }
 }

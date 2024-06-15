@@ -28,7 +28,7 @@ import android.text.Spanned;
 import android.view.View;
 import android.widget.EditText;
 
-import be.brunoparmentier.openbikesharing.app.R;
+import fr.fdesousa.bikesharinghub.R;
 
 public class CacheSizeEditTextPreference extends EditTextPreference {
 

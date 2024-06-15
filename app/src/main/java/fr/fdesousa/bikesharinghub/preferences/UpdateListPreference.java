@@ -18,22 +18,30 @@
  * along with BikeSharingHub.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package fr.fdesousa.bikesharinghub.preferences;
 
-buildscript {
-    repositories {
-        mavenCentral()
-        google()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.4.1'
-    }
-}
+import android.content.Context;
+import android.preference.ListPreference;
+import android.util.AttributeSet;
 
-allprojects {
-    repositories {
-        mavenCentral()
-        google()
-        maven { url "https://jitpack.io" }
+/**
+ * On some versions of Android (4.2?), the default ListPreference view doesn't update when summary
+ * changes.
+ * cf. https://code.google.com/p/android/issues/detail?id=27867
+ */
+public class UpdateListPreference extends ListPreference {
+
+    public UpdateListPreference(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public UpdateListPreference(Context context) {
+        super(context);
+    }
+
+    @Override
+    public void setValue(String value) {
+        super.setValue(value);
+        notifyChanged();
     }
 }

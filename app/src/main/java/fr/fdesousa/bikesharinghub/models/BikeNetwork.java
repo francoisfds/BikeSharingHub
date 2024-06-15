@@ -1,7 +1,8 @@
 /*
- * Copyright (c) 2022-2023 François FERREIRA DE SOUSA.
+ * Copyright (c) 2014-2015 Bruno Parmentier.
  *
  * This file is part of BikeSharingHub.
+ * BikeSharingHub incorporates a modified version of OpenBikeSharing
  *
  * BikeSharingHub is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,37 +17,23 @@
  * You should have received a copy of the GNU General Public License
  * along with BikeSharingHub.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.fdesousa.bikesharinghub.models;
 
-import android.app.Application;
-import androidx.lifecycle.AndroidViewModel;
+package fr.fdesousa.bikesharinghub.models;
 
 import java.util.ArrayList;
 
-import fr.fdesousa.bikesharinghub.db.StationsDataSource;
-
-public class StationsListViewModel extends AndroidViewModel {
-
+/**
+ * Represents a bike network and its stations.
+ */
+public class BikeNetwork extends BikeNetworkInfo {
     private ArrayList<Station> stations;
-    private StationsDataSource stationsDataSource;
 
-    public StationsListViewModel(Application application) {
-        super(application);
-        stationsDataSource = new StationsDataSource(application);
+    public BikeNetwork(String id, String name, String company, BikeNetworkLocation location, ArrayList<Station> stations) {
+        super(id, name, company, location);
+        this.stations = stations;
     }
 
     public ArrayList<Station> getStations() {
-        if(stations == null) {
-            stations = stationsDataSource.getStations();
-        }
         return stations;
-   }
-
-    public ArrayList<Station> getFavoriteStations() {
-        if(stations == null) {
-            stations = stationsDataSource.getFavoriteStations();
-        }
-        return stations;
-   }
-
+    }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2014-2015 Bruno Parmentier.
-  ~ Copyright (c) 2021-2022 François FERREIRA DE SOUSA.
+  ~ Copyright (c) 2021-2022,2024 François FERREIRA DE SOUSA.
   ~
   ~ This file is part of BikeSharingHub.
   ~ BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -26,11 +26,11 @@
         android:key="choose_network"
         android:title="@string/pref_title_bike_networks_list">
         <intent
-            android:targetClass="be.brunoparmentier.openbikesharing.app.activities.BikeNetworksListActivity"
+            android:targetClass="fr.fdesousa.bikesharinghub.activities.BikeNetworksListActivity"
             android:targetPackage="fr.fdesousa.bikesharinghub" />
     </Preference>
 
-    <be.brunoparmentier.openbikesharing.app.preferences.UpdateListPreference
+    <fr.fdesousa.bikesharinghub.preferences.UpdateListPreference
         android:defaultValue="@string/pref_default_map_layer_value"
         android:dialogTitle="@string/pref_map_layer_title"
         android:entries="@array/pref_map_layer_entries"
@@ -39,7 +39,7 @@
         android:summary="%s"
         android:title="@string/pref_map_layer_title" />
 
-    <be.brunoparmentier.openbikesharing.app.preferences.UpdateListPreference
+    <fr.fdesousa.bikesharinghub.preferences.UpdateListPreference
         android:defaultValue="0"
         android:dialogTitle="@string/pref_title_default_tab"
         android:entries="@array/pref_default_tab_entries"
@@ -94,7 +94,7 @@
             android:title="@string/pref_title_fork">
         </Preference>
 
-        <be.brunoparmentier.openbikesharing.app.preferences.InfoDialogPreference
+        <fr.fdesousa.bikesharinghub.preferences.InfoDialogPreference
             android:dialogMessage="@string/pref_title_license_message"
             android:dialogTitle="@string/pref_title_license"
             android:summary="GPL-3.0-or-later"

@@ -22,13 +22,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 33
+    compileSdk 34
     namespace "fr.fdesousa.bikesharinghub"
 
     defaultConfig {
         applicationId "fr.fdesousa.bikesharinghub"
         minSdkVersion 14
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 30
         versionName "2.1.1"
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
@@ -58,10 +58,13 @@ android {
 dependencies {
     implementation 'org.osmdroid:osmdroid-android:6.1.13'
     implementation 'com.github.MKergall:osmbonuspack:6.5.2'
-    implementation 'androidx.core:core:1.9.0'
-    implementation 'androidx.fragment:fragment:1.5.5'
+    implementation 'androidx.core:core:1.12.0'
+    implementation 'androidx.fragment:fragment:1.6.2'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.viewpager:viewpager:1.0.0'
-    implementation 'androidx.fragment:fragment:1.5.5'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.6.2'
+    constraints {
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10'
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10'
+    }
 }

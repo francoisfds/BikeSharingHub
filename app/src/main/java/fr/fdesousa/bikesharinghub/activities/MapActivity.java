@@ -62,6 +62,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.gestures.OneFingerZoomOverlay;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
@@ -155,8 +156,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         map.invalidate();
 
         map.getOverlays().add(new CopyrightOverlay(context));
+        map.getOverlays().add(new OneFingerZoomOverlay());
+        map.setTilesScaledToDpi(true);
         map.setMultiTouchControls(true);
-        map.setBuiltInZoomControls(true);
         map.setMinZoomLevel(Double.valueOf(3));
 
         /* map tile source */

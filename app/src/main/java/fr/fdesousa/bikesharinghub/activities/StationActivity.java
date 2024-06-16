@@ -51,6 +51,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.gestures.OneFingerZoomOverlay;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -165,6 +166,7 @@ public class StationActivity extends Activity {
                 break;
         }
 
+        map.setTilesScaledToDpi(true);
         map.setMultiTouchControls(true);
 
         /* Station marker */
@@ -201,6 +203,7 @@ public class StationActivity extends Activity {
 
         map.getOverlays().add(marker);
         map.getOverlays().add(new CopyrightOverlay(context));
+        map.getOverlays().add(new OneFingerZoomOverlay());
 
         TextView stationName = (TextView) findViewById(R.id.stationName);
         TextView stationEmptySlots = (TextView) findViewById(R.id.stationEmptySlots);

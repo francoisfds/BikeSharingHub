@@ -69,10 +69,18 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/stationLastUpdate"
+                android:id="@+id/stationNetwork"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/stationAddress"
+                android:text=""
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/stationLastUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/stationNetwork"
                 android:text="last udpate"
                 android:visibility="visible" />
 

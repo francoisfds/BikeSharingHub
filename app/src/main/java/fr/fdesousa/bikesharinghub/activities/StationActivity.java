@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import fr.fdesousa.bikesharinghub.db.NetworksDataSource;
 import fr.fdesousa.bikesharinghub.db.StationsDataSource;
 import fr.fdesousa.bikesharinghub.models.Station;
 import fr.fdesousa.bikesharinghub.models.StationStatus;
@@ -85,6 +86,7 @@ public class StationActivity extends Activity {
     private IMapController mapController;
     private MenuItem favStar;
     private StationsDataSource stationsDataSource;
+    private NetworksDataSource networksDataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,7 @@ public class StationActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         stationsDataSource = new StationsDataSource(this);
+        networksDataSource = new NetworksDataSource(this);
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -219,6 +222,10 @@ public class StationActivity extends Activity {
         } else {
             stationEmptySlots.setText(String.valueOf(station.getEmptySlots()));
         }
+
+        TextView stationNetwork = (TextView) findViewById(R.id.stationNetwork);
+        String networkName = networksDataSource.getNetworkInfoFromId(station.getNetworkId()).getName();
+        stationNetwork.setText(networkName);
 
         if (station.getAddress() != null) {
             TextView stationAddress = (TextView) findViewById(R.id.stationAddress);

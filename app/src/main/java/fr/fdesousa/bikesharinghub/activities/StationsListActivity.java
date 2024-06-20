@@ -225,7 +225,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_LOC_CODE:
-                if (grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length == 2 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     setNearbyStations();
                 } else if(!ActivityCompat.shouldShowRequestPermissionRationale(
                         this, Manifest.permission.ACCESS_FINE_LOCATION)) {

@@ -131,9 +131,11 @@ public class BikeNetworkParser {
                                         || status.equals("CLS")
                                         || status.equals("1")
                                         || status.equals("OFFLINE")
+                                        || status.equals("RÉFORMÉ")
                                         || status.equals("PLANNED")
                                         || status.equals("UNDER CONSTRUCTION")
                                         || status.equals("EN MAINTENANCE")
+                                        || status.equals("IN_MAINTENANCE")
                                         || status.equals("MAINTENANCE")
                                         || status.equals("MAINTENANCE/IMPLEMENTATION")
                                 ) {

@@ -28,8 +28,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -40,6 +46,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -187,22 +195,59 @@ public class StationActivity extends Activity {
         int emptySlots = station.getEmptySlots();
         int freeBikes = station.getFreeBikes();
 
-        if ((emptySlots == 0 && freeBikes == 0) || station.getStatus() == StationStatus.CLOSED) {
-            marker.setIcon(getResources().getDrawable(R.drawable.ic_station_marker_unavailable));
+        Context mContext = this.getApplicationContext();
+        Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.ic_station_marker);
+        float freeBikesRatio = (float) freeBikes / (float) (freeBikes + emptySlots);
+        float mTextAnchorU = Marker.ANCHOR_CENTER, mTextAnchorV = Marker.ANCHOR_CENTER;
+
+        Bitmap finalIcon = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(finalIcon);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        Paint firstPaint = new Paint();
+
+        if(freeBikes == 0) {
+            firstPaint.setColor(Color.WHITE);
+            canvas.drawCircle(mTextAnchorU * finalIcon.getWidth(), mTextAnchorV * finalIcon.getHeight(), finalIcon.getHeight()/2f, firstPaint);
         } else {
-            double ratio = (double) freeBikes / (double) (freeBikes + emptySlots);
-            if (freeBikes == 0) {
-                marker.setIcon(getResources().getDrawable(R.drawable.ic_station_marker0));
-            } else if (freeBikes >= 1 && ratio <= 0.3) {
-                marker.setIcon(getResources().getDrawable(R.drawable.ic_station_marker25));
-            } else if (ratio > 0.3 && ratio < 0.7) {
-                marker.setIcon(getResources().getDrawable(R.drawable.ic_station_marker50));
-            } else if (ratio >= 0.7 && emptySlots >= 1) {
-                marker.setIcon(getResources().getDrawable(R.drawable.ic_station_marker75));
-            } else if (emptySlots == 0 || emptySlots == -1) {
-                marker.setIcon(getResources().getDrawable(R.drawable.ic_station_marker100));
-            }
+            float sweepAngle = 360f * freeBikesRatio;
+            RectF oval = new RectF(0, 0, finalIcon.getWidth(), finalIcon.getHeight());
+            RectF ovalInt = new RectF(0.1f * finalIcon.getWidth(), 0.1f * finalIcon.getHeight(), finalIcon.getWidth() * 0.9f, finalIcon.getHeight() * 0.9f);
+            firstPaint.setColor(Color.BLACK);
+            canvas.drawArc(oval, -91, 2, true, firstPaint);
+            canvas.drawArc(oval, -90 + sweepAngle - 2, 3, true, firstPaint);
+            firstPaint.setColor(getResources().getColor(R.color.bike_red));
+            //fill in the gauge
+            canvas.drawArc(oval, -88, sweepAngle - 3, true, firstPaint);
+            firstPaint.setColor(Color.BLACK);
+            //inner contour of the gauge
+            canvas.drawArc(ovalInt, -88, sweepAngle - 3, true, firstPaint);
+            firstPaint.setColor(Color.WHITE);
+            //fill what's left of the gauge
+            canvas.drawArc(oval, -90 + sweepAngle + 1, 360 - sweepAngle - 2, true, firstPaint);
+            canvas.drawCircle(mTextAnchorU * finalIcon.getWidth(), mTextAnchorV * finalIcon.getHeight(), finalIcon.getHeight() / 2.65f, firstPaint);
         }
+        if ((emptySlots == 0 && freeBikes == 0) || station.getStatus() == StationStatus.CLOSED) {
+            firstPaint.setColor(Color.BLACK);
+            firstPaint.setStrokeWidth(4);
+            canvas.drawLine(0.15f*finalIcon.getWidth(), 0.15f*finalIcon.getHeight(), 0.85f*finalIcon.getWidth(), 0.85f*finalIcon.getHeight(), firstPaint);
+            canvas.drawLine(0.15f*finalIcon.getWidth(), 0.85f*finalIcon.getHeight(), 0.85f*finalIcon.getWidth(), 0.15f*finalIcon.getHeight(), firstPaint);
+        } else {
+            Paint mTextPaint = new Paint();
+            mTextPaint.setColor(Color.BLACK);
+            mTextPaint.setTextSize(15 * getResources().getDisplayMetrics().density);
+            mTextPaint.setFakeBoldText(true);
+            mTextPaint.setTextAlign(Paint.Align.CENTER);
+            mTextPaint.setAntiAlias(true);
+            String text = String.valueOf(freeBikes);
+            int textHeight = (int) (mTextPaint.descent() + mTextPaint.ascent());
+            canvas.drawText(text,
+                    mTextAnchorU * finalIcon.getWidth(),
+                    mTextAnchorV * finalIcon.getHeight() - textHeight / 2,
+                    mTextPaint);
+        }
+        drawable.draw(canvas);
+        marker.setIcon(new BitmapDrawable(getResources(), finalIcon));
 
         map.getOverlays().add(marker);
         map.getOverlays().add(new CopyrightOverlay(context));

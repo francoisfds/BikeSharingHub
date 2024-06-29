@@ -175,7 +175,13 @@ public class BikeNetworkParser {
                                 station.setStatus(StationStatus.OPEN);
                             }
                         } else if (rawExtra.has("renting") && rawExtra.has("returning") ) {
-                            if (rawExtra.getInt("renting") == 0 && rawExtra.getInt("returning") == 0) {
+                            Object renting = rawExtra.get("renting");
+                            Object returning = rawExtra.get("returning");
+                            if (renting instanceof Integer && returning instanceof Integer &&
+                                    (Integer) renting == 0 && (Integer) returning == 0) {
+                                station.setStatus(StationStatus.CLOSED);
+                            } else if (renting instanceof Boolean && returning instanceof Boolean &&
+                                    !((Boolean) renting) && !((Boolean) returning)) {
                                 station.setStatus(StationStatus.CLOSED);
                             } else {
                                 station.setStatus(StationStatus.OPEN);

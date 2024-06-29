@@ -64,7 +64,6 @@ import fr.fdesousa.bikesharinghub.activities.StationsListActivity;
 public class StationsListAppWidgetProvider extends AppWidgetProvider {
     private static final String TAG = StationsListAppWidgetProvider.class.getSimpleName();
 
-    private static final String DEFAULT_API_URL = "https://api.citybik.es/v2/";
     private static final String PREF_KEY_API_URL = "pref_api_url";
     private static final String PREF_KEY_DB_LAST_UPDATE = "db_last_update";
     private static final String PREF_KEY_STRIP_ID_STATION = "pref_strip_id_station";
@@ -177,8 +176,9 @@ public class StationsListAppWidgetProvider extends AppWidgetProvider {
                 ArrayList<String> networksId = networksDataSource.getNetworksId();
                 ArrayList<String> networksUrlList = new ArrayList<String>();
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+                String default_apiUrl = mContext.getResources().getString(R.string.pref_default_api_url);
                 for (String id : networksId) {
-                    String stationUrl = settings.getString(PREF_KEY_API_URL, DEFAULT_API_URL)
+                    String stationUrl = settings.getString(PREF_KEY_API_URL, default_apiUrl)
                                 + "networks/" + id;
                     networksUrlList.add(stationUrl);
                 }

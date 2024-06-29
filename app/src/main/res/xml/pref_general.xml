@@ -52,7 +52,8 @@
         <EditTextPreference
             android:key="pref_api_url"
             android:title="@string/pref_title_api_url"
-            android:defaultValue="https://api.citybik.es/v2/" />
+            android:hint="@string/pref_default_api_url"
+            android:defaultValue="@string/pref_default_api_url" />
 
         <CheckBoxPreference
             android:key="pref_strip_id_station"

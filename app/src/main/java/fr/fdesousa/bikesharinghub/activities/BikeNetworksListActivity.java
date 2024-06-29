@@ -58,7 +58,6 @@ import fr.fdesousa.bikesharinghub.adapters.BikeNetworksListAdapter;
 public class BikeNetworksListActivity extends Activity {
     private static final String TAG = BikeNetworksListActivity.class.getSimpleName();
 
-    private static final String DEFAULT_API_URL = "https://api.citybik.es/v2/";
     private static final String PREF_KEY_API_URL = "pref_api_url";
 
     private Comparator<BikeNetworkInfo> mLocationComparator = new Comparator<BikeNetworkInfo>() {
@@ -126,9 +125,10 @@ public class BikeNetworksListActivity extends Activity {
             }
         });
 
+        String default_apiUrl = getResources().getString(R.string.pref_default_api_url);
         String apiUrl = PreferenceManager
                 .getDefaultSharedPreferences(this)
-                .getString(PREF_KEY_API_URL, DEFAULT_API_URL) + "networks";
+                .getString(PREF_KEY_API_URL, default_apiUrl) + "networks";
         new JSONDownloadTask().execute(apiUrl);
     }
 

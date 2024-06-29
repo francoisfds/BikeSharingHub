@@ -123,6 +123,7 @@
     <string name="pref_title_openstreetmap">OpenStreetMap</string>
     <string name="pref_title_version">Version</string>
     <string name="pref_map_layer_title">Map layer</string>
+    <string name="pref_default_api_url" translatable="false">http://api.citybik.es/v2/</string>
     <string name="pref_map_layer_mapnik" translatable="false">Mapnik</string>
     <string name="pref_map_layer_cyclemap" translatable="false">CyclOSM</string>
     <string name="pref_map_layer_osmpublictransport" translatable="false">Öpnvkarte</string>

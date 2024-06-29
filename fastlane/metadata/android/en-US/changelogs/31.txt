@@ -1,4 +1,4 @@
-* Display extact number of bikes in the markers on the map
+* Display exact number of bikes in the markers on the map
 * Display network's name in the station's details
 * Better scaling of zoom on the map
 * Target Android 14 (still supporting Android 4)

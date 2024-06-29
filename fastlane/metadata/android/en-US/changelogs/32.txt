@@ -1,0 +1,6 @@
+* Add dark theme (Android 10+)
+* Add dynamic colors theme (Android 12+)
+* Better detection of device location
+* All interactions lead to the same map
+* Target Android 15 (still supporting Android 4)
+* Update translations

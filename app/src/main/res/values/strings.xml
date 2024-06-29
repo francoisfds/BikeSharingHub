@@ -23,6 +23,7 @@
     <string name="app_name" translatable="false">BikeSharingHub</string>
     <!-- Error messages -->
     <string name="connection_error">Connection error</string>
+    <string name="ssl_error">SSL certificate not trusted by device</string>
     <string name="json_error">Error retrieving data</string>
     <!-- Actions -->
     <string name="action_settings">Settings</string>

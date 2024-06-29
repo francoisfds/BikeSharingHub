@@ -20,6 +20,7 @@
   --><resources>
     <!-- Error messages -->
     <string name="connection_error">Erreur de connexion</string>
+    <string name="ssl_error">Certificat SSL non reconnu par l\'appareil</string>
     <string name="json_error">Erreur de récupération des données</string>
     <!-- Actions -->
     <string name="action_settings">Paramètres</string>

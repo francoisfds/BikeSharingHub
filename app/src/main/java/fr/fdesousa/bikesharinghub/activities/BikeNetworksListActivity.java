@@ -202,6 +202,8 @@ public class BikeNetworksListActivity extends Activity {
 
     private class JSONDownloadTask extends AsyncTask<String, Void, String> {
 
+        Exception error = null;
+
         @Override
         protected String doInBackground(String... urls) {
             try {
@@ -218,25 +220,32 @@ public class BikeNetworksListActivity extends Activity {
                     input.close();
                 }
                 return response.toString();
+            } catch  (javax.net.ssl.SSLHandshakeException e) {
+                error = new Exception(getString(R.string.ssl_error));
             } catch (IOException e) {
-                return getString(R.string.connection_error);
+                error = new Exception(getString(R.string.connection_error));
             }
+            return null;
         }
 
         @Override
         protected void onPostExecute(final String result) {
-            try {
-                /* parse result */
-                BikeNetworksListParser bikeNetworksListParser = new BikeNetworksListParser(result);
-                ArrayList<BikeNetworkInfo> bikeNetworks = bikeNetworksListParser.getNetworks();
-                for(int i = 0; i < bikeNetworks.size(); i++) {
-                    BikeNetworksHashMap.put(bikeNetworks.get(i).getId(), bikeNetworks.get(i));
+            if (error != null) {
+                Toast.makeText(BikeNetworksListActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+            } else {
+                try {
+                    /* parse result */
+                    BikeNetworksListParser bikeNetworksListParser = new BikeNetworksListParser(result);
+                    ArrayList<BikeNetworkInfo> bikeNetworks = bikeNetworksListParser.getNetworks();
+                    for (int i = 0; i < bikeNetworks.size(); i++) {
+                        BikeNetworksHashMap.put(bikeNetworks.get(i).getId(), bikeNetworks.get(i));
+                    }
+                } catch (ParseException e) {
+                    Log.e(TAG, e.getMessage());
+                    Toast.makeText(BikeNetworksListActivity.this,
+                            R.string.json_error, Toast.LENGTH_LONG).show();
+                    BikeNetworksHashMap = new HashMap<String, BikeNetworkInfo>();
                 }
-            } catch (ParseException e) {
-                Log.e(TAG, e.getMessage());
-                Toast.makeText(BikeNetworksListActivity.this,
-                        R.string.json_error, Toast.LENGTH_LONG).show();
-                BikeNetworksHashMap = new HashMap<String, BikeNetworkInfo>();
             }
              /* Take into accounts saved networks: if they are missing
               * in the fetch data, add them at the queue.

@@ -27,7 +27,7 @@
         android:title="@string/pref_title_bike_networks_list">
         <intent
             android:targetClass="fr.fdesousa.bikesharinghub.activities.BikeNetworksListActivity"
-            android:targetPackage="fr.fdesousa.bikesharinghub" />
+            android:targetPackage="@string/build_applicationId" />
     </Preference>
 
     <fr.fdesousa.bikesharinghub.preferences.UpdateListPreference

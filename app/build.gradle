@@ -47,7 +47,16 @@ android {
                     outputFileName = "bikesharinghub-${variant.versionName}-${variant.name}.apk"
                 }
             }
+            resValue "string", "build_applicationId", defaultConfig.applicationId
         }
+        debug {
+            applicationIdSuffix ".debug"
+            resValue "string", "build_applicationId", "${defaultConfig.applicationId}${applicationIdSuffix}"
+            resValue "string", "app_name", "BikeSharingHub Debug"
+            debuggable true
+            minifyEnabled false
+        }
+
     }
     lint {
         abortOnError false

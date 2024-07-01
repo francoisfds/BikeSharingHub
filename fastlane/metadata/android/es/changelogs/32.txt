@@ -1,0 +1,6 @@
+* Agregar tema oscuro (Android 10+)
+* Agregar tema de colores dinámicos (Android 12+)
+* Mejor detección de la ubicación del dispositivo.
+*Todas las interacciones conducen al mismo mapa
+* Objetivo Android 15 (aún es compatible con Android 4)
+* Actualizar traducciones

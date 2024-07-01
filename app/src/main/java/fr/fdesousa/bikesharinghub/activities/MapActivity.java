@@ -32,6 +32,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -45,6 +46,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,7 +75,11 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import fr.fdesousa.bikesharinghub.db.NetworksDataSource;
 import fr.fdesousa.bikesharinghub.db.StationsDataSource;
@@ -110,6 +116,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     private StationMarkerInfoWindow stationMarkerInfoWindow;
     private NetworksDataSource networksDataSource;
     private StationsDataSource stationsDataSource;
+    private ScrollView stationDetailsView;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -142,6 +149,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
 
         map = (MapView) findViewById(R.id.mapView);
         stationMarkerInfoWindow = new StationMarkerInfoWindow(R.layout.bonuspack_bubble, map);
+
+        stationDetailsView = findViewById(R.id.scrollView);
 
         /* handling map events */
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, this);
@@ -421,6 +430,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         }
 
         @Override
+        public void onClose() {
+            stationDetailsView.setVisibility(View.GONE);
+            super.onClose();
+        }
+
+        @Override
         public void onOpen(Object item) {
             Marker marker = (Marker) item;
             final Station markerStation = (Station) marker.getRelatedObject();
@@ -439,10 +454,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
             TextView eBikesValue = (TextView) getView().findViewById(R.id.bubble_ebikes_value);
 
             int bikes = markerStation.getFreeBikes();
-            if(markerStation.getEBikes() != null && regularBikesLogo != null
-            && eBikesLogo != null && regularBikesValue!= null && eBikesValue != null ) {
-            int ebikes = markerStation.getEBikes();
-                regularBikesValue.setText(String.valueOf(bikes-ebikes));
+            if (markerStation.getEBikes() != null && regularBikesLogo != null
+                    && eBikesLogo != null && regularBikesValue != null && eBikesValue != null) {
+                int ebikes = markerStation.getEBikes();
+                regularBikesValue.setText(String.valueOf(bikes - ebikes));
                 regularBikesLogo.setImageResource(R.drawable.ic_regular_bike);
                 eBikesLogo.setVisibility(View.VISIBLE);
                 eBikesValue.setVisibility(View.VISIBLE);
@@ -462,6 +477,103 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                     startActivity(intent);
                 }
             });
+
+            //StationsDetails :
+            TextView stationName = (TextView) findViewById(R.id.stationName);
+            TextView stationEmptySlots = (TextView) findViewById(R.id.stationEmptySlots);
+            TextView stationFreeBikes = (TextView) findViewById(R.id.stationFreeBikes);
+            Integer freeBikes = markerStation.getFreeBikes();
+            Integer emptySlots = markerStation.getEmptySlots();
+
+            stationName.setText(markerStation.getName());
+            setLastUpdateText(markerStation.getLastUpdate());
+            stationFreeBikes.setText(String.valueOf(freeBikes));
+            if (emptySlots == -1) {
+                ImageView stationEmptySlotsLogo = (ImageView) findViewById(R.id.stationEmptySlotsLogo);
+                stationEmptySlots.setVisibility(View.GONE);
+                stationEmptySlotsLogo.setVisibility(View.GONE);
+            } else {
+                stationEmptySlots.setText(String.valueOf(emptySlots));
+            }
+
+            TextView stationNetwork = (TextView) findViewById(R.id.stationNetwork);
+            String networkName = networksDataSource.getNetworkInfoFromId(markerStation.getNetworkId()).getName();
+            stationNetwork.setText(networkName);
+
+            TextView stationAddress = (TextView) findViewById(R.id.stationAddress);
+            if (markerStation.getAddress() != null) {
+                stationAddress.setText(markerStation.getAddress());
+                stationAddress.setVisibility(View.VISIBLE);
+            } else {
+                stationAddress.setVisibility(View.GONE);
+            }
+
+            /* extra info on station */
+            Boolean isBankingStation = markerStation.isBanking();
+            Boolean isBonusStation = markerStation.isBonus();
+            StationStatus stationStatus = markerStation.getStatus();
+            Integer stationEBikes = markerStation.getEBikes();
+
+            ImageView stationBanking = (ImageView) findViewById(R.id.stationBanking);
+            if (isBankingStation != null) {
+                stationBanking.setVisibility(View.VISIBLE);
+                if (isBankingStation) {
+                    stationBanking.setImageDrawable(getResources().getDrawable(R.drawable.ic_banking_on));
+                    stationBanking.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(getApplicationContext(),
+                                    getString(R.string.cards_accepted),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    stationBanking.setImageDrawable(getResources().getDrawable(R.drawable.ic_banking_off));
+                }
+            } else {
+                stationBanking.setVisibility(View.GONE);
+            }
+
+            ImageView stationBonus = (ImageView) findViewById(R.id.stationBonus);
+            if (isBonusStation != null) {
+                stationBonus.setVisibility(View.VISIBLE);
+                if (isBonusStation) {
+                    stationBonus.setImageDrawable(getResources().getDrawable(R.drawable.ic_bonus_on));
+                    stationBonus.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(getApplicationContext(),
+                                    getString(R.string.is_bonus_station),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    stationBonus.setImageDrawable(getResources().getDrawable(R.drawable.ic_bonus_off));
+                }
+            } else {
+                stationBonus.setVisibility(View.GONE);
+            }
+            if ((emptySlots == 0 && freeBikes == 0) || (stationStatus != null && stationStatus == StationStatus.CLOSED)) {
+                stationName.setPaintFlags(stationName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            } else {
+                stationName.setPaintFlags(stationName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            }
+
+            ImageView eBikesImage = (ImageView) findViewById(R.id.stationEBikesLogo);
+            ImageView regularBikesImage = (ImageView) findViewById(R.id.stationFreeBikesLogo);
+            TextView stationEBikesValue = (TextView) findViewById(R.id.stationEBikesValue);
+            if (stationEBikes != null) {
+                regularBikesImage.setImageResource(R.drawable.ic_regular_bike);
+                eBikesImage.setVisibility(View.VISIBLE);
+                stationEBikesValue.setVisibility(View.VISIBLE);
+                stationEBikesValue.setText(String.valueOf(stationEBikes));
+                stationFreeBikes.setText(String.valueOf(freeBikes - stationEBikes));   //display regular bikes only
+            } else {
+                regularBikesImage.setImageResource(R.drawable.ic_bike);
+                eBikesImage.setVisibility(View.GONE);
+                stationEBikesValue.setVisibility(View.GONE);
+            }
+            stationDetailsView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -473,6 +585,39 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    private void setLastUpdateText(String rawLastUpdateISO8601) {
+        long timeDifferenceInSeconds;
+        TextView stationLastUpdate = (TextView) findViewById(R.id.stationLastUpdate);
+        SimpleDateFormat timestampFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+        timestampFormatISO8601.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        try {
+            long lastUpdate = timestampFormatISO8601.parse(rawLastUpdateISO8601).getTime();
+            long currentDateTime = System.currentTimeMillis();
+            timeDifferenceInSeconds = (currentDateTime - lastUpdate) / 1000;
+
+            if (timeDifferenceInSeconds < 60) {
+                stationLastUpdate.setText(getString(R.string.updated_just_now));
+            } else if (timeDifferenceInSeconds >= 60 && timeDifferenceInSeconds < 3600) {
+                int minutes = (int) timeDifferenceInSeconds / 60;
+                stationLastUpdate.setText(getResources().getQuantityString(R.plurals.updated_minutes_ago,
+                        minutes, minutes));
+            } else if (timeDifferenceInSeconds >= 3600 && timeDifferenceInSeconds < 86400) {
+                int hours = (int) timeDifferenceInSeconds / 3600;
+                stationLastUpdate.setText(getResources().getQuantityString(R.plurals.updated_hours_ago,
+                        hours, hours));
+            } else if (timeDifferenceInSeconds >= 86400) {
+                int days = (int) timeDifferenceInSeconds / 86400;
+                stationLastUpdate.setText(getResources().getQuantityString(R.plurals.updated_days_ago,
+                        days, days));
+            }
+
+            stationLastUpdate.setTypeface(null, Typeface.ITALIC);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setDBLastUpdateText(SharedPreferences settings) {

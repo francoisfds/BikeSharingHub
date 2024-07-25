@@ -37,10 +37,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import fr.fdesousa.bikesharinghub.activities.MapActivity;
 import fr.fdesousa.bikesharinghub.models.Station;
 
 import fr.fdesousa.bikesharinghub.R;
-import fr.fdesousa.bikesharinghub.activities.StationActivity;
 import fr.fdesousa.bikesharinghub.adapters.StationsListAdapter;
 import fr.fdesousa.bikesharinghub.models.StationsListViewModel;
 import fr.fdesousa.bikesharinghub.models.StationsListViewModelFactory;
@@ -105,7 +105,7 @@ public class StationsListFragment extends Fragment implements ViewModelStoreOwne
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Intent intent = new Intent(getActivity(), StationActivity.class);
+                Intent intent = new Intent(getActivity(), MapActivity.class);
                 intent.putExtra(KEY_STATION, stations.get(position));
                 startActivity(intent);
             }

@@ -210,6 +210,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
             mapController.setZoom(savedInstanceState.getInt(MAP_CURRENT_ZOOM_KEY));
             mapController.setCenter(new GeoPoint(savedInstanceState.getDouble(MAP_CENTER_LAT_KEY),
                     savedInstanceState.getDouble(MAP_CENTER_LON_KEY)));
+        } else if (getIntent().hasExtra(KEY_STATION)) {
+            Station stationExtra = (Station) getIntent().getSerializableExtra(KEY_STATION);
+            mapController.setZoom(16f);
+            mapController.animateTo(new GeoPoint(stationExtra.getLatitude(), stationExtra.getLongitude()));
+            stationMarkerInfoWindow.onOpen(createStationMarker(stationExtra));
         } else {
             Location userLocation = null;
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==

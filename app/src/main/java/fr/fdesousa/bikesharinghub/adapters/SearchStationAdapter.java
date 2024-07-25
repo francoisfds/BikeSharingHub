@@ -33,9 +33,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import fr.fdesousa.bikesharinghub.activities.MapActivity;
 import fr.fdesousa.bikesharinghub.models.Station;
-
-import fr.fdesousa.bikesharinghub.activities.StationActivity;
 
 /**
  * Cursor adapter to display search results in a dropdown list
@@ -59,7 +58,7 @@ public class SearchStationAdapter extends CursorAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, StationActivity.class);
+                Intent intent = new Intent(context, MapActivity.class);
                 intent.putExtra("station", stations.get(position));
                 context.startActivity(intent);
             }

@@ -41,10 +41,18 @@ in `app/build/outputs/apk`.
 
 Help translate the app to your language from [our Hosted Weblate page](https://hosted.weblate.org/projects/bikesharinghub/).
 
+## Technical notice for Android 7 and lower
+
+BikeSharingHub is fully compatible with recent Android versions down to Android 4.
+HTTPS connection requires the device to trust an Authority that is embedded on Android since the version 7.1.1 only. Thus, on devices runnig Android 7 and lower, the application uses by default an API URL with HTTP only. Users who which to use HTTPS can change the URL in the application, however it will become necessary to install manualy the certificate authority provided below on the security settings of their device. Be aware that installing a certifcate will affects the whole device and not only this application, so make sure to proceed with the proper file.
+
+* Official link to the certificate to be installed : https://letsencrypt.org/certs/isrgrootx1.pem
+* SHA-256 of file : 22b557a27055b33606b6559f37703928d3e4ad79f110b407d04986e1843543d1
+
 ## LICENSE
 
     BikeSharingHub. Shared bikes availability in your city.
-    Copyright (C) 2020-2021 François FERREIRA DE SOUSA
+    Copyright (C) 2020-2024 François FERREIRA DE SOUSA
     
     BikeSharingHub incorporates a modified version of OpenBikeSharing
     Copyright (C) 2014-2015  Bruno Parmentier

@@ -382,23 +382,33 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
             firstPaint.setColor(Color.WHITE);
             canvas.drawCircle(mTextAnchorU * finalIcon.getWidth(), mTextAnchorV * finalIcon.getHeight(), finalIcon.getHeight()/2f, firstPaint);
         } else {
-            float sweepAngle = 360f * freeBikesRatio;
+            float sweepAngle;
+            if(freeBikesRatio < 1.0) {
+                sweepAngle = 360f * freeBikesRatio;
+            } else {
+                sweepAngle = 362f; //need to overwrite 1 degre taken for each edge
+            }
             RectF oval = new RectF(0, 0, finalIcon.getWidth(), finalIcon.getHeight());
             RectF ovalInt = new RectF(0.1f * finalIcon.getWidth(), 0.1f * finalIcon.getHeight(), finalIcon.getWidth() * 0.9f, finalIcon.getHeight() * 0.9f);
-            firstPaint.setColor(Color.BLACK);
-            canvas.drawArc(oval, -91, 2, true, firstPaint);
-            canvas.drawArc(oval, -90 + sweepAngle - 2, 3, true, firstPaint);
             firstPaint.setColor(getResources().getColor(R.color.bike_red));
             //fill in the gauge
             canvas.drawArc(oval, -88, sweepAngle - 3, true, firstPaint);
             firstPaint.setColor(Color.BLACK);
             //inner contour of the gauge
             canvas.drawArc(ovalInt, -88, sweepAngle - 3, true, firstPaint);
+            if (emptySlots > 0) {
+                //edges of jauge
+                canvas.drawArc(oval, -91, 2, true, firstPaint);
+                canvas.drawArc(oval, -90 + sweepAngle - 2, 3, true, firstPaint);
+                //fill what's left of the gauge
+                firstPaint.setColor(Color.WHITE);
+                canvas.drawArc(oval, -90 + sweepAngle + 1, 360 - sweepAngle - 2, true, firstPaint);
+            }
+            //inside circle
             firstPaint.setColor(Color.WHITE);
-            //fill what's left of the gauge
-            canvas.drawArc(oval, -90 + sweepAngle + 1, 360 - sweepAngle - 2, true, firstPaint);
             canvas.drawCircle(mTextAnchorU * finalIcon.getWidth(), mTextAnchorV * finalIcon.getHeight(), finalIcon.getHeight() / 2.65f, firstPaint);
         }
+
         if ((emptySlots == 0 && freeBikes == 0) || station.getStatus() == StationStatus.CLOSED) {
             firstPaint.setColor(Color.BLACK);
             firstPaint.setStrokeWidth(4);

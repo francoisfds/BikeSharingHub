@@ -88,4 +88,5 @@
     <string name="pref_map_tiles_cache_trim_size_summary">%1$s MB</string>
     <string name="location_outdated">Tvoja je lokacija starija od %1$s minuta</string>
     <string name="location_coarse_only">Korištenje grubog određivanja lokacije zbog nedostatka dozvola</string>
+    <string name="ssl_error">Uređaj ne vjeruje SSL certifikatu</string>
 </resources>

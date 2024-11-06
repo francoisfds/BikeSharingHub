@@ -2,5 +2,7 @@
 * Add dynamic colors theme (Android 12+)
 * Better detection of device location
 * All interactions lead to the same map
+* Fetch stations's data from the map
+* Better management of some networks
 * Target Android 15 (still supporting Android 4)
 * Update translations

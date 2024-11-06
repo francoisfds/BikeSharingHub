@@ -23,10 +23,12 @@ package fr.fdesousa.bikesharinghub.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -37,7 +39,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -45,7 +49,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +73,6 @@ import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.gestures.OneFingerZoomOverlay;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
-import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
@@ -78,6 +80,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -88,6 +91,7 @@ import fr.fdesousa.bikesharinghub.models.Station;
 import fr.fdesousa.bikesharinghub.models.StationStatus;
 import fr.fdesousa.bikesharinghub.R;
 import fr.fdesousa.bikesharinghub.tilesource.CustomTileSource;
+import fr.fdesousa.bikesharinghub.widgets.StationsListAppWidgetProvider;
 
 public class MapActivity extends Activity implements MapEventsReceiver, ActivityCompat.OnRequestPermissionsResultCallback {
     private static final String TAG = "MapActivity";
@@ -113,10 +117,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     private MapView map;
     private IMapController mapController;
     private MyLocationNewOverlay myLocationOverlay;
-    private StationMarkerInfoWindow stationMarkerInfoWindow;
     private NetworksDataSource networksDataSource;
     private StationsDataSource stationsDataSource;
     private ScrollView stationDetailsView;
+    private Drawable iconSelected;
+    private Drawable previousDrawable = null;
+    private Marker selectedMarker = null;
+    private boolean isDetailViewOpened = false;
+    private MenuItem favoriteMenuItem;
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -147,8 +156,18 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         Configuration.getInstance().setTileFileSystemCacheTrimBytes(systemCacheTrimBytes);
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
 
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_station_marker);
+        Bitmap finalIcon = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(finalIcon);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        Paint firstPaint = new Paint();
+        firstPaint.setColor(getResources().getColor(R.color.bike_red));
+        canvas.drawCircle(Marker.ANCHOR_CENTER * finalIcon.getWidth(), Marker.ANCHOR_CENTER * finalIcon.getHeight(), finalIcon.getHeight() / 2f, firstPaint);
+        drawable.draw(canvas);
+        iconSelected = new BitmapDrawable(getResources(), finalIcon);
+
         map = (MapView) findViewById(R.id.mapView);
-        stationMarkerInfoWindow = new StationMarkerInfoWindow(R.layout.bonuspack_bubble, map);
 
         stationDetailsView = findViewById(R.id.scrollView);
 
@@ -163,8 +182,20 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         stationsMarkers.setIcon(clusterIcon);
         stationsMarkers.setRadius(100);
 
+        boolean hasExtra = getIntent().hasExtra(KEY_STATION);
+        String stationExtraId = "";
+        if(hasExtra) {
+            Station stationExtra = (Station) getIntent().getSerializableExtra(KEY_STATION);
+            stationExtraId = stationExtra.getId();
+        }
+
         for (final Station station : stations) {
-            stationsMarkers.add(createStationMarker(station));
+            if(hasExtra && station.getId().equals(stationExtraId)) {
+                selectedMarker = createStationMarker(station);  //Keep ref of this marker
+                stationsMarkers.add(selectedMarker);
+            } else {
+                stationsMarkers.add(createStationMarker(station));
+            }
         }
         map.invalidate();
 
@@ -210,11 +241,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
             mapController.setZoom(savedInstanceState.getInt(MAP_CURRENT_ZOOM_KEY));
             mapController.setCenter(new GeoPoint(savedInstanceState.getDouble(MAP_CENTER_LAT_KEY),
                     savedInstanceState.getDouble(MAP_CENTER_LON_KEY)));
-        } else if (getIntent().hasExtra(KEY_STATION)) {
-            Station stationExtra = (Station) getIntent().getSerializableExtra(KEY_STATION);
+        } else if (hasExtra) {
             mapController.setZoom(16f);
-            mapController.animateTo(new GeoPoint(stationExtra.getLatitude(), stationExtra.getLongitude()));
-            stationMarkerInfoWindow.onOpen(createStationMarker(stationExtra));
+            previousDrawable = selectedMarker.getIcon();
+            selectedMarker.setIcon(iconSelected);
+            setStationDetails((Station) selectedMarker.getRelatedObject());
+            stationDetailsView.setVisibility(View.VISIBLE);
+            isDetailViewOpened = true;
+            mapController.animateTo(selectedMarker.getPosition());
+            invalidateOptionsMenu();
         } else {
             Location userLocation = null;
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
@@ -292,6 +327,56 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         return true;
     }
 
+    private boolean triggerActionDirection() {
+        if (selectedMarker == null) {
+            return false;
+        }
+        GeoPoint sPoint = selectedMarker.getPosition();
+        Uri sLocationUri = Uri.parse("geo:" + sPoint.getLatitude() + "," + sPoint.getLongitude());
+        Intent intent = new Intent(Intent.ACTION_VIEW, sLocationUri);
+        PackageManager packageManager = getPackageManager();
+        List<ResolveInfo> activities = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            activities = packageManager.queryIntentActivities(intent, PackageManager.ResolveInfoFlags.of(0));
+        } else {
+            activities = packageManager.queryIntentActivities(intent, 0);
+        }
+        if (activities != null && activities.size() > 0) {
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, getString(R.string.no_nav_application), Toast.LENGTH_LONG).show();
+        }
+        return true;
+    }
+
+    private boolean isFavorite() {
+        if(selectedMarker == null) return false;
+        Station selectedStation = (Station) selectedMarker.getRelatedObject();
+        return stationsDataSource.isFavoriteStation(selectedStation.getId());
+    }
+
+    private void setFavorite(boolean favorite) {
+        Station selectedStation = (Station) selectedMarker.getRelatedObject();
+        if (favorite) {
+            stationsDataSource.addFavoriteStation(selectedStation.getId());
+            favoriteMenuItem.setIcon(R.drawable.ic_menu_favorite);
+            Toast.makeText(MapActivity.this,
+                    getString(R.string.station_added_to_favorites), Toast.LENGTH_SHORT).show();
+        } else {
+            stationsDataSource.removeFavoriteStation(selectedStation.getId());
+            favoriteMenuItem.setIcon(R.drawable.ic_menu_favorite_outline);
+            Toast.makeText(MapActivity.this,
+                    getString(R.string.stations_removed_from_favorites), Toast.LENGTH_SHORT).show();
+        }
+
+        /* Refresh widget with new favorite */
+        Intent refreshWidgetIntent = new Intent(getApplicationContext(),
+                StationsListAppWidgetProvider.class);
+        refreshWidgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        refreshWidgetIntent.putExtra(StationsListAppWidgetProvider.EXTRA_REFRESH_LIST_ONLY, true);
+        sendBroadcast(refreshWidgetIntent);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -304,6 +389,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                             REQUEST_LOC_LIST, REQUEST_LOC_PERMISSION_CODE);
                 }
                 return true;
+            case R.id.action_directions:
+                return triggerActionDirection();
+            case R.id.action_favorite:
+                setFavorite(!isFavorite());
+                return true;
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
@@ -313,8 +403,37 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        favoriteMenuItem = menu.findItem(R.id.action_favorite);
+        MenuItem directionsMenuItem = menu.findItem(R.id.action_directions);
+        if(isDetailViewOpened) {
+            favoriteMenuItem.setEnabled(true).setVisible(true);
+            directionsMenuItem.setEnabled(true).setVisible(true);
+            if (isFavorite()) {
+                favoriteMenuItem.setIcon(R.drawable.ic_menu_favorite);
+            } else {
+                favoriteMenuItem.setIcon(R.drawable.ic_menu_favorite_outline);
+            }
+        } else {
+            favoriteMenuItem.setEnabled(false).setVisible(false);
+            directionsMenuItem.setEnabled(false).setVisible(false);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean singleTapConfirmedHelper(GeoPoint geoPoint) {
         InfoWindow.closeAllInfoWindowsOn(map);
+        if (isDetailViewOpened) {
+            stationDetailsView.setVisibility(View.GONE);
+            isDetailViewOpened = false;
+            mHandler.removeCallbacksAndMessages(null);
+            if (previousDrawable != null && selectedMarker != null) {
+                selectedMarker.setIcon(previousDrawable);
+                selectedMarker = null;
+            }
+            invalidateOptionsMenu();
+        }
         return true;
     }
 
@@ -359,14 +478,31 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 (int) (station.getLongitude() * 1000000));
         Marker marker = new Marker(map);
         marker.setRelatedObject(station);
-        marker.setInfoWindow(stationMarkerInfoWindow);
         marker.setPosition(stationLocation);
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-        marker.setTitle(station.getName());
-        marker.setSnippet(String.valueOf(station.getFreeBikes())); // free bikes
-        if (station.getEmptySlots() != -1) {
-            marker.setSubDescription(String.valueOf(station.getEmptySlots())); // empty slots
-        }
+        marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(Marker marker, MapView mapView) {
+                if(isDetailViewOpened) {
+                    if(marker.getPosition().equals(selectedMarker.getPosition())) {
+                        //Need to hide details, proceed to singleTapConfirmedHelper
+                        return false;
+                    } else if (previousDrawable != null) {
+                        selectedMarker.setIcon(previousDrawable);
+                    }
+                }
+                selectedMarker = marker;
+                previousDrawable = selectedMarker.getIcon();
+                selectedMarker.setIcon(iconSelected);
+                setStationDetails((Station) selectedMarker.getRelatedObject());
+                stationDetailsView.setVisibility(View.VISIBLE);
+                isDetailViewOpened = true;
+                mapController.animateTo(selectedMarker.getPosition());
+                invalidateOptionsMenu();
+                return true;
+            }
+        });
 
         /* Marker icon */
         int emptySlots = station.getEmptySlots();
@@ -438,61 +574,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         return marker;
     }
 
-    private class StationMarkerInfoWindow extends MarkerInfoWindow {
-
-        public StationMarkerInfoWindow(int layoutResId, final MapView mapView) {
-            super(layoutResId, mapView);
-        }
-
-        @Override
-        public void onClose() {
-            stationDetailsView.setVisibility(View.GONE);
-            super.onClose();
-        }
-
-        @Override
-        public void onOpen(Object item) {
-            Marker marker = (Marker) item;
-            final Station markerStation = (Station) marker.getRelatedObject();
-            super.onOpen(item);
-            closeAllInfoWindowsOn(map);
-
-            LinearLayout layout = (LinearLayout) getView().findViewById(R.id.map_bubble_layout);
-            if (markerStation.getEmptySlots() == -1) {
-                ImageView emptySlotsLogo = (ImageView) getView().findViewById(R.id.bubble_emptyslots_logo);
-                emptySlotsLogo.setVisibility(View.GONE);
-            }
-
-            ImageView regularBikesLogo = (ImageView) getView().findViewById(R.id.bubble_freebikes_logo);
-            TextView regularBikesValue = (TextView) getView().findViewById(R.id.bubble_description);
-            ImageView eBikesLogo = (ImageView) getView().findViewById(R.id.bubble_ebikes_logo);
-            TextView eBikesValue = (TextView) getView().findViewById(R.id.bubble_ebikes_value);
-
-            int bikes = markerStation.getFreeBikes();
-            if (markerStation.getEBikes() != null && regularBikesLogo != null
-                    && eBikesLogo != null && regularBikesValue != null && eBikesValue != null) {
-                int ebikes = markerStation.getEBikes();
-                regularBikesValue.setText(String.valueOf(bikes - ebikes));
-                regularBikesLogo.setImageResource(R.drawable.ic_regular_bike);
-                eBikesLogo.setVisibility(View.VISIBLE);
-                eBikesValue.setVisibility(View.VISIBLE);
-                eBikesValue.setText(String.valueOf(ebikes));
-            } else {
-                regularBikesLogo.setImageResource(R.drawable.ic_bike);
-                eBikesLogo.setVisibility(View.GONE);
-                eBikesValue.setVisibility(View.GONE);
-            }
-
-            layout.setClickable(true);
-            layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(MapActivity.this, StationActivity.class);
-                    intent.putExtra(KEY_STATION, markerStation);
-                    startActivity(intent);
-                }
-            });
-
+    private void setStationDetails(Station markerStation) {
             //StationsDetails :
             TextView stationName = (TextView) findViewById(R.id.stationName);
             TextView stationEmptySlots = (TextView) findViewById(R.id.stationEmptySlots);
@@ -588,8 +670,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 eBikesImage.setVisibility(View.GONE);
                 stationEBikesValue.setVisibility(View.GONE);
             }
-            stationDetailsView.setVisibility(View.VISIBLE);
-        }
     }
 
     public static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
@@ -602,37 +682,59 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         return bitmap;
     }
 
-    private void setLastUpdateText(String rawLastUpdateISO8601) {
-        long timeDifferenceInSeconds;
-        TextView stationLastUpdate = (TextView) findViewById(R.id.stationLastUpdate);
-        SimpleDateFormat timestampFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-        timestampFormatISO8601.setTimeZone(TimeZone.getTimeZone("UTC"));
+    private class LastUpdateRunnable implements Runnable {
 
-        try {
-            long lastUpdate = timestampFormatISO8601.parse(rawLastUpdateISO8601).getTime();
-            long currentDateTime = System.currentTimeMillis();
-            timeDifferenceInSeconds = (currentDateTime - lastUpdate) / 1000;
+        private final String rawLastUpdateISO8601;
+        private SimpleDateFormat timestampFormatISO8601;
+        private TextView stationLastUpdate;
 
-            if (timeDifferenceInSeconds < 60) {
-                stationLastUpdate.setText(getString(R.string.updated_just_now));
-            } else if (timeDifferenceInSeconds >= 60 && timeDifferenceInSeconds < 3600) {
-                int minutes = (int) timeDifferenceInSeconds / 60;
-                stationLastUpdate.setText(getResources().getQuantityString(R.plurals.updated_minutes_ago,
-                        minutes, minutes));
-            } else if (timeDifferenceInSeconds >= 3600 && timeDifferenceInSeconds < 86400) {
-                int hours = (int) timeDifferenceInSeconds / 3600;
-                stationLastUpdate.setText(getResources().getQuantityString(R.plurals.updated_hours_ago,
-                        hours, hours));
-            } else if (timeDifferenceInSeconds >= 86400) {
-                int days = (int) timeDifferenceInSeconds / 86400;
-                stationLastUpdate.setText(getResources().getQuantityString(R.plurals.updated_days_ago,
-                        days, days));
-            }
-
+        public LastUpdateRunnable(String lastUpdateText, final Handler handler) {
+            rawLastUpdateISO8601 = lastUpdateText;
+            timestampFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+            timestampFormatISO8601.setTimeZone(TimeZone.getTimeZone("UTC"));
+            stationLastUpdate = (TextView) findViewById(R.id.stationLastUpdate);
             stationLastUpdate.setTypeface(null, Typeface.ITALIC);
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
+
+        public void run() {
+            try {
+                long timeDifferenceInSeconds;
+                long lastUpdate = timestampFormatISO8601.parse(rawLastUpdateISO8601).getTime();
+                long currentDateTime = System.currentTimeMillis();
+                timeDifferenceInSeconds = (currentDateTime - lastUpdate) / 1000;
+                Log.d("FFDS", "il y a " + timeDifferenceInSeconds);
+
+                if (timeDifferenceInSeconds < 60) {
+                    stationLastUpdate.setText(getString(R.string.updated_just_now));
+                    mHandler.postDelayed(this, 1000);
+                } else if (timeDifferenceInSeconds >= 60 && timeDifferenceInSeconds < 3600) {
+                    int minutes = (int) timeDifferenceInSeconds / 60;
+                    stationLastUpdate.setText(getResources().getQuantityString(R.plurals.updated_minutes_ago,
+                            minutes, minutes));
+                    mHandler.postDelayed(this, 1000);
+                } else if (timeDifferenceInSeconds >= 3600 && timeDifferenceInSeconds < 86400) {
+                    int hours = (int) timeDifferenceInSeconds / 3600;
+                    stationLastUpdate.setText(getResources().getQuantityString(R.plurals.updated_hours_ago,
+                            hours, hours));
+                    mHandler.postDelayed(this, 60000);
+                } else if (timeDifferenceInSeconds >= 86400) {
+                    int days = (int) timeDifferenceInSeconds / 86400;
+                    stationLastUpdate.setText(getResources().getQuantityString(R.plurals.updated_days_ago,
+                            days, days));
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void setLastUpdateText(String rawLastUpdateISO8601) {
+        TextView stationLastUpdate = (TextView) findViewById(R.id.stationLastUpdate);
+        stationLastUpdate.setTypeface(null, Typeface.ITALIC);
+
+        final Handler handler = new Handler();
+        final Runnable runnable = new LastUpdateRunnable(rawLastUpdateISO8601, handler);
+        handler.post(runnable);
     }
 
     private void setDBLastUpdateText(SharedPreferences settings) {

@@ -160,7 +160,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
-                if (tabsPagerAdapter.getItem(position).equals(nearbyStationsFragment)) {
+                if (getPagerAdapter().getItem(position).equals(nearbyStationsFragment)) {
                     if (ContextCompat.checkSelfPermission(StationsListActivity.this,
                             Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(StationsListActivity.this,
@@ -437,7 +437,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                     return distance1.compareTo(distance2);
                 }
             });
-            tabsPagerAdapter.updateNearbyStationsFragment(nearbyStations);
+            getPagerAdapter().updateNearbyStationsFragment(nearbyStations);
             int locationMinutes = (int) ((System.currentTimeMillis() - userLocation.getTime())/60000);
             if (nearbyStations.size() != 0 && locationMinutes > 10) {
                 Toast.makeText(getApplicationContext(),
@@ -544,9 +544,9 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                         }
                     }
 
-                    tabsPagerAdapter.updateAllStationsListFragment(stations);
-                    tabsPagerAdapter.updateFavoriteStationsFragment(favStations);
-                    tabsPagerAdapter.updateNearbyStationsFragment(nearbyStations);
+                    getPagerAdapter().updateAllStationsListFragment(stations);
+                    getPagerAdapter().updateFavoriteStationsFragment(favStations);
+                    getPagerAdapter().updateNearbyStationsFragment(nearbyStations);
 
                     Intent refreshWidgetIntent = new Intent(getApplicationContext(),
                             StationsListAppWidgetProvider.class);
@@ -562,6 +562,13 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
             setRefreshActionButtonState(false);
             refreshLayout.setRefreshing(false);
         }
+    }
+
+    private TabsPagerAdapter getPagerAdapter() {
+        if(tabsPagerAdapter == null) {
+            tabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+        }
+        return tabsPagerAdapter;
     }
 
     private class TabsPagerAdapter extends FragmentPagerAdapter {

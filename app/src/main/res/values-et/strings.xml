@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="ssl_error">SSL-sertifikaat pole nutiseadme jaoks usaldusväärne</string>
+    <string name="json_error">Viga andmete laadimisel</string>
+    <string name="action_settings">Seadistused</string>
+    <string name="action_map">Kaart</string>
+    <string name="connection_error">Ühenduse viga</string>
+    <string name="action_refresh">Värskenda andmeid</string>
+</resources>

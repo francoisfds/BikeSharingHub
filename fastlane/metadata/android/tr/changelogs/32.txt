@@ -1,6 +1,2 @@
-* Koyu tema eklendi (Android 10+)
-* Değişken renkler teması eklendi (Android 12+)
-* Aygıt konumunun daha iyi algılanması
 * Tüm etkileşimler aynı haritaya götürür
-* Android 15 hedeflendi (hala Android 4'ü destekliyor)
 * Çeviriler güncellendi

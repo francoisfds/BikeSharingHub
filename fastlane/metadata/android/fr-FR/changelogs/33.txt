@@ -1,7 +1,6 @@
 * Ajout du thème sombre (Android 10+)
 * Ajout du thème couleurs dynamiques (Android 12+)
 * Meilleure détection de la localisation
-* Toutes les intéractions renvoient à la même carte
 * Synchronisation depuis la carte
 * Meilleur gestion de certains réseaux
 * Cible Android 15 (supporte encore Android 4)

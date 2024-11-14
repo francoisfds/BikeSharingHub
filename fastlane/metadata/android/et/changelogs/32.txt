@@ -1,0 +1,2 @@
+* Kõik tegevused viivad nüüd sama kaardini
+* Uuendasime tõlkeid

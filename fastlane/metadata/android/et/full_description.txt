@@ -1,0 +1,9 @@
+<p>
+BikeSharingHub näitab ühes rakenduses jagatud jalgrataste saadavust sadades linnades.
+</p>
+<p>
+Andmed laaditakse CityBik.es APIst, mis kogub erinevate rattavõrgustike operaatorite avaandmeid. See liidestus põhineb avatud lähtekoodil ning rakendus lubab seadistada ka teisi API võrguaadresse.
+</p>
+<p>
+Meie rakendus põhineb senisel rakendusel OpenBikeSharing (tarkvarahoidlast „F-Droid Archive“).
+</p>

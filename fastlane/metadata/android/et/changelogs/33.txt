@@ -1,0 +1,7 @@
+*Lisasime tumeda kujunduse (Android 10+)
+* Lisasime dünaamilise värvivaliku(Android 12+)
+* Nutiseadme asukoha tõhusam tuvastamine
+* Laadime rattajaamade asukohtade andmed kaardilt
+* Mõnede rattavõrgustike parem haldus
+* Kompileerimine arvestab Androidi versiooniga 15 (aga tugi algab Androidi versioonist 4)
+* Uuendasime tõlkeid

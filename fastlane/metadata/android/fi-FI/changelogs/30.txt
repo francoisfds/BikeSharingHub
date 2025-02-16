@@ -1,0 +1,7 @@
+* Paranna vimpaimen käyttöliittymää
+* Korjaa useamman kuin yhden verkon hakeminen vimpaimessa
+* Hae käyttäjän sijainti, vaikka GPS on ainoa käytettävissä oleva menetelmä
+* Ohita aksenttimerkit verkon haussa
+* (Android 11+) Korjaa toimimaton painike avataksesi aseman sijainnin navigointisovelluksissa
+* Päivitä käännös; kiitos kaikille avustajille :)
+* Päivitysriippuvuudet (osmdroid, androidx)

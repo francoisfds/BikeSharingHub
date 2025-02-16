@@ -1,0 +1,7 @@
+* Näitame kaardimarkeril täpset rataste arvu
+* Näitame rattajaama andmetes rattavõrgustiku nime
+* Paremini skaleeruv kaardisuum
+* Kompileerimine arvestab Androidi versiooniga 14 (aga tugi algab Androidi versioonist 4)
+* Uuendasime osmdroidi versiooni (lisandus suumimine ühe sõrmega)
+* Parandasime saksa, hiina, hollandi ja türgi keele tõlkeid (suur tänu tõlkijatele)
+* Veaparandused

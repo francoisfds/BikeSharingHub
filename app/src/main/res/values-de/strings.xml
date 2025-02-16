@@ -110,4 +110,5 @@
     <string name="pref_map_tiles_cache_size_hint">Ganzzahl zwischen %1$s und %2$s</string>
     <string name="location_outdated">Ihr Standort ist älter als %1$s Minuten</string>
     <string name="location_coarse_only">Verwendung des groben Standorts aufgrund fehlender Berechtigung</string>
+    <string name="ssl_error">Das Gerät vertraut dem SSL Zertifikat nicht</string>
 </resources>

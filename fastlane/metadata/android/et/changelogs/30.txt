@@ -1,0 +1,7 @@
+* Parandasime vidina liidest
+* Parandasime enam kui rattavõrgustiku laadimise vidinast
+* Tuvastame kasutaja asukoha ka siis, kui GPS on ainus leiduv meetod
+* Eirame täpitähti rattavõrgustiku otsinguvaates
+* (Android 11+) Parandasime mittetoimiva nupu rattajaama asukoha avamiseks kaardil
+* Uuendasime tõlkeid - suur tänu kõikidele tõlkijatele :)
+* Uuendasime sõltuvaid teeke (osmdroid, androidx)

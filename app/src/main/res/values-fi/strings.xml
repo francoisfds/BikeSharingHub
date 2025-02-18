@@ -64,7 +64,7 @@
     <string name="action_favorite">Lisää suosikiksi</string>
     <string name="action_directions">Reittiohjeet</string>
     <string name="action_map">Kartta</string>
-    <string name="action_refresh">Päivitä</string>
+    <string name="action_refresh">Virkistä</string>
     <string name="action_settings">Asetukset</string>
     <string name="json_error">Virhe noudettaessa tietoja</string>
     <string name="connection_error">Yhteysvirhe</string>
@@ -73,7 +73,17 @@
 \nVoit valita toisen oletusvälilehden käynnistystä varten.
 \nMuussa tapauksessa myönnä käyttöoikeus järjestelmäasetuksissa.</string>
     <string name="location_not_granted">Sijainnin käyttöoikeus evätty</string>
-    <string name="pref_title_fork"/>
+    <string name="pref_title_fork">Tästä haara</string>
     <string name="pref_title_bike_networks_list_summary_none">Ei mitään</string>
     <string name="pref_title_bike_networks_list_summary_multiple_selection">%d valittu</string>
+    <string name="ssl_error">Laite ei luota SSL-varmenteeseen</string>
+    <string name="pref_map_tiles_cache_max_size_summary">%1$s Mt (nykyinen välimuistin koko: %2$s Mt)</string>
+    <string name="location_coarse_only">Käytetään karkeaa sijaintia luvan puutteen vuoksi</string>
+    <string name="location_outdated">Sijaintisi on yli %1$s minuuttia vanha</string>
+    <string name="pref_map_tiles_cache_max_size_title">Puhdista karttavälimuisti, jos se ylittää</string>
+    <string name="map_cache_cleaning_started">Karttavälimuistin puhdistus on meneillään ja voi kestää hetken</string>
+    <string name="map_cache_cleaning_done">Karttavälimuistin puhdistus tehty</string>
+    <string name="pref_map_tiles_cache_trim_size_title">Puhdistus laskee karttavälimuistin tähän asti</string>
+    <string name="pref_map_tiles_cache_trim_size_summary">%1$s Mt</string>
+    <string name="pref_map_tiles_cache_size_hint">Kokonaisluku välillä %1$s ja %2$s</string>
 </resources>

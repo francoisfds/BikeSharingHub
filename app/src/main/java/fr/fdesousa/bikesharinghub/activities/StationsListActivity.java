@@ -21,6 +21,8 @@
 
 package fr.fdesousa.bikesharinghub.activities;
 
+import static fr.fdesousa.bikesharinghub.tasks.JSONDownloadRunnable.PREF_KEY_DB_LAST_UPDATE;
+
 import android.Manifest;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -53,21 +55,15 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.lang.IndexOutOfBoundsException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.osmdroid.util.LocationUtils;
 
@@ -76,27 +72,25 @@ import fr.fdesousa.bikesharinghub.db.NetworksDataSource;
 import fr.fdesousa.bikesharinghub.models.BikeNetwork;
 import fr.fdesousa.bikesharinghub.models.BikeNetworkInfo;
 import fr.fdesousa.bikesharinghub.models.BikeNetworkLocation;
+import fr.fdesousa.bikesharinghub.models.DownloadResult;
 import fr.fdesousa.bikesharinghub.models.Station;
-import fr.fdesousa.bikesharinghub.parsers.BikeNetworkParser;
 
 import fr.fdesousa.bikesharinghub.R;
 import fr.fdesousa.bikesharinghub.adapters.SearchStationAdapter;
 import fr.fdesousa.bikesharinghub.fragments.StationsListFragment;
 import fr.fdesousa.bikesharinghub.fragments.WelcomeDialogFragment;
+import fr.fdesousa.bikesharinghub.tasks.JSONDownloadRunnable;
 import fr.fdesousa.bikesharinghub.widgets.StationsListAppWidgetProvider;
 
-public class StationsListActivity extends FragmentActivity implements ActionBar.TabListener, ActivityCompat.OnRequestPermissionsResultCallback {
+public class StationsListActivity extends FragmentActivity implements ActionBar.TabListener, ActivityCompat.OnRequestPermissionsResultCallback, DownloadResult {
     private static final String TAG = StationsListActivity.class.getSimpleName();
 
-    private static final String PREF_KEY_API_URL = "pref_api_url";
     private static final String PREF_KEY_NETWORK_ID = "network-id";
     private static final String PREF_KEY_NETWORK_NAME = "network-name";
     private static final String PREF_KEY_NETWORK_CITY = "network-city";
     private static final String PREF_KEY_NETWORK_LATITUDE = "network-latitude";
     private static final String PREF_KEY_NETWORK_LONGITUDE = "network-longitude";
     private static final String PREF_KEY_FAV_STATIONS = "fav-stations";
-    private static final String PREF_KEY_STRIP_ID_STATION = "pref_strip_id_station";
-    private static final String PREF_KEY_DB_LAST_UPDATE = "db_last_update";
     private static final String PREF_KEY_DEFAULT_TAB = "pref_default_tab";
 
     private static final String KEY_BIKE_NETWORK = "bikeNetwork";
@@ -120,8 +114,6 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     private StationsDataSource stationsDataSource;
     private NetworksDataSource networksDataSource;
 
-    private JSONDownloadTask jsonDownloadTask;
-
     private SharedPreferences settings;
 
     private Menu optionsMenu;
@@ -134,6 +126,8 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     private StationsListFragment favoriteStationsFragment;
     private StationsListFragment nearbyStationsFragment;
     private String fragTags[] = {null, null, null};
+    private ExecutorService mExecutorService;
+    private Future mDownloadFuture;
 
     private SwipeRefreshLayout refreshLayout;
     @Override
@@ -240,21 +234,19 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     protected void onResume() {
         super.onResume();
 
-        if ((jsonDownloadTask != null && jsonDownloadTask.getStatus() == AsyncTask.Status.FINISHED)) {
-            long dbLastUpdate = settings.getLong(PREF_KEY_DB_LAST_UPDATE, -1);
-            long currentTime = System.currentTimeMillis();
+        long dbLastUpdate = settings.getLong(PREF_KEY_DB_LAST_UPDATE, -1);
+        long currentTime = System.currentTimeMillis();
 
-            /* Refresh list with latest data from database */
-            stations = stationsDataSource.getStations();
-            favStations = stationsDataSource.getFavoriteStations();
-            tabsPagerAdapter.updateAllStationsListFragment(stations);
-            tabsPagerAdapter.updateFavoriteStationsFragment(favStations);
-            setDBLastUpdateText();
+        /* Refresh list with latest data from database */
+        stations = stationsDataSource.getStations();
+        favStations = stationsDataSource.getFavoriteStations();
+        tabsPagerAdapter.updateAllStationsListFragment(stations);
+        tabsPagerAdapter.updateFavoriteStationsFragment(favStations);
+        setDBLastUpdateText();
 
-            /* Update automatically if data is more than 10 min old */
-            if ((dbLastUpdate != -1) && ((currentTime - dbLastUpdate) > 600000)) {
-                executeDownloadTask();
-            }
+        /* Update automatically if data is more than 10 min old */
+        if ((dbLastUpdate != -1) && ((currentTime - dbLastUpdate) > 600000)) {
+            executeDownloadTask();
         }
     }
 
@@ -276,13 +268,6 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     public boolean onCreateOptionsMenu(Menu menu) {
         this.optionsMenu = menu;
         getMenuInflater().inflate(R.menu.stations_list, menu);
-
-        if (jsonDownloadTask != null &&
-                (jsonDownloadTask.getStatus() == AsyncTask.Status.PENDING
-                || jsonDownloadTask.getStatus() == AsyncTask.Status.RUNNING)) {
-            setRefreshActionButtonState(true);
-
-        }
 
         SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
@@ -374,6 +359,49 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
 
     }
 
+    public void onDownloadResultCallback(String error) {
+        mExecutorService.shutdown();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setRefreshActionButtonState(false);
+                refreshLayout.setRefreshing(false);
+                if (error != null) {
+                    Log.e(TAG, "Download returned with an error: " + error);
+                    /* TODO Display the error in the toast */
+                    Toast.makeText(getApplicationContext(),
+                            getApplicationContext().getResources().getString(R.string.connection_error),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                stations = stationsDataSource.getStations();
+                favStations = stationsDataSource.getFavoriteStations();
+
+                setDBLastUpdateText();
+
+                if (nearbyStationsFragment.getUserVisibleHint()) {
+                    if (ContextCompat.checkSelfPermission(StationsListActivity.this,
+                            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(StationsListActivity.this,
+                                REQUEST_LOC_LIST, REQUEST_LOC_CODE);
+                    } else {
+                        setNearbyStations();
+                    }
+                }
+                getPagerAdapter().updateAllStationsListFragment(stations);
+                getPagerAdapter().updateFavoriteStationsFragment(favStations);
+                getPagerAdapter().updateNearbyStationsFragment(nearbyStations);
+
+                Intent refreshWidgetIntent = new Intent(getApplicationContext(),
+                        StationsListAppWidgetProvider.class);
+                refreshWidgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                refreshWidgetIntent.putExtra(StationsListAppWidgetProvider.EXTRA_REFRESH_LIST_ONLY, true);
+                sendBroadcast(refreshWidgetIntent);
+            }
+        });
+    }
+
     private void setRefreshActionButtonState(final boolean refreshing) {
         if (optionsMenu != null) {
             final MenuItem refreshItem = optionsMenu.findItem(R.id.action_refresh);
@@ -386,21 +414,18 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
             }
         }
     }
-    //put here the code to update the bikes data
-    private void executeDownloadTask(){
-        ArrayList<String> networksId = networksDataSource.getNetworksId();
-        ArrayList<String> networksUrlList = new ArrayList<String>();
-        String default_apiUrl = getResources().getString(R.string.pref_default_api_url);
-        for (String id : networksId) {
-            String stationUrl = settings.getString(PREF_KEY_API_URL, default_apiUrl)
-                        + "networks/" + id;
-            networksUrlList.add(stationUrl);
-        }
-        String[] networksUrl = networksUrlList.toArray(new String[networksUrlList.size()]);
-        jsonDownloadTask = new JSONDownloadTask();
-        jsonDownloadTask.execute(networksUrl);
-    }
 
+    //put here the code to update the bikes data
+    private void executeDownloadTask() {
+        if(mDownloadFuture != null ) {
+            mDownloadFuture.cancel(true);
+        }
+        refreshLayout.setRefreshing(true);
+        setRefreshActionButtonState(true);
+        Runnable jsonRunnable = new JSONDownloadRunnable(getApplicationContext(), this);
+        mExecutorService = Executors.newSingleThreadExecutor();
+        mDownloadFuture = mExecutorService.submit(jsonRunnable);
+    }
 
     private void setNearbyStations() {
         if (stations == null) {
@@ -447,120 +472,6 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
         } else {
             nearbyStationsFragment.setEmptyView(R.string.location_not_found);
             // TODO: listen for location
-        }
-    }
-
-    private class JSONDownloadTask extends AsyncTask<String, Void, String> {
-
-        Exception error;
-
-        @Override
-        protected void onPreExecute() {
-            setRefreshActionButtonState(true);
-        }
-
-        @Override
-        protected String doInBackground(String... urls) {
-            if (urls.length == 0 || urls[0].isEmpty()) {
-                error = new Exception("No URL to fetch");
-                return null;
-            }
-            JSONArray networksArray = new JSONArray();
-            for (int i=0; i<urls.length; i++) {
-                try {
-                    StringBuilder response = new StringBuilder();
-                    URL url = new URL(urls[i]);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                        BufferedReader input = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                        String strLine;
-                        while ((strLine = input.readLine()) != null) {
-                            response.append(strLine);
-                        }
-                        input.close();
-                    }
-                    networksArray.put(new JSONObject(response.toString()));
-                } catch (Exception e) {
-                    Log.e(TAG, urls[i] + ": " + e.getClass().getSimpleName() + " (" + e.getMessage() + ")");
-                }
-            }
-            if(networksArray.length() == 0) {
-                error = new Exception("Unable to fetch any response");
-            }
-            return networksArray.toString();
-        }
-
-        @Override
-        protected void onPostExecute(final String result) {
-            if (error != null) {
-                Log.d(TAG, error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        getApplicationContext().getResources().getString(R.string.connection_error),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                /* parse result */
-                boolean stripId = settings.getBoolean(PREF_KEY_STRIP_ID_STATION, false);
-                stations = null;
-                try {
-                    JSONArray rawNetworks = new JSONArray(result);
-
-                    for (int i = 0; i < rawNetworks.length(); i++) {
-                        JSONObject rawNetwork = rawNetworks.getJSONObject(i);
-                        try{
-                            BikeNetworkParser bikeNetworkParser = new BikeNetworkParser(rawNetwork.toString(), stripId);
-
-                            BikeNetwork bikeNetwork = bikeNetworkParser.getNetwork();
-                            if(stations == null) {
-                                stations = bikeNetwork.getStations();
-                            } else {
-                                stations.addAll(bikeNetwork.getStations());
-                            }
-                        } catch (ParseException e) {
-                            Log.e(TAG, "Error retreiving data of network " + (i+1) + " : " + e.getMessage());
-                        }
-                    }
-                } catch (JSONException e) {
-                        Log.e(TAG, e.getMessage());
-                        Toast.makeText(StationsListActivity.this,
-                                R.string.json_error, Toast.LENGTH_LONG).show();
-                }
-                if(stations != null) {
-                    Collections.sort(stations);
-                    stationsDataSource.storeStations(stations);
-                    favStations = stationsDataSource.getFavoriteStations();
-
-                    settings.edit()
-                            .putLong(PREF_KEY_DB_LAST_UPDATE, System.currentTimeMillis())
-                            .apply();
-                    setDBLastUpdateText();
-
-                    if (nearbyStationsFragment.getUserVisibleHint()) {
-                        if (ContextCompat.checkSelfPermission(StationsListActivity.this,
-                                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(StationsListActivity.this,
-                                REQUEST_LOC_LIST, REQUEST_LOC_CODE);
-                        } else {
-                            setNearbyStations();
-                        }
-                    }
-
-                    getPagerAdapter().updateAllStationsListFragment(stations);
-                    getPagerAdapter().updateFavoriteStationsFragment(favStations);
-                    getPagerAdapter().updateNearbyStationsFragment(nearbyStations);
-
-                    Intent refreshWidgetIntent = new Intent(getApplicationContext(),
-                            StationsListAppWidgetProvider.class);
-                    refreshWidgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                    refreshWidgetIntent.putExtra(StationsListAppWidgetProvider.EXTRA_REFRESH_LIST_ONLY, true);
-                    sendBroadcast(refreshWidgetIntent);
-
-                } else {
-                    Toast.makeText(StationsListActivity.this,
-                            R.string.json_error, Toast.LENGTH_LONG).show();
-                }
-            }
-            setRefreshActionButtonState(false);
-            refreshLayout.setRefreshing(false);
         }
     }
 

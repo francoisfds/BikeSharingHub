@@ -1,0 +1,7 @@
+* Näytä tarkka pyörien lukumäärä kartan merkeissä
+* Näytä verkon nimi aseman tiedoissa
+* Parempi zoomauksen skaalaus kartalla
+* Kohde Android 14 (tukee edelleen Android 4:ää)
+* Päivitä osmdroid-versio (lisää yhden sormen zoomauksen)
+* Paranna käännöstä saksan, kiinan, hollannin ja turkin kielelle (suuret kiitokset avustajille)
+* Viankorjauksia

@@ -1,6 +1,6 @@
 <!--
   ~ Copyright (c) 2014-2015 Bruno Parmentier.
-  ~ Copyright (c) 2024 François FERREIRA DE SOUSA.
+  ~ Copyright (c) 2024-2025 François FERREIRA DE SOUSA.
   ~
   ~ This file is part of BikeSharingHub.
   ~ BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -22,6 +22,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="be.brunoparmentier.openbikesharing.app.activities.MapActivity">
+
+    <item
+        android:id="@+id/action_refresh_map"
+        android:icon="@drawable/ic_menu_refresh"
+        android:orderInCategory="3"
+        android:showAsAction="always"
+        android:title="@string/action_refresh" />
 
     <item
         android:id="@+id/action_favorite"

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2020-2024 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020-2025 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -83,17 +83,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import fr.fdesousa.bikesharinghub.db.NetworksDataSource;
 import fr.fdesousa.bikesharinghub.db.StationsDataSource;
 import fr.fdesousa.bikesharinghub.models.BikeNetworkLocation;
+import fr.fdesousa.bikesharinghub.models.DownloadResult;
 import fr.fdesousa.bikesharinghub.models.Station;
 import fr.fdesousa.bikesharinghub.models.StationStatus;
 import fr.fdesousa.bikesharinghub.R;
+import fr.fdesousa.bikesharinghub.tasks.JSONDownloadRunnable;
 import fr.fdesousa.bikesharinghub.tilesource.CustomTileSource;
 import fr.fdesousa.bikesharinghub.widgets.StationsListAppWidgetProvider;
 
-public class MapActivity extends Activity implements MapEventsReceiver, ActivityCompat.OnRequestPermissionsResultCallback {
+public class MapActivity extends Activity implements MapEventsReceiver, ActivityCompat.OnRequestPermissionsResultCallback, DownloadResult {
     private static final String TAG = "MapActivity";
     private static final String MAP_CURRENT_ZOOM_KEY = "map-current-zoom";
     private static final String MAP_CENTER_LAT_KEY = "map-center-lat";
@@ -126,6 +131,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     private boolean isDetailViewOpened = false;
     private MenuItem favoriteMenuItem;
     private Handler mHandler = new Handler();
+    private SharedPreferences settings;
+    private RadiusMarkerClusterer stationsMarkers;
+    private ExecutorService mExecutorService;
+    private Future mDownloadFuture;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -141,9 +150,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         setContentView(R.layout.activity_map);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        setDBLastUpdateText(settings);
+        setDBLastUpdateText();
 
         stationsDataSource = new StationsDataSource(this);
         networksDataSource = new NetworksDataSource(this);
@@ -176,7 +185,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         map.getOverlays().add(0, mapEventsOverlay);
 
         /* markers list */
-        RadiusMarkerClusterer stationsMarkers = new RadiusMarkerClusterer(this);
+        stationsMarkers = new RadiusMarkerClusterer(this);
         Bitmap clusterIcon = getBitmapFromVectorDrawable(this, R.drawable.marker_cluster);
         map.getOverlays().add(stationsMarkers);
         stationsMarkers.setIcon(clusterIcon);
@@ -388,6 +397,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                     ActivityCompat.requestPermissions(this,
                             REQUEST_LOC_LIST, REQUEST_LOC_PERMISSION_CODE);
                 }
+                return true;
+            case R.id.action_refresh_map:
+                executeDownloadTask();
                 return true;
             case R.id.action_directions:
                 return triggerActionDirection();
@@ -682,6 +694,47 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         return bitmap;
     }
 
+    private void executeDownloadTask() {
+        if(mDownloadFuture != null ) {
+            mDownloadFuture.cancel(true);
+        }
+        Runnable jsonRunnable = new JSONDownloadRunnable(getApplicationContext(), this);
+        mExecutorService = Executors.newSingleThreadExecutor();
+        mDownloadFuture = mExecutorService.submit(jsonRunnable);
+    }
+
+    @Override
+    public void onDownloadResultCallback(String error) {
+        mExecutorService.shutdown();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //setRefreshActionButtonState(false);
+                //refreshLayout.setRefreshing(false);
+                if (error != null) {
+                    Log.e(TAG, "Download returned with an error: " + error);
+                    /* TODO Display the error in the toast */
+                    Toast.makeText(getApplicationContext(),
+                            getApplicationContext().getResources().getString(R.string.connection_error),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ArrayList<Station> stations = stationsDataSource.getStations();
+                ArrayList<Marker> markerContent = stationsMarkers.getItems();
+                markerContent.clear();
+                for (final Station station : stations) {
+                    markerContent.add(createStationMarker(station));
+                }
+                stationsMarkers.invalidate();
+                map.invalidate();
+
+                setDBLastUpdateText();
+            }
+        });
+
+    }
+
     private class LastUpdateRunnable implements Runnable {
 
         private final String rawLastUpdateISO8601;
@@ -737,7 +790,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         handler.post(runnable);
     }
 
-    private void setDBLastUpdateText(SharedPreferences settings) {
+    private void setDBLastUpdateText() {
         TextView lastUpdate = (TextView) findViewById(R.id.mapDbLastUpdate);
         long dbLastUpdate = settings.getLong(PREF_KEY_DB_LAST_UPDATE, -1);
 

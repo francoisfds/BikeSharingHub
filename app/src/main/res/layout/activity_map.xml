@@ -23,15 +23,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="be.brunoparmentier.openbikesharing.app.activities.MapActivity">
-
+    tools:context="fr.fdesousa.bikesharinghub.activities.MapActivity">
 
     <view
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         class="org.osmdroid.views.MapView"
         android:id="@+id/mapView"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/scrollView"
         android:focusableInTouchMode="false" />
@@ -192,6 +190,15 @@
         </LinearLayout>
     </RelativeLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/map_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-6dp"
+        android:layout_alignTop="@id/mapView"
+        android:visibility="gone" />
 
     <TextView
         android:id="@id/mapDbLastUpdate"

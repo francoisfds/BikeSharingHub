@@ -21,4 +21,5 @@ package fr.fdesousa.bikesharinghub.models;
 
 public interface DownloadResult {
     public void onDownloadResultCallback(String error);
+    public void onDownloadResultCallback(int progress);
 }

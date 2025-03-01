@@ -1,6 +1,6 @@
 <!--
   ~ Copyright (c) 2014-2015 Bruno Parmentier.
-  ~ Copyright (c) 2021,2023 François FERREIRA DE SOUSA.
+  ~ Copyright (c) 2021,2023,2025 François FERREIRA DE SOUSA.
   ~
   ~ This file is part of BikeSharingHub.
   ~ BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -23,7 +23,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="be.brunoparmentier.openbikesharing.app.activities.StationsListActivity">
+    tools:context="fr.fdesousa.bikesharinghub.activities.StationsListActivity">
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/swipe_container"
@@ -36,6 +36,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <ProgressBar
+        android:id="@+id/home_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-6dp"
+        android:layout_alignTop="@id/viewPager"
+        android:visibility="gone" />
     <TextView
         android:id="@+id/dbLastUpdate"
         android:layout_width="match_parent"

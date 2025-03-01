@@ -19,7 +19,9 @@
 
 package fr.fdesousa.bikesharinghub.tasks;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -43,6 +45,7 @@ import fr.fdesousa.bikesharinghub.models.BikeNetwork;
 import fr.fdesousa.bikesharinghub.models.DownloadResult;
 import fr.fdesousa.bikesharinghub.models.Station;
 import fr.fdesousa.bikesharinghub.parsers.BikeNetworkParser;
+import fr.fdesousa.bikesharinghub.widgets.StationsListAppWidgetProvider;
 
 public class JSONDownloadRunnable implements Runnable {
 
@@ -91,6 +94,7 @@ public class JSONDownloadRunnable implements Runnable {
                     }
                     input.close();
                 }
+                mDownloadResult.onDownloadResultCallback((int) Math.round(100.0 * (i+1) / mNetworksUrl.length)-1);
                 networksArray.put(new JSONObject(response.toString()));
             } catch (Exception e) {
                 Log.e(TAG, mNetworksUrl[i] + ": " + e.getClass().getSimpleName() + " (" + e.getMessage() + ")");
@@ -133,10 +137,16 @@ public class JSONDownloadRunnable implements Runnable {
         } catch (JSONException e) {
             mError = String.valueOf(R.string.json_error);
         }
+
+        Intent refreshWidgetIntent = new Intent(mContext,
+                StationsListAppWidgetProvider.class);
+        refreshWidgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        refreshWidgetIntent.putExtra(StationsListAppWidgetProvider.EXTRA_REFRESH_LIST_ONLY, true);
+        mContext.sendBroadcast(refreshWidgetIntent);
         if(mError != null) {
             mDownloadResult.onDownloadResultCallback(mError);
         } else {
-            mDownloadResult.onDownloadResultCallback(null);
+            mDownloadResult.onDownloadResultCallback(100);
         }
     }
 }

@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.MatrixCursor;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -50,7 +51,9 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -128,6 +131,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     private String fragTags[] = {null, null, null};
     private ExecutorService mExecutorService;
     private Future mDownloadFuture;
+    private ProgressBar mProgressBar;
 
     private SwipeRefreshLayout refreshLayout;
     @Override
@@ -174,6 +178,11 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
 
             }
         });
+        mProgressBar = (ProgressBar) findViewById(R.id.home_progressbar);
+        mProgressBar.getProgressDrawable().setColorFilter(
+                Color.parseColor("#FF7883"), android.graphics.PorterDuff.Mode.SRC_IN);
+        mProgressBar.getIndeterminateDrawable().setColorFilter(
+                Color.parseColor("#FF7883"), android.graphics.PorterDuff.Mode.SRC_IN);
 
         stationsDataSource = new StationsDataSource(this);
         networksDataSource = new NetworksDataSource(this);
@@ -364,21 +373,35 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                setRefreshActionButtonState(false);
-                refreshLayout.setRefreshing(false);
                 if (error != null) {
                     Log.e(TAG, "Download returned with an error: " + error);
                     /* TODO Display the error in the toast */
                     Toast.makeText(getApplicationContext(),
                             getApplicationContext().getResources().getString(R.string.connection_error),
                             Toast.LENGTH_SHORT).show();
+                    mProgressBar.setVisibility(View.GONE);
+                }
+            }
+        });
+
+    }
+    public void onDownloadResultCallback(int progress) {
+        if(progress == 100) {
+            mExecutorService.shutdown();
+        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mProgressBar.setIndeterminate(false);
+                mProgressBar.setProgress(progress);
+
+                if(progress != 100) {
                     return;
                 }
-
                 stations = stationsDataSource.getStations();
                 favStations = stationsDataSource.getFavoriteStations();
-
                 setDBLastUpdateText();
+                mProgressBar.setVisibility(View.GONE);
 
                 if (nearbyStationsFragment.getUserVisibleHint()) {
                     if (ContextCompat.checkSelfPermission(StationsListActivity.this,
@@ -389,30 +412,13 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
                         setNearbyStations();
                     }
                 }
-                getPagerAdapter().updateAllStationsListFragment(stations);
-                getPagerAdapter().updateFavoriteStationsFragment(favStations);
-                getPagerAdapter().updateNearbyStationsFragment(nearbyStations);
-
-                Intent refreshWidgetIntent = new Intent(getApplicationContext(),
-                        StationsListAppWidgetProvider.class);
-                refreshWidgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                refreshWidgetIntent.putExtra(StationsListAppWidgetProvider.EXTRA_REFRESH_LIST_ONLY, true);
-                sendBroadcast(refreshWidgetIntent);
-            }
-        });
-    }
-
-    private void setRefreshActionButtonState(final boolean refreshing) {
-        if (optionsMenu != null) {
-            final MenuItem refreshItem = optionsMenu.findItem(R.id.action_refresh);
-            if (refreshItem != null) {
-                if (refreshing) {
-                    refreshItem.setActionView(R.layout.actionbar_indeterminate_progress);
-                } else {
-                    refreshItem.setActionView(null);
+                if(stations != null) {
+                    getPagerAdapter().updateAllStationsListFragment(stations);
+                    getPagerAdapter().updateFavoriteStationsFragment(favStations);
+                    getPagerAdapter().updateNearbyStationsFragment(nearbyStations);
                 }
             }
-        }
+        });
     }
 
     //put here the code to update the bikes data
@@ -420,8 +426,10 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
         if(mDownloadFuture != null ) {
             mDownloadFuture.cancel(true);
         }
-        refreshLayout.setRefreshing(true);
-        setRefreshActionButtonState(true);
+        refreshLayout.setRefreshing(false);
+        mProgressBar.setIndeterminate(true);
+        mProgressBar.setVisibility(View.VISIBLE);
+
         Runnable jsonRunnable = new JSONDownloadRunnable(getApplicationContext(), this);
         mExecutorService = Executors.newSingleThreadExecutor();
         mDownloadFuture = mExecutorService.submit(jsonRunnable);

@@ -49,6 +49,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -119,6 +120,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     };
     private static final int REQUEST_LOC_PERMISSION_CODE = 1;
 
+    private ProgressBar mProgressBar;
     private MapView map;
     private IMapController mapController;
     private MyLocationNewOverlay myLocationOverlay;
@@ -152,6 +154,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
 
+        mProgressBar = (ProgressBar) findViewById(R.id.map_progressbar);
+        mProgressBar.getProgressDrawable().setColorFilter(
+                Color.parseColor("#FF7883"), android.graphics.PorterDuff.Mode.SRC_IN);
+        mProgressBar.getIndeterminateDrawable().setColorFilter(
+                Color.parseColor("#FF7883"), android.graphics.PorterDuff.Mode.SRC_IN);
         setDBLastUpdateText();
 
         stationsDataSource = new StationsDataSource(this);
@@ -698,28 +705,44 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         if(mDownloadFuture != null ) {
             mDownloadFuture.cancel(true);
         }
+        mProgressBar.setIndeterminate(true);
+        mProgressBar.setVisibility(View.VISIBLE);
+
         Runnable jsonRunnable = new JSONDownloadRunnable(getApplicationContext(), this);
         mExecutorService = Executors.newSingleThreadExecutor();
         mDownloadFuture = mExecutorService.submit(jsonRunnable);
     }
 
-    @Override
     public void onDownloadResultCallback(String error) {
         mExecutorService.shutdown();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                //setRefreshActionButtonState(false);
-                //refreshLayout.setRefreshing(false);
                 if (error != null) {
                     Log.e(TAG, "Download returned with an error: " + error);
                     /* TODO Display the error in the toast */
                     Toast.makeText(getApplicationContext(),
                             getApplicationContext().getResources().getString(R.string.connection_error),
                             Toast.LENGTH_SHORT).show();
+                }
+                mProgressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+    @Override
+    public void onDownloadResultCallback(int progress) {
+        if(progress == 100) {
+            mExecutorService.shutdown();
+        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mProgressBar.setIndeterminate(false);
+                mProgressBar.setProgress(progress);
+                if(progress != 100) {
                     return;
                 }
-
+                stationDetailsView.setVisibility(View.GONE);
                 ArrayList<Station> stations = stationsDataSource.getStations();
                 ArrayList<Marker> markerContent = stationsMarkers.getItems();
                 markerContent.clear();
@@ -730,6 +753,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 map.invalidate();
 
                 setDBLastUpdateText();
+                mProgressBar.setVisibility(View.GONE);
             }
         });
 
@@ -755,7 +779,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 long lastUpdate = timestampFormatISO8601.parse(rawLastUpdateISO8601).getTime();
                 long currentDateTime = System.currentTimeMillis();
                 timeDifferenceInSeconds = (currentDateTime - lastUpdate) / 1000;
-                Log.d("FFDS", "il y a " + timeDifferenceInSeconds);
 
                 if (timeDifferenceInSeconds < 60) {
                     stationLastUpdate.setText(getString(R.string.updated_just_now));

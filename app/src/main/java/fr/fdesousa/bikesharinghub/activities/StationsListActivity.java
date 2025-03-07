@@ -40,6 +40,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.pm.ShortcutInfoCompat;
+import androidx.core.content.pm.ShortcutManagerCompat;
+import androidx.core.graphics.drawable.IconCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -214,6 +217,17 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
             firstRun = networksDataSource.getNetworksId().size() == 0;
         } catch (IndexOutOfBoundsException e) {}
         setDBLastUpdateText();
+        ShortcutManagerCompat.removeAllDynamicShortcuts(this);
+        if (ShortcutManagerCompat.getDynamicShortcuts(this).isEmpty()) {
+            Intent mapIntent = new Intent(this, MapActivity.class);
+            mapIntent.setAction(Intent.ACTION_VIEW);
+            ShortcutInfoCompat shortcut = new ShortcutInfoCompat.Builder(this, "map-id1")
+                    .setShortLabel(getResources().getString(R.string.title_activity_map))
+                    .setIcon(IconCompat.createWithResource(this, R.drawable.ic_menu_mapmode))
+                    .setIntent(mapIntent)
+                    .build();
+            ShortcutManagerCompat.pushDynamicShortcut(this, shortcut);
+        }
 
         if (firstRun) {
             FragmentManager fm = getSupportFragmentManager();

@@ -22,6 +22,7 @@
 package fr.fdesousa.bikesharinghub.activities;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -150,7 +151,16 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ActionBar actionBar = getActionBar();
+        if(actionBar != null) {
+            String actionSource = getIntent().getAction();
+            if (actionSource != null && actionSource.equals(Intent.ACTION_VIEW)) {
+                actionBar.setDisplayHomeAsUpEnabled(false);
+            } else {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
+        }
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
 

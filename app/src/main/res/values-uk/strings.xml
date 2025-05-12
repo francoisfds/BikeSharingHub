@@ -11,7 +11,7 @@
     <string name="location_not_found">Розташування не знайдено</string>
     <string name="pref_title_license">Ліцензія</string>
     <string name="title_activity_stations_list">Станції</string>
-    <string name="pref_title_about">про</string>
+    <string name="pref_title_about">Про</string>
     <string name="pref_map_tiles_cache_max_size_title">Очистити кеш карти, якщо воно перевищує</string>
     <string name="ssl_error">Пристрій не довіряє сертифікату SSL</string>
     <string name="network_selected">вибрано</string>
@@ -40,14 +40,14 @@
     <string name="title_activity_map">Карта</string>
     <string name="title_activity_settings">Налаштування</string>
     <string name="welcome_dialog_message">Перш ніж почати, будь ласка, виберіть велосипедну мережу зі списку.\nТакож переконайтеся, що ви підключені до Інтернету.</string>
-    <string name="welcome_dialog_ok">добре</string>
+    <string name="welcome_dialog_ok">Добре</string>
     <string name="action_settings">Налаштування</string>
     <string name="action_refresh">Оновити</string>
     <string name="action_map">Карта</string>
     <string name="action_directions">Напрямки</string>
     <string name="action_my_location">Моє місцезнаходження</string>
     <string name="pref_header_general">Загальний</string>
-    <string name="pref_title_bike_networks_list_summary_none">жодного</string>
+    <string name="pref_title_bike_networks_list_summary_none">Жодного</string>
     <string name="pref_title_fork">Вилка</string>
     <string name="pref_title_citybikes_api">API CityBike</string>
     <string name="db_last_update_never">ніколи</string>

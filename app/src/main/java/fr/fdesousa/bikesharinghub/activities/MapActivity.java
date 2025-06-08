@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -114,6 +115,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     private static final String MAP_LAYER_MAPNIK = "mapnik";
     private static final String MAP_LAYER_CYCLEMAP = "cyclemap";
     private static final String MAP_LAYER_OSMPUBLICTRANSPORT = "osmpublictransport";
+    private static final int tooOldUpdateDelay = 600000; //10 minutes
 
     private static final String[] REQUEST_LOC_LIST = {
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -132,12 +134,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     private Drawable previousDrawable = null;
     private Marker selectedMarker = null;
     private boolean isDetailViewOpened = false;
+    private ColorStateList defaultTextViewColors;
     private MenuItem favoriteMenuItem;
     private Handler mHandler = new Handler();
     private SharedPreferences settings;
     private RadiusMarkerClusterer stationsMarkers;
     private ExecutorService mExecutorService;
     private Future mDownloadFuture;
+    private long mDbLastUpdate;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -169,6 +173,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 Color.parseColor("#FF7883"), android.graphics.PorterDuff.Mode.SRC_IN);
         mProgressBar.getIndeterminateDrawable().setColorFilter(
                 Color.parseColor("#FF7883"), android.graphics.PorterDuff.Mode.SRC_IN);
+        mDbLastUpdate = settings.getLong(PREF_KEY_DB_LAST_UPDATE, -1);
         setDBLastUpdateText();
 
         stationsDataSource = new StationsDataSource(this);
@@ -339,6 +344,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     protected void onPause() {
         super.onPause();
         myLocationOverlay.disableMyLocation();
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -537,6 +543,17 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         int emptySlots = station.getEmptySlots();
         int freeBikes = station.getFreeBikes();
 
+        String lastUpdateStationISO8601 = station.getLastUpdate();
+        SimpleDateFormat timestampFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+        timestampFormatISO8601.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        long stationLastUpdate = 0;
+        try {
+            stationLastUpdate = timestampFormatISO8601.parse(lastUpdateStationISO8601).getTime();
+        } catch (ParseException e) {
+        }
+        long stationDelay = mDbLastUpdate - stationLastUpdate;
+
         Context mContext = this.getApplicationContext();
         Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.ic_station_marker);
         float freeBikesRatio = (float) freeBikes / (float) (freeBikes + emptySlots);
@@ -593,6 +610,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
             mTextPaint.setAntiAlias(true);
             String text = String.valueOf(freeBikes);
             int textHeight = (int) (mTextPaint.descent() + mTextPaint.ascent());
+            if(stationDelay > tooOldUpdateDelay) {
+                text = "!";
+            }
             canvas.drawText(text,
                     mTextAnchorU * finalIcon.getWidth(),
                     mTextAnchorV * finalIcon.getHeight() - textHeight / 2,
@@ -756,6 +776,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 ArrayList<Station> stations = stationsDataSource.getStations();
                 ArrayList<Marker> markerContent = stationsMarkers.getItems();
                 markerContent.clear();
+                mDbLastUpdate = settings.getLong(PREF_KEY_DB_LAST_UPDATE, -1);
                 for (final Station station : stations) {
                     markerContent.add(createStationMarker(station));
                 }
@@ -781,6 +802,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
             timestampFormatISO8601.setTimeZone(TimeZone.getTimeZone("UTC"));
             stationLastUpdate = (TextView) findViewById(R.id.stationLastUpdate);
             stationLastUpdate.setTypeface(null, Typeface.ITALIC);
+            if(defaultTextViewColors == null) {
+                //Keep ref of default colors
+                defaultTextViewColors = stationLastUpdate.getTextColors();
+            }
         }
 
         public void run() {
@@ -791,7 +816,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 timeDifferenceInSeconds = (currentDateTime - lastUpdate) / 1000;
 
                 if (timeDifferenceInSeconds < 60) {
-                    stationLastUpdate.setText(getString(R.string.updated_just_now));
+                    stationLastUpdate.setText(getResources().getQuantityString(R.plurals.updated_secondes_ago,
+                            (int) timeDifferenceInSeconds, (int) timeDifferenceInSeconds));
                     mHandler.postDelayed(this, 1000);
                 } else if (timeDifferenceInSeconds >= 60 && timeDifferenceInSeconds < 3600) {
                     int minutes = (int) timeDifferenceInSeconds / 60;
@@ -808,6 +834,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                     stationLastUpdate.setText(getResources().getQuantityString(R.plurals.updated_days_ago,
                             days, days));
                 }
+
+                if (mDbLastUpdate - lastUpdate > tooOldUpdateDelay) {
+                    stationLastUpdate.setTextColor(Color.RED);
+                } else {
+                    stationLastUpdate.setTextColor(defaultTextViewColors.getDefaultColor());
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -818,22 +850,21 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         TextView stationLastUpdate = (TextView) findViewById(R.id.stationLastUpdate);
         stationLastUpdate.setTypeface(null, Typeface.ITALIC);
 
-        final Handler handler = new Handler();
-        final Runnable runnable = new LastUpdateRunnable(rawLastUpdateISO8601, handler);
-        handler.post(runnable);
+        mHandler.removeCallbacksAndMessages(null);
+        final Runnable runnable = new LastUpdateRunnable(rawLastUpdateISO8601, mHandler);
+        mHandler.post(runnable);
     }
 
     private void setDBLastUpdateText() {
         TextView lastUpdate = (TextView) findViewById(R.id.mapDbLastUpdate);
-        long dbLastUpdate = settings.getLong(PREF_KEY_DB_LAST_UPDATE, -1);
 
-        if (dbLastUpdate == -1) {
+        if (mDbLastUpdate == -1) {
             lastUpdate.setText(String.format(getString(R.string.db_last_update),
                     getString(R.string.db_last_update_never)));
         } else {
             lastUpdate.setText(String.format(getString(R.string.db_last_update),
-                    DateUtils.formatSameDayTime(dbLastUpdate, System.currentTimeMillis(),
-                            DateFormat.DEFAULT, DateFormat.DEFAULT)));
+                    DateUtils.formatSameDayTime(mDbLastUpdate, System.currentTimeMillis(),
+                            DateFormat.DEFAULT, DateFormat.DEFAULT).toString()));
         }
     }
 

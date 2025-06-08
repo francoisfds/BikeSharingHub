@@ -64,6 +64,10 @@
     <string name="db_last_update">Dernière mise à jour : %1$s</string>
     <string name="db_last_update_never">jamais</string>
     <string name="updated_just_now">À l\'instant</string>
+    <plurals name="updated_secondes_ago">
+        <item quantity="one">Il y a %d seconde</item>
+        <item quantity="other">Il y a %d secondes</item>
+    </plurals>
     <plurals name="updated_minutes_ago">
         <item quantity="one">Il y a %d minute</item>
         <item quantity="other">Il y a %d minutes</item>
@@ -112,4 +116,5 @@
     <string name="pref_map_tiles_cache_trim_size_title">Le nettoyage abaisse le cache des cartes à</string>
     <string name="pref_map_tiles_cache_trim_size_summary">%1$s Mo</string>
     <string name="pref_map_tiles_cache_size_hint">Entier entre %1$s et %2$s</string>
+    <string name="server_sends_old_data">Le serveur envoie d'anciennes données pour cette station ou l'heure du système n'est pas exacte</string>
 </resources>

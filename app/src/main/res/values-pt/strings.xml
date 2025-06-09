@@ -36,9 +36,7 @@
     <string name="title_activity_map">Mapa</string>
     <string name="title_activity_settings">Configurações</string>
     <!-- Welcome dialog -->
-    <string name="welcome_dialog_message">" Antes de começar, escolha uma rede de bicicletas na lista. 
-\n
-\nCertifique-se que está conectado à Internet. "</string>
+    <string name="welcome_dialog_message">" Antes de começar, escolha uma rede de bicicletas na lista. \n\n\n\nCertifique-se que está conectado à Internet. "</string>
     <string name="welcome_dialog_ok">OK</string>
     <string name="welcome_dialog_cancel">Cancelar</string>
     <string name="welcome_dialog_title">Bem-vindo</string>

@@ -1,0 +1,9 @@
+<p>
+BikeSharingHub näyttää jaettujen pyörien saatavuuden satojen kaupunkien kesken samassa sovelluksessa.
+</p>
+<p>
+Tiedot haetaan CityBik.es API:sta, joka kerää käytettävissä olevien jaettujen pyöräoperaattoreiden tarjoamaa avointa dataa. Tämä sovellusliittymä on avoimen lähdekoodin ja sovellus sallii asettaa toisen API-URL-osoitteen kuin oletuksena oleva.
+</p>
+<p>
+Se perustuu OpenBikeSharing-sovellukseen (tietovarasto "F-Droid Archive").
+</p>

@@ -89,4 +89,11 @@
     <string name="pref_title_openstreetmap">OpenStreetMap</string>
     <string name="pref_title_version">Версія</string>
     <string name="pref_map_layer_title">Шар карти</string>
+    <plurals name="updated_secondes_ago">
+        <item quantity="one">%d секунда тому</item>
+        <item quantity="few">%d секунди тому</item>
+        <item quantity="many">%d секунд тому</item>
+        <item quantity="other">%d секунд тому</item>
+    </plurals>
+    <string name="server_sends_old_data">Сервер надсилає старі дані для цієї станції, або системний час неточний</string>
 </resources>

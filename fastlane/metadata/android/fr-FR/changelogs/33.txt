@@ -5,3 +5,5 @@
 * Meilleur gestion de certains réseaux
 * Cible Android 15 (supporte encore Android 4)
 * Update translations
+* Ajout d'un raccourci de lanceur vers la carte (Android 8+)
+* Rechargement automatique des données depuis la carte

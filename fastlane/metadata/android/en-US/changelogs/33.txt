@@ -5,3 +5,5 @@
 * Better management of some networks
 * Target Android 15 (still supporting Android 4)
 * Update translations
+* Add a launcher shortcut to the map (Android 8+)
+* Automatic data reload when entering the map

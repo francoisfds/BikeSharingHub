@@ -116,5 +116,5 @@
     <string name="pref_map_tiles_cache_trim_size_title">Le nettoyage abaisse le cache des cartes à</string>
     <string name="pref_map_tiles_cache_trim_size_summary">%1$s Mo</string>
     <string name="pref_map_tiles_cache_size_hint">Entier entre %1$s et %2$s</string>
-    <string name="server_sends_old_data">Le serveur envoie d'anciennes données pour cette station ou l'heure du système n'est pas exacte</string>
+    <string name="server_sends_old_data">Le serveur envoie d\'anciennes données pour cette station ou l\'heure du système n\'est pas exacte</string>
 </resources>

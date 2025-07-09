@@ -156,16 +156,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        ActionBar actionBar = getActionBar();
-        if(actionBar != null) {
-            String actionSource = getIntent().getAction();
-            if (actionSource != null && actionSource.equals(Intent.ACTION_VIEW)) {
-                actionBar.setDisplayHomeAsUpEnabled(false);
-            } else {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-            }
-        }
-
         settings = PreferenceManager.getDefaultSharedPreferences(this);
 
         mProgressBar = (ProgressBar) findViewById(R.id.map_progressbar);
@@ -175,6 +165,17 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 Color.parseColor("#FF7883"), android.graphics.PorterDuff.Mode.SRC_IN);
         mDbLastUpdate = settings.getLong(PREF_KEY_DB_LAST_UPDATE, -1);
         setDBLastUpdateText();
+
+        ActionBar actionBar = getActionBar();
+        if(actionBar != null) {
+            String actionSource = getIntent().getAction();
+            if (actionSource != null && actionSource.equals(Intent.ACTION_VIEW)) {
+                executeDownloadTask();  //Fetch info when user enters the app
+                actionBar.setDisplayHomeAsUpEnabled(false);
+            } else {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
+        }
 
         stationsDataSource = new StationsDataSource(this);
         networksDataSource = new NetworksDataSource(this);
@@ -351,6 +352,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     protected void onResume() {
         super.onResume();
         myLocationOverlay.enableMyLocation();
+
+        /* Update automatically if data is more than 10 min old */
+        long currentTime = System.currentTimeMillis();
+        if ((mDbLastUpdate != -1) && ((currentTime - mDbLastUpdate) > 600000)) {
+            Log.d("FFDS", "more than 10 mins, updating");
+            executeDownloadTask();
+        }
     }
 
     @Override

@@ -14,8 +14,7 @@
     <string name="title_activity_networks_list">ネットワークを選択</string>
     <string name="title_activity_map">地図</string>
     <string name="title_activity_settings">設定</string>
-    <string name="welcome_dialog_message">" 開始する前に、一覧から自転車ネットワークを選択してください。
-\nまた、インターネットに接続していることを確認してください。 "</string>
+    <string name="welcome_dialog_message">" 開始する前に、一覧から自転車ネットワークを選択してください。\n\nまた、インターネットに接続していることを確認してください。 "</string>
     <string name="welcome_dialog_ok">OK</string>
     <string name="welcome_dialog_cancel">キャンセル</string>
     <string name="welcome_dialog_title">ようこそ</string>
@@ -65,8 +64,8 @@
     <string name="pref_title_advanced">詳細</string>
     <string name="pref_title_api_url">API URL</string>
     <string name="pref_title_default_tab">デフォルトのタブ</string>
-    <string name="loc_perm_forbidden"></string>
-    <string name="free_ebikes"></string>
-    <string name="location_not_granted"></string>
-    <string name="pref_title_fork"></string>
+    <string name="loc_perm_forbidden"/>
+    <string name="free_ebikes"/>
+    <string name="location_not_granted"/>
+    <string name="pref_title_fork"/>
 </resources>

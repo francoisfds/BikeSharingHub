@@ -14,8 +14,7 @@
     <string name="title_activity_networks_list">Välj ett nätverk</string>
     <string name="title_activity_map">Karta</string>
     <string name="title_activity_settings">Inställningar</string>
-    <string name="welcome_dialog_message">" Innan du loggar in, vänligen välj ett cykelnätverk i listan.
-\nFörsäkra dig också om att du är ansluten till internet. "</string>
+    <string name="welcome_dialog_message">" Innan du loggar in, vänligen välj ett cykelnätverk i listan.\n\nFörsäkra dig också om att du är ansluten till internet. "</string>
     <string name="welcome_dialog_ok">OK</string>
     <string name="welcome_dialog_cancel">Avbryt</string>
     <string name="welcome_dialog_title">Välkommen</string>

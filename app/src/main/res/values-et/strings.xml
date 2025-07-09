@@ -83,4 +83,9 @@
     <string name="pref_title_osmbonuspack_library">OSMBonusPacki teek</string>
     <string name="pref_title_openstreetmap">OpenStreetMap</string>
     <string name="loc_perm_forbidden">Puudub õigus tuvastada asukohta.\nSa saad valida avavaateks mõne muu vahekaardi.\nVõi siis palun luba nutiseadme seadistustest vajalikud õigused.</string>
+    <plurals name="updated_secondes_ago">
+        <item quantity="one">%d sekundi eest</item>
+        <item quantity="other">%d sekundi eest</item>
+    </plurals>
+    <string name="server_sends_old_data">Server kas on saatnud selle jaama kohta vanu andmeid või on seadme kell vale</string>
 </resources>

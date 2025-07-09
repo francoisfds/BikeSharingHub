@@ -32,6 +32,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
@@ -96,6 +97,8 @@ public class JSONDownloadRunnable implements Runnable {
                 }
                 mDownloadResult.onDownloadResultCallback((int) Math.round(100.0 * (i+1) / mNetworksUrl.length)-1);
                 networksArray.put(new JSONObject(response.toString()));
+            } catch (InterruptedIOException e) {
+                return; //End up silently
             } catch (Exception e) {
                 Log.e(TAG, mNetworksUrl[i] + ": " + e.getClass().getSimpleName() + " (" + e.getMessage() + ")");
             }

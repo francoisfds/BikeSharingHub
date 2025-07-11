@@ -5,3 +5,5 @@
 * Mõnede rattavõrgustike parem haldus
 * Kompileerimine arvestab Androidi versiooniga 15 (aga tugi algab Androidi versioonist 4)
 * Uuendasime tõlkeid
+* Lisasime käivitaja ikooni, mis viitab kaardile (Android 8+)
+* Kaardi avamisel laaditakse andmed automaatselt uuesti

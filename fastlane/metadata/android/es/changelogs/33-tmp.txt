@@ -1,0 +1,7 @@
+*  Añadir tema oscuro (Android 10+)
+* Añadir tema de colores dinámicos (Android 12+)
+* Mejor detección de la ubicación del dispositivo
+* Obtener los datos de las estaciones desde el mapa
+* Mejor gestión de algunas redes
+* Objetivo Android 15 (aún compatible con Android 4)
+* Actualizar traducciones

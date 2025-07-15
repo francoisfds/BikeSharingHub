@@ -1,5 +1,9 @@
-* Koyu tema eklendi (Android 10+)
-* Değişken renkler teması eklendi (Android 12+)
-* Aygıt konumunun daha iyi algılanması
-* Android 15 hedeflendi (hala Android 4'ü destekliyor)
+* Karanlık tema eklendi (Android 10 ve üzeri)
+* Dinamik renk teması eklendi (Android 12 ve üzeri)
+* Cihaz konumu daha iyi algılanıyor
+* İstasyon verileri haritadan alınıyor
+* Bazı ağların yönetimi iyileştirildi
+* Hedef Android 15 (hala Android 4 desteği mevcut)
 * Çeviriler güncellendi
+* Harita için başlatıcı kısayolu eklendi (Android 8 ve üzeri)
+* Haritaya girildiğinde otomatik veri yenileme sağlandı

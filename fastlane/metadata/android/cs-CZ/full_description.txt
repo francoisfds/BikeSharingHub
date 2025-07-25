@@ -1,0 +1,9 @@
+<p>
+BikeSharingHub zobrazuje dostupnost sdílených kol napříč stovkami měst ve stejné aplikaci.
+</p>
+<p>
+Data jsou získávána z API CityBik.es, která získává otevřená data poskytovaná dostupnými provozovateli sdílených kol. Tato API je open-source a aplikace umožňuje nastavit i jinou než výchozí adresu API.
+</p>
+<p>
+Aplikace je založena na aplikaci OpenBikeSharing (archiv repozitáře F-Droid).
+</p>

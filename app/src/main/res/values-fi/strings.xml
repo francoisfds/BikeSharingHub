@@ -86,4 +86,9 @@
     <string name="pref_map_tiles_cache_trim_size_title">Puhdistus laskee karttavälimuistin tähän asti</string>
     <string name="pref_map_tiles_cache_trim_size_summary">%1$s Mt</string>
     <string name="pref_map_tiles_cache_size_hint">Kokonaisluku välillä %1$s ja %2$s</string>
+    <plurals name="updated_secondes_ago">
+        <item quantity="one">%d sekunti sitten</item>
+        <item quantity="other">%d sekuntia sitten</item>
+    </plurals>
+    <string name="server_sends_old_data">Palvelin lähettää vanhaa dataa tälle asemalle tai järjestelmän aika ei ole tarkka</string>
 </resources>

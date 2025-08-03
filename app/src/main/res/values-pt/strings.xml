@@ -32,11 +32,11 @@
     <!-- Activities titles -->
     <string name="title_activity_stations_list">Estações</string>
     <string name="title_activity_station">Estação</string>
-    <string name="title_activity_networks_list">Selecione uma rede</string>
+    <string name="title_activity_networks_list">Escolha da rede</string>
     <string name="title_activity_map">Mapa</string>
     <string name="title_activity_settings">Configurações</string>
     <!-- Welcome dialog -->
-    <string name="welcome_dialog_message">" Antes de começar, escolha uma rede de bicicletas na lista. \n\n\n\nCertifique-se que está conectado à Internet. "</string>
+    <string name="welcome_dialog_message">Antes de começar, escolha uma rede de bicicletas na lista. \nCertifique-se que está conectado à Internet.</string>
     <string name="welcome_dialog_ok">OK</string>
     <string name="welcome_dialog_cancel">Cancelar</string>
     <string name="welcome_dialog_title">Bem-vindo</string>
@@ -59,19 +59,22 @@
     <string name="updated_just_now">Agora</string>
     <plurals name="updated_minutes_ago">
         <item quantity="one">Há %d minuto</item>
+        <item quantity="many">Há %d minutos</item>
         <item quantity="other">Há %d minutos</item>
     </plurals>
     <plurals name="updated_hours_ago">
         <item quantity="one">Há %d hora</item>
+        <item quantity="many">Há %d horas</item>
         <item quantity="other">Há %d horas</item>
     </plurals>
     <plurals name="updated_days_ago">
         <item quantity="one">Há %d dia</item>
+        <item quantity="many">Há %d dias</item>
         <item quantity="other">Há %d dias</item>
     </plurals>
     <!-- Settings -->
     <string name="pref_header_general">Geral</string>
-    <string name="pref_title_bike_networks_list">Escolher uma rede</string>
+    <string name="pref_title_bike_networks_list">Escolha da rede</string>
     <string name="pref_title_license">Licença</string>
     <string name="pref_title_about">Sobre</string>
     <string name="pref_title_source_code">Código-fonte</string>
@@ -82,7 +85,7 @@
     <string name="pref_title_version">Versão</string>
     <string name="pref_map_layer_title">Mapa</string>
     <string name="pref_title_strip_station_id">Ocultar identificador da estação</string>
-    <string name="pref_title_strip_station_id_summary">" Não mostrar o identificador do nome da estação (útil apenas para algumas redes) "</string>
+    <string name="pref_title_strip_station_id_summary">Não mostrar o identificador do nome da estação (útil apenas para algumas redes)</string>
     <string name="widget_title_favorite_stations">Estações favoritas</string>
     <string name="widget_no_fav_stations">Sem estações favoritas</string>
     <string name="nearby_stations">Perto</string>
@@ -98,4 +101,22 @@
     <string name="location_not_granted">Acesso à localização negado</string>
     <string name="free_ebikes">Bicicletas elétricas: </string>
     <string name="pref_title_fork">Bifurcação de</string>
+    <string name="ssl_error">Certificado SSL não confiado pelo dispositivo</string>
+    <string name="location_coarse_only">Usando localização aproximada devido à falta de permissão</string>
+    <string name="location_outdated">A sua localização tem mais que %1$s minutos</string>
+    <string name="map_cache_cleaning_started">A limpeza do cache do mapa está em andamento e pode demorar um pouco</string>
+    <string name="map_cache_cleaning_done">Limpeza de cache de mapa feito</string>
+    <plurals name="updated_secondes_ago">
+        <item quantity="one">Há %d segundo</item>
+        <item quantity="many">Há %d segundos</item>
+        <item quantity="other">Há %d segundos</item>
+    </plurals>
+    <string name="pref_title_bike_networks_list_summary_none">Nenhum</string>
+    <string name="pref_title_bike_networks_list_summary_multiple_selection">%d selecionado</string>
+    <string name="pref_map_tiles_cache_max_size_title">Limpar o cache do mapa se exceder</string>
+    <string name="pref_map_tiles_cache_max_size_summary">%1$s MB (tamanho do cache atual: %2$s MB)</string>
+    <string name="pref_map_tiles_cache_trim_size_title">A limpeza reduz o cache do mapa para</string>
+    <string name="pref_map_tiles_cache_trim_size_summary">%1$s MB</string>
+    <string name="pref_map_tiles_cache_size_hint">Inteiro entre %1$s e %2$s</string>
+    <string name="server_sends_old_data">O servidor envia dados antigos para esta estação ou o tempo do sistema não é preciso</string>
 </resources>

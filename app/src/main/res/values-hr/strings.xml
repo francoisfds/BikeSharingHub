@@ -89,4 +89,10 @@
     <string name="location_outdated">Tvoja je lokacija starija od %1$s minuta</string>
     <string name="location_coarse_only">Korištenje grubog određivanja lokacije zbog nedostatka dozvola</string>
     <string name="ssl_error">Uređaj ne vjeruje SSL certifikatu</string>
+    <plurals name="updated_secondes_ago">
+        <item quantity="one">prije %d sekunde</item>
+        <item quantity="few">prije %d sekunde</item>
+        <item quantity="other">prije %d sekundi</item>
+    </plurals>
+    <string name="server_sends_old_data">Server šalje stare podatke za ovu stanicu ili vrijeme sustava nije točno</string>
 </resources>

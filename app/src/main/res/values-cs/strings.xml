@@ -1,2 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="connection_error">Chyba připojení</string>
+    <string name="ssl_error">Zařízení nedůvěřuje certifikátu SSL</string>
+    <string name="json_error">Chyba při získávání dat</string>
+    <string name="action_settings">Nastavení</string>
+    <string name="action_refresh">Obnovit</string>
+    <string name="action_map">Mapa</string>
+    <string name="action_directions">Trasa</string>
+    <string name="action_favorite">Oblíbené</string>
+    <string name="action_my_location">Moje poloha</string>
+    <string name="action_search">Hledat</string>
+    <string name="title_activity_stations_list">Stanice</string>
+    <string name="title_activity_station">Stanice</string>
+    <string name="title_activity_networks_list">Výběr sítě</string>
+    <string name="title_activity_map">Mapa</string>
+    <string name="title_activity_settings">Nastavení</string>
+    <string name="welcome_dialog_message">Před začátkem si prosím vyberte síť kol v seznamu.\nTaké se ujistěte, že jste připojeni k internetu.</string>
+    <string name="welcome_dialog_ok">OK</string>
+    <string name="welcome_dialog_cancel">Zrušit</string>
+    <string name="welcome_dialog_title">Vítejte</string>
+    <string name="location_not_found">Poloha nenalezena</string>
+    <string name="location_not_granted">Přístup k poloze zamítnut</string>
+    <string name="location_coarse_only">Používám přibližnou polohu z důvodu chybějícího oprávnění</string>
+    <string name="location_outdated">Vaše poloha je starší než %1$s minut</string>
+    <string name="network_selected">vybrána</string>
+    <string name="bike_network_downloading">Počkejte prosím na stažení sítě kol</string>
+    <string name="map_cache_cleaning_started">Probíhá mazání mezipaměti mapy, může to chvíli trvat</string>
+    <string name="map_cache_cleaning_done">Mazání mezipaměti mapy hotovo</string>
+    <string name="widget_title_favorite_stations">Oblíbené stanice</string>
+    <string name="widget_no_fav_stations">Žádné oblíbené stanice</string>
+    <string name="free_bikes">Volná kola: </string>
+    <string name="free_ebikes">Elektrická kola: </string>
+    <string name="empty_slots">Prázdná místa: </string>
+    <string name="all_stations">Všechny stanice</string>
+    <string name="favorite_stations">Oblíbené</string>
+    <string name="nearby_stations">Poblíž</string>
+    <string name="no_stations">Žádné stanice</string>
+    <string name="no_favorite_stations">Žádné oblíbené stanice</string>
+    <string name="no_nearby_stations">Žádné stanice poblíž</string>
+    <string name="loc_perm_forbidden">Přístup k poloze je zamítnut.\nMůžete si vybrat jinou výchozí kartu.\nV opačném případě udělte oprávnění v nastavení systému.</string>
+    <string name="station_added_to_favorites">Stanice přidána do oblíbených</string>
+    <string name="stations_removed_from_favorites">Stanice odebrána z oblíbených</string>
+    <string name="no_nav_application">Nemáte nainstalovanou žádnou navigační aplikaci</string>
+    <string name="is_bonus_station">Bonusová stanice</string>
+    <string name="cards_accepted">Přijímány karty</string>
+    <string name="db_last_update">Naposledy aktualizováno: %1$s</string>
+    <string name="db_last_update_never">nikdy</string>
+    <plurals name="updated_secondes_ago">
+        <item quantity="one">Před %d sekundou</item>
+        <item quantity="few">Před %d sekundami</item>
+        <item quantity="other">Před %d sekundami</item>
+    </plurals>
+    <string name="updated_just_now">Právě teď</string>
+    <plurals name="updated_minutes_ago">
+        <item quantity="one">Před %d minutou</item>
+        <item quantity="few">Před %d minutami</item>
+        <item quantity="other">Před %d minutami</item>
+    </plurals>
+    <plurals name="updated_hours_ago">
+        <item quantity="one">Před %d hodinou</item>
+        <item quantity="few">Před %d hodinami</item>
+        <item quantity="other">Před %d hodinami</item>
+    </plurals>
+    <plurals name="updated_days_ago">
+        <item quantity="one">Před %d dnem</item>
+        <item quantity="few">Před %d dny</item>
+        <item quantity="other">Před %d dny</item>
+    </plurals>
+    <string name="pref_header_general">Obecné</string>
+    <string name="pref_title_bike_networks_list">Výběr sítě</string>
+    <string name="pref_title_bike_networks_list_summary_none">Žádná</string>
+    <string name="pref_title_bike_networks_list_summary_multiple_selection">Vybráno %d</string>
+    <string name="pref_title_license">Licence</string>
+    <string name="pref_title_about">O aplikaci</string>
+    <string name="pref_title_source_code">Zdrojový kód</string>
+    <string name="pref_title_fork">Fork aplikace</string>
+    <string name="pref_title_citybikes_api">API CityBikes</string>
+    <string name="pref_title_osmdroid_library">Knihovna osmdroid</string>
+    <string name="pref_title_osmbonuspack_library">Knihovna OSMBonusPack</string>
+    <string name="pref_title_openstreetmap">OpenStreetMap</string>
+    <string name="pref_title_version">Verze</string>
+    <string name="pref_map_layer_title">Vrstva mapy</string>
+    <string name="pref_title_strip_station_id">Skrýt ID stanice</string>
+    <string name="pref_title_strip_station_id_summary">Odstranit ID stanice z jejího názvu (užitečné pouze pro některé sítě)</string>
+    <string name="pref_title_advanced">Pokročilé</string>
+    <string name="pref_title_api_url">URL API</string>
+    <string name="pref_title_default_tab">Výchozí karta</string>
+    <string name="pref_map_tiles_cache_max_size_title">Vymazat mezipaměť mapy, pokud překročí</string>
+    <string name="pref_map_tiles_cache_max_size_summary">%1$s MB (aktuální velikost mezipaměti: %2$s MB)</string>
+    <string name="pref_map_tiles_cache_trim_size_title">Vymazání mezipaměti mapy sníží její velikost na</string>
+    <string name="pref_map_tiles_cache_trim_size_summary">%1$s MB</string>
+    <string name="pref_map_tiles_cache_size_hint">Celé číslo mezi %1$s a %2$s</string>
+    <string name="server_sends_old_data">Server odesílá pro tuto stanici stará data nebo není správně nastaven systémový čas</string>
+</resources>

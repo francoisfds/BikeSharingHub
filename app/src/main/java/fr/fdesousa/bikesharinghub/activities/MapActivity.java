@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2020-2025 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020-2026 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -276,7 +276,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         } else if (hasExtra) {
             mapController.setZoom(16f);
             previousDrawable = selectedMarker.getIcon();
-            selectedMarker.setIcon(iconSelected);
+            //selectedMarker.setIcon(iconSelected);
             setStationDetails((Station) selectedMarker.getRelatedObject());
             stationDetailsView.setVisibility(View.VISIBLE);
             isDetailViewOpened = true;
@@ -537,7 +537,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 }
                 selectedMarker = marker;
                 previousDrawable = selectedMarker.getIcon();
-                selectedMarker.setIcon(iconSelected);
+                //selectedMarker.setIcon(iconSelected);
                 setStationDetails((Station) selectedMarker.getRelatedObject());
                 stationDetailsView.setVisibility(View.VISIBLE);
                 isDetailViewOpened = true;

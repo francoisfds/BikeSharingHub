@@ -29,8 +29,8 @@ android {
         applicationId "fr.fdesousa.bikesharinghub"
         minSdkVersion 14
         targetSdkVersion 35
-        versionCode 33
-        versionName "2.1.4"
+        versionCode 34
+        versionName "2.1.5"
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
     }
 

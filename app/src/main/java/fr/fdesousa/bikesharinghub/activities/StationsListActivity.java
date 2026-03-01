@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2020-2024 François FERREIRA DE SOUSA.
+ * Copyright (c) 2020-2026 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -63,6 +63,7 @@ import android.widget.Toast;
 
 import java.lang.IndexOutOfBoundsException;
 import java.text.DateFormat;
+import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -359,6 +360,11 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
 
     }
 
+    private String normalize(String str) {
+        return Normalizer.normalize(str, Normalizer.Form.NFD)
+            .replaceAll("\\p{InCombiningDiacriticalMarks}+|\\s|'|-|_", "").toLowerCase();
+    }
+
     private void loadData(String query) {
         ArrayList<Station> queryStations = new ArrayList<>();
         String[] columns = new String[]{"_id", "text"};
@@ -369,7 +375,7 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
         if (stations != null) {
             for (int i = 0; i < stations.size(); i++) {
                 Station station = stations.get(i);
-                if (station.getName().toLowerCase().contains(query.toLowerCase())) {
+                if (normalize(station.getName().toLowerCase()).contains(normalize(query.toLowerCase()))) {
                     temp[0] = i;
                     temp[1] = station.getName();
                     cursor.addRow(temp);

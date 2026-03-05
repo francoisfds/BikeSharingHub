@@ -38,7 +38,7 @@
     <!-- Welcome dialog -->
     <string name="welcome_dialog_message">Antes de empezar, elija una red de bicicletas de la lista.
 \nAsegúrate también de que estás conectado a Internet.</string>
-    <string name="welcome_dialog_ok">OK</string>
+    <string name="welcome_dialog_ok">Aceptar</string>
     <string name="welcome_dialog_cancel">Cancelar</string>
     <string name="welcome_dialog_title">Bienvenido</string>
     <!-- Map -->
@@ -46,8 +46,8 @@
     <string name="network_selected">seleccionada</string>
     <string name="bike_network_downloading">Por favor espere mientras la red de bicicletas está siendo descargada</string>
     <!-- Various -->
-    <string name="free_bikes">Bicicletas: </string>
-    <string name="empty_slots">Espacios: </string>
+    <string name="free_bikes">Bicicletas gratuitas: </string>
+    <string name="empty_slots">Ranuras vacías: </string>
     <string name="all_stations">Todas las estaciones</string>
     <string name="favorite_stations">Favoritos</string>
     <string name="station_added_to_favorites">Estación añadida a favoritos</string>
@@ -114,4 +114,10 @@
     <string name="location_outdated">Tu ubicación tiene más de %1$s minutos</string>
     <string name="location_coarse_only">Uso de una ubicación aproximada debido a la falta de permisos</string>
     <string name="ssl_error">Certificado SSL no seguro para el dispositivo</string>
+    <plurals name="updated_secondes_ago">
+        <item quantity="one">hace %d segundo</item>
+        <item quantity="many">hace %d segundos</item>
+        <item quantity="other">hace %d segundos</item>
+    </plurals>
+    <string name="server_sends_old_data">El servidor envía datos antiguos para esta estación o la hora del sistema no es correcta</string>
 </resources>

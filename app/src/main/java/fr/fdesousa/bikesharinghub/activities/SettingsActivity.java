@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2023 François FERREIRA DE SOUSA.
+ * Copyright (c) 2023,2026 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -23,9 +23,11 @@ package fr.fdesousa.bikesharinghub.activities;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+
 import androidx.core.app.NavUtils;
 import android.view.MenuItem;
 
+import fr.fdesousa.bikesharinghub.R;
 import fr.fdesousa.bikesharinghub.fragments.SettingsFragment;
 
 /**
@@ -36,6 +38,8 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
+
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getFragmentManager().beginTransaction().replace(android.R.id.content,
                 new SettingsFragment()).commit();

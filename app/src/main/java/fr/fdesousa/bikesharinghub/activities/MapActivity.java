@@ -50,15 +50,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
@@ -70,6 +76,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.tilesource.TileSourcePolicyException;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.LocationUtils;
+import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.MapEventsOverlay;
@@ -123,6 +130,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
     };
     private static final int REQUEST_LOC_PERMISSION_CODE = 1;
 
+    private OnApplyWindowInsetsListener mOnApplyWindowInsetsListener;
+    private WindowInsetsCompat mWindowInsets;
+    private CopyrightOverlay mCopyrightOverly;
     private ProgressBar mProgressBar;
     private MapView map;
     private IMapController mapController;
@@ -176,6 +186,32 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                 actionBar.setDisplayHomeAsUpEnabled(true);
             }
         }
+
+        // Android 15+ Handle insets
+        mOnApplyWindowInsetsListener = new OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat windowInsets) {
+                if(windowInsets == null) {
+                  return WindowInsetsCompat.CONSUMED;
+                }
+                mWindowInsets = windowInsets;
+                Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+                mlp.topMargin = insets.top;
+                if (isDetailViewOpened) {
+                    mlp.bottomMargin = insets.bottom;
+                } else {
+                    mlp.bottomMargin = 0;   // No bottom margin if map is full screen (no station details displayed)
+                }
+                v.setLayoutParams(mlp);
+                if(mCopyrightOverly != null) {
+                    mCopyrightOverly.setOffset(20, 10 + windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom);
+                }
+                return WindowInsetsCompat.CONSUMED;
+            }
+        };
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_map_layout), mOnApplyWindowInsetsListener);
 
         stationsDataSource = new StationsDataSource(this);
         networksDataSource = new NetworksDataSource(this);
@@ -231,10 +267,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         }
         map.invalidate();
 
-        map.getOverlays().add(new CopyrightOverlay(context));
+        mCopyrightOverly = new CopyrightOverlay(context);
+        map.getOverlays().add(mCopyrightOverly);
         map.getOverlays().add(new OneFingerZoomOverlay());
         map.setTilesScaledToDpi(true);
         map.setMultiTouchControls(true);
+        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
         map.setMinZoomLevel(Double.valueOf(3));
 
         /* map tile source */
@@ -275,13 +313,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                     savedInstanceState.getDouble(MAP_CENTER_LON_KEY)));
         } else if (hasExtra) {
             mapController.setZoom(16f);
-            previousDrawable = selectedMarker.getIcon();
-            //selectedMarker.setIcon(iconSelected);
-            setStationDetails((Station) selectedMarker.getRelatedObject());
-            stationDetailsView.setVisibility(View.VISIBLE);
-            isDetailViewOpened = true;
-            mapController.animateTo(selectedMarker.getPosition());
-            invalidateOptionsMenu();
+            displayStationsDetails();
         } else {
             Location userLocation = null;
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
@@ -356,7 +388,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         /* Update automatically if data is more than 10 min old */
         long currentTime = System.currentTimeMillis();
         if ((mDbLastUpdate != -1) && ((currentTime - mDbLastUpdate) > 600000)) {
-            Log.d("FFDS", "more than 10 mins, updating");
             executeDownloadTask();
         }
     }
@@ -470,6 +501,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
         if (isDetailViewOpened) {
             stationDetailsView.setVisibility(View.GONE);
             isDetailViewOpened = false;
+            mOnApplyWindowInsetsListener.onApplyWindowInsets(findViewById(R.id.activity_map_layout), mWindowInsets);
             mHandler.removeCallbacksAndMessages(null);
             if (previousDrawable != null && selectedMarker != null) {
                 selectedMarker.setIcon(previousDrawable);
@@ -536,13 +568,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                     }
                 }
                 selectedMarker = marker;
-                previousDrawable = selectedMarker.getIcon();
-                //selectedMarker.setIcon(iconSelected);
-                setStationDetails((Station) selectedMarker.getRelatedObject());
-                stationDetailsView.setVisibility(View.VISIBLE);
-                isDetailViewOpened = true;
-                mapController.animateTo(selectedMarker.getPosition());
-                invalidateOptionsMenu();
+                displayStationsDetails();
                 return true;
             }
         });
@@ -781,6 +807,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                     return;
                 }
                 stationDetailsView.setVisibility(View.GONE);
+                mOnApplyWindowInsetsListener.onApplyWindowInsets(findViewById(R.id.activity_map_layout), mWindowInsets);
                 ArrayList<Station> stations = stationsDataSource.getStations();
                 ArrayList<Marker> markerContent = stationsMarkers.getItems();
                 markerContent.clear();
@@ -874,6 +901,19 @@ public class MapActivity extends Activity implements MapEventsReceiver, Activity
                     DateUtils.formatSameDayTime(mDbLastUpdate, System.currentTimeMillis(),
                             DateFormat.DEFAULT, DateFormat.DEFAULT).toString()));
         }
+    }
+
+    private void displayStationsDetails() {
+        previousDrawable = selectedMarker.getIcon();
+        //selectedMarker.setIcon(iconSelected);
+        setStationDetails((Station) selectedMarker.getRelatedObject());
+        stationDetailsView.setVisibility(View.VISIBLE);
+        isDetailViewOpened = true;
+        if(mWindowInsets != null) {
+            mOnApplyWindowInsetsListener.onApplyWindowInsets(findViewById(R.id.activity_map_layout), mWindowInsets);
+        }
+        mapController.animateTo(selectedMarker.getPosition());
+        invalidateOptionsMenu();
     }
 
 }

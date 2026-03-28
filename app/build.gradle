@@ -22,13 +22,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 35
+    compileSdk 36
     namespace "fr.fdesousa.bikesharinghub"
 
     defaultConfig {
         applicationId "fr.fdesousa.bikesharinghub"
         minSdkVersion 14
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode 34
         versionName "2.1.5"
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"

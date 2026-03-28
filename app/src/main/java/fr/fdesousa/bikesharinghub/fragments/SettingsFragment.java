@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2022,2024 François FERREIRA DE SOUSA.
+ * Copyright (c) 2022,2024,2026 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -31,6 +31,13 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.util.List;
 
@@ -64,6 +71,25 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         mPrefs = getPreferenceScreen().getSharedPreferences();
         setupVersionEntry();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.activity_settings, container, false);
+
+        // Android 15+ Handle insets
+        ViewCompat.setOnApplyWindowInsetsListener(rootView.findViewById(R.id.preference_container), (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            mlp.topMargin = insets.top;
+            mlp.leftMargin = insets.left;
+            mlp.bottomMargin = insets.bottom;
+            mlp.rightMargin = insets.right;
+            v.setLayoutParams(mlp);
+
+            return WindowInsetsCompat.CONSUMED;
+        });
+        return rootView;
     }
 
     @Override

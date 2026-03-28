@@ -27,7 +27,6 @@ import android.Manifest;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,13 +35,15 @@ import android.database.MatrixCursor;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
+import androidx.core.graphics.Insets;
 import androidx.core.graphics.drawable.IconCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -87,7 +88,6 @@ import fr.fdesousa.bikesharinghub.adapters.SearchStationAdapter;
 import fr.fdesousa.bikesharinghub.fragments.StationsListFragment;
 import fr.fdesousa.bikesharinghub.fragments.WelcomeDialogFragment;
 import fr.fdesousa.bikesharinghub.tasks.JSONDownloadRunnable;
-import fr.fdesousa.bikesharinghub.widgets.StationsListAppWidgetProvider;
 
 public class StationsListActivity extends FragmentActivity implements ActionBar.TabListener, ActivityCompat.OnRequestPermissionsResultCallback, DownloadResult {
     private static final String TAG = StationsListActivity.class.getSimpleName();
@@ -142,6 +142,19 @@ public class StationsListActivity extends FragmentActivity implements ActionBar.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stations_list);
+
+        // Android 15+ Handle insets
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_stations_layout), (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            mlp.topMargin = insets.top;
+            mlp.leftMargin = insets.left;
+            mlp.rightMargin = insets.right;
+            mlp.bottomMargin = insets.bottom;
+            v.setLayoutParams(mlp);
+
+            return WindowInsetsCompat.CONSUMED;
+        });
 
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         refreshLayout.setColorSchemeResources(R.color.bike_red,R.color.parking_blue_dark);

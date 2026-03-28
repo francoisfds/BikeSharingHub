@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014-2015 Bruno Parmentier.
- * Copyright (c) 2021-2024 François FERREIRA DE SOUSA.
+ * Copyright (c) 2021-2024,2026 François FERREIRA DE SOUSA.
  *
  * This file is part of BikeSharingHub.
  * BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -31,10 +31,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
+
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -80,6 +85,19 @@ public class BikeNetworksListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bike_networks_list);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Android 15+ Handle insets
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.networksListView), (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            mlp.topMargin = insets.top;
+            mlp.leftMargin = insets.left;
+            mlp.rightMargin = insets.right;
+            mlp.bottomMargin = insets.bottom;
+            v.setLayoutParams(mlp);
+
+            return WindowInsetsCompat.CONSUMED;
+        });
 
         BikeNetworksHashMap = new HashMap<String, BikeNetworkInfo>();
         cannotFetchNetworksList = new ArrayList<String>();

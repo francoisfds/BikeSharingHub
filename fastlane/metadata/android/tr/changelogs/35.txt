@@ -1,0 +1,5 @@
+* Karanlık tema eklendi (Android 10 ve üzeri)
+* Dinamik renk teması eklendi (Android 12 ve üzeri)
+* Cihaz konumu daha iyi algılanıyor
+* Bazı ağların yönetimi iyileştirildi
+* Çeviriler güncellendi

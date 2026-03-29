@@ -1,0 +1,9 @@
+* Ajout du thème sombre (Android 10+)
+* Ajout du thème couleurs dynamiques (Android 12+)
+* Meilleure détection de la localisation
+* Synchronisation depuis la carte
+* Meilleur gestion de certains réseaux
+* Cible Android 15 (supporte encore Android 4)
+* Update translations
+* Ajout d'un raccourci de lanceur vers la carte (Android 8+)
+* Rechargement automatique des données depuis la carte

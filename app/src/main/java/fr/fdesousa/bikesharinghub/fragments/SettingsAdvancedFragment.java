@@ -25,6 +25,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
@@ -35,27 +36,28 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.util.List;
-
-import fr.fdesousa.bikesharinghub.db.NetworksDataSource;
-import fr.fdesousa.bikesharinghub.models.BikeNetworkInfo;
+import org.osmdroid.tileprovider.cachemanager.CacheManager;
+import org.osmdroid.tileprovider.tilesource.TileSourcePolicyException;
+import org.osmdroid.views.MapView;
 
 import fr.fdesousa.bikesharinghub.R;
 
 /**
- * Settings fragment
+ * Advanced Settings fragment
  */
-public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class SettingsAdvancedFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = "SettingsFragment";
-    private static final String PREF_KEY_CHOOSE_NETWORK = "choose_network";
+    private static final String PREF_KEY_API_URL = "pref_api_url";
+    private static final String PREF_KEY_MAP_CACHE_MAX_SIZE = "pref_map_tiles_cache_max_size";
+    private static final String PREF_KEY_MAP_CACHE_TRIM_SIZE = "pref_map_tiles_cache_trim_size";
     private Context mContext = null;
     private SharedPreferences mPrefs = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.pref_general);
+        addPreferencesFromResource(R.xml.pref_advanced);
 
         mPrefs = getPreferenceScreen().getSharedPreferences();
     }
@@ -88,9 +90,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onResume(){
         super.onResume();
-
         mPrefs.registerOnSharedPreferenceChangeListener(this);
-        updatePreference(PREF_KEY_CHOOSE_NETWORK);
+        updatePreference(PREF_KEY_API_URL);
+        updatePreference(PREF_KEY_MAP_CACHE_MAX_SIZE);
+        updatePreference(PREF_KEY_MAP_CACHE_TRIM_SIZE);
     }
 
     @Override
@@ -106,26 +109,33 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
     private void updatePreference(String key){
-        if (key.equals(PREF_KEY_CHOOSE_NETWORK) && mContext != null) {
+        if (key.equals(PREF_KEY_API_URL)){
             Preference preference = findPreference(key);
-            NetworksDataSource networksDataSource = new NetworksDataSource(mContext);
-            List<String> idList = networksDataSource.getNetworksId();
-            switch(idList.size()) {
-                case 0:
-                    preference.setSummary(getString(R.string.pref_title_bike_networks_list_summary_none));
-                    break;
-                case 1:
-                    BikeNetworkInfo networkInfo = networksDataSource.getNetworkInfoFromId(idList.get(0));
-                    String networkName = networkInfo.getName();
-                    String networkCity = networkInfo.getLocation().getCity();
-                    preference.setSummary(networkName + " (" + networkCity + ")");
-                    break;
-                default:
-                    preference.setSummary(getResources().getString(
-                            R.string.pref_title_bike_networks_list_summary_multiple_selection,
-                            idList.size()));
-                    break;
-                }
+            EditTextPreference editTextPreference =  (EditTextPreference) preference;
+            editTextPreference.setSummary(editTextPreference.getText());
+        } else if (key.equals(PREF_KEY_MAP_CACHE_MAX_SIZE)){
+            Preference preference = findPreference(key);
+            EditTextPreference editTextPreference =  (EditTextPreference) preference;
+            try {
+                CacheManager mCacheManager = new CacheManager(new MapView(mContext));
+                long tileCacheUsed = mCacheManager.currentCacheUsage();
+                float approx = Float.valueOf(tileCacheUsed) / 1048576;
+                editTextPreference.setSummary(String.format(getString(
+                    R.string.pref_map_tiles_cache_max_size_summary,
+                    editTextPreference.getText(), String.format("%.2f", approx))));
+            } catch (TileSourcePolicyException e) {
+                // No cache usage to display (should not happen)
+                editTextPreference.setSummary(String.format(getString(
+                    R.string.pref_map_tiles_cache_trim_size_summary,
+                    editTextPreference.getText())));
+                e.printStackTrace();
+            }
+        } else if (key.equals(PREF_KEY_MAP_CACHE_TRIM_SIZE)){
+            Preference preference = findPreference(key);
+            EditTextPreference editTextPreference =  (EditTextPreference) preference;
+            editTextPreference.setSummary(String.format(getString(
+                    R.string.pref_map_tiles_cache_trim_size_summary,
+                    editTextPreference.getText())));
         }
     }
 }

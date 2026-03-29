@@ -1,6 +1,6 @@
 <!--
   ~ Copyright (c) 2014-2015 Bruno Parmentier.
-  ~ Copyright (c) 2024 François FERREIRA DE SOUSA.
+  ~ Copyright (c) 2024,2026 François FERREIRA DE SOUSA.
   ~
   ~ This file is part of BikeSharingHub.
   ~ BikeSharingHub incorporates a modified version of OpenBikeSharing
@@ -23,24 +23,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/activity_map_layout"
     tools:context="fr.fdesousa.bikesharinghub.activities.MapActivity">
 
+    <TextView
+        android:id="@+id/mapDbLastUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center" />
+
+    <ProgressBar
+        android:id="@+id/map_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-6dp"
+        android:layout_marginBottom="-6dp"
+        android:layout_below="@id/mapDbLastUpdate"
+        android:visibility="gone" />
     <view
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         class="org.osmdroid.views.MapView"
         android:id="@+id/mapView"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/scrollView"
+        android:layout_below="@id/map_progressbar"
         android:focusableInTouchMode="false" />
 
-
     <ScrollView
-        android:id="@id/scrollView"
-        android:layout_above="@+id/mapDbLastUpdate"
+        android:id="@+id/scrollView"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:background="@android:color/background_light"
         android:visibility="gone">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -191,20 +209,4 @@
     </RelativeLayout>
     </ScrollView>
 
-    <ProgressBar
-        android:id="@+id/map_progressbar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-6dp"
-        android:layout_alignTop="@id/mapView"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@id/mapDbLastUpdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center" />
 </RelativeLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2014-2015 Bruno Parmentier.
+  ~ Copyright (c) 2021-2022,2024 François FERREIRA DE SOUSA.
+  ~
+  ~ This file is part of BikeSharingHub.
+  ~ BikeSharingHub incorporates a modified version of OpenBikeSharing
+  ~
+  ~ BikeSharingHub is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ BikeSharingHub is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with BikeSharingHub.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <Preference
+            android:key="pref_version"
+            android:title="@string/pref_title_version" />
+
+        <Preference
+            android:summary="https://github.com/francoisfds/BikeSharingHub"
+            android:title="@string/pref_title_source_code">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/francoisfds/BikeSharingHub" />
+        </Preference>
+
+        <Preference
+            android:key="pref_open_bike_sharing"
+            android:summary="OpenBikeSharing"
+            android:title="@string/pref_title_fork">
+        </Preference>
+
+        <fr.fdesousa.bikesharinghub.preferences.InfoDialogPreference
+            android:dialogMessage="@string/pref_title_license_message"
+            android:dialogTitle="@string/pref_title_license"
+            android:summary="GPL-3.0-or-later"
+            android:title="@string/pref_title_license" />
+
+        <Preference
+            android:summary="https://api.citybik.es/v2/"
+            android:title="@string/pref_title_citybikes_api">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://api.citybik.es/v2/" />
+        </Preference>
+
+        <Preference
+            android:summary="https://github.com/osmdroid/osmdroid"
+            android:title="@string/pref_title_osmdroid_library">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/osmdroid/osmdroid" />
+        </Preference>
+
+        <Preference
+            android:summary="https://github.com/MKergall/osmbonuspack"
+            android:title="@string/pref_title_osmbonuspack_library">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/MKergall/osmbonuspack" />
+        </Preference>
+
+        <Preference
+            android:summary="https://www.openstreetmap.org"
+            android:title="@string/pref_title_openstreetmap">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.openstreetmap.org" />
+        </Preference>
+</PreferenceScreen>

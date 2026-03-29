@@ -1,5 +1,1 @@
-* Añadir tema oscuro (Android 10+)
-* Añadir tema de colores dinámicos (Android 12+)
-* Mejor detección de la ubicación del dispositivo
-* Mejor gestión de algunas redes
 * Actualizar traducciones

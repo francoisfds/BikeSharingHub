@@ -1,5 +1,1 @@
-* Add dark theme (Android 10+)
-* Add dynamic colors theme (Android 12+)
-* Better detection of device location
-* Better management of some networks
 * Update translations

@@ -1,0 +1,5 @@
+* Přidán tmavý motiv (Android 10+)
+* Přidán dynamický motiv (Android 12+)
+* Lepší detekce polohy zařízení
+* Lepší správa některých sítí
+* Aktualizovány překlady

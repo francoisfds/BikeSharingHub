@@ -1,5 +1,1 @@
-* Dodana tamna tema (Android 10+)
-* Dodana tema dinamičnih boja (Android 12+)
-* Bolje otkrivanje lokacije uređaja
-* Bolje upravljanje nekim mrežama
 * Aktulizirani prijevodi

@@ -76,6 +76,9 @@ public class CacheSizeEditTextPreference extends EditTextPreference {
     protected void onDialogClosed(boolean positiveResult) {
         if(positiveResult) {
             EditText edit = getEditText();
+            if(edit.getText().toString().equals("")) {
+                return;
+            }
             if (getKey().equals(PREF_KEY_MAP_CACHE_MAX_SIZE) &&
                 Integer.parseInt(edit.getText().toString()) <= Integer.parseInt
                 (mPrefs.getString("pref_map_tiles_cache_trim_size", "20"))) {

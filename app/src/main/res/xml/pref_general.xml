@@ -48,89 +48,28 @@
         android:summary="%s"
         android:title="@string/pref_title_default_tab" />
 
-    <PreferenceScreen android:title="@string/pref_title_advanced">
-        <EditTextPreference
-            android:key="pref_api_url"
-            android:title="@string/pref_title_api_url"
-            android:hint="@string/pref_default_api_url"
-            android:defaultValue="@string/pref_default_api_url" />
-
-        <CheckBoxPreference
-            android:key="pref_strip_id_station"
-            android:summary="@string/pref_title_strip_station_id_summary"
-            android:title="@string/pref_title_strip_station_id" />
-
-        <fr.fdesousa.bikesharinghub.preferences.CacheSizeEditTextPreference
-            android:key="pref_map_tiles_cache_max_size"
-            android:title="@string/pref_map_tiles_cache_max_size_title"
-            android:numeric="integer"
-            android:inputType="number"
-            android:defaultValue="100" />
-
-        <fr.fdesousa.bikesharinghub.preferences.CacheSizeEditTextPreference
-            android:key="pref_map_tiles_cache_trim_size"
-            android:title="@string/pref_map_tiles_cache_trim_size_title"
-            android:numeric="integer"
-            android:inputType="number"
-            android:defaultValue="20" />
-
-    </PreferenceScreen>
-
-    <PreferenceScreen android:title="@string/pref_title_about">
         <Preference
-            android:key="pref_version"
-            android:title="@string/pref_title_version" />
-
-        <Preference
-            android:summary="https://github.com/francoisfds/BikeSharingHub"
-            android:title="@string/pref_title_source_code">
+            android:key="advanced"
+            android:title="@string/pref_title_advanced" >
             <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/francoisfds/BikeSharingHub" />
+                android:targetClass="fr.fdesousa.bikesharinghub.activities.SettingsActivity"
+                android:targetPackage="@string/build_applicationId" >
+            <extra
+                android:name="extra_subscreen_name"
+                android:value="advanced" />
+            </intent>
         </Preference>
 
-        <Preference
-            android:key="pref_open_bike_sharing"
-            android:summary="OpenBikeSharing"
-            android:title="@string/pref_title_fork">
-        </Preference>
+    <Preference
+        android:key="about"
+        android:title="@string/pref_title_about" >
+        <intent
+            android:targetClass="fr.fdesousa.bikesharinghub.activities.SettingsActivity"
+            android:targetPackage="@string/build_applicationId" >
+            <extra
+                android:name="extra_subscreen_name"
+                android:value="about" />
+        </intent>
+    </Preference>
 
-        <fr.fdesousa.bikesharinghub.preferences.InfoDialogPreference
-            android:dialogMessage="@string/pref_title_license_message"
-            android:dialogTitle="@string/pref_title_license"
-            android:summary="GPL-3.0-or-later"
-            android:title="@string/pref_title_license" />
-
-        <Preference
-            android:summary="https://api.citybik.es/v2/"
-            android:title="@string/pref_title_citybikes_api">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://api.citybik.es/v2/" />
-        </Preference>
-
-        <Preference
-            android:summary="https://github.com/osmdroid/osmdroid"
-            android:title="@string/pref_title_osmdroid_library">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/osmdroid/osmdroid" />
-        </Preference>
-
-        <Preference
-            android:summary="https://github.com/MKergall/osmbonuspack"
-            android:title="@string/pref_title_osmbonuspack_library">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/MKergall/osmbonuspack" />
-        </Preference>
-
-        <Preference
-            android:summary="https://www.openstreetmap.org"
-            android:title="@string/pref_title_openstreetmap">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://www.openstreetmap.org" />
-        </Preference>
-    </PreferenceScreen>
 </PreferenceScreen>

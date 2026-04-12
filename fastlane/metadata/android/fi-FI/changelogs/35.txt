@@ -1,0 +1,5 @@
+* Tumman teeman lisääminen (Android 10+)
+* Dynaamisen väriteeman lisääminen (Android 12+)
+* Laitteen sijainnin havaitsemisen parantaminen
+* Joidenkin verkkoyhteyksien käsittelyn parantaminen
+* Käännösten päivitys

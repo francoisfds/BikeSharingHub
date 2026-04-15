@@ -1,5 +1,7 @@
-* Add dark theme (Android 10+)
-* Add dynamic colors theme (Android 12+)
-* Better detection of device location
-* Better management of some networks
+* Upgrade to target Android 16
+* Handling edge to edge display (Android 15+)
+* New button on map to see all bikes at a time
+* Increase size of the selected marker on map
+* Fix refresh date of station when the app is resumed
+* Force data update anyway when the bike network has been changed
 * Update translations

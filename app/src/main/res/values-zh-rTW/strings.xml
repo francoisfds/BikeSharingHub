@@ -65,8 +65,12 @@
     <string name="pref_title_advanced">進階</string>
     <string name="pref_title_api_url">API URL</string>
     <string name="pref_title_default_tab">預設分頁</string>
-    <string name="loc_perm_forbidden"></string>
-    <string name="location_not_granted"></string>
-    <string name="free_ebikes"></string>
-    <string name="pref_title_fork"></string>
+    <string name="loc_perm_forbidden"/>
+    <string name="location_not_granted">獲取位置被拒絕</string>
+    <string name="free_ebikes">電動單車: </string>
+    <string name="pref_title_fork"/>
+    <string name="location_coarse_only">使用概略位置，無精確定位權限</string>
+    <string name="location_outdated">您的位置已過時%1$s 分鐘</string>
+    <string name="map_cache_cleaning_started">等待直到地圖快取清理完成</string>
+    <string name="map_cache_cleaning_done">地圖快取清理完成</string>
 </resources>

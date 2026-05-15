@@ -1,0 +1,7 @@
+* Aktualizace na cílový systém Android 16
+* Podpora displeje od okraje k okraji (Android 15+)
+* Nové tlačítko na mapě pro zobrazení všech kol najednou
+* Zvětšení velikosti vybrané značky na mapě
+* Oprava data aktualizace stanice po obnovení aplikace
+* Vynucení aktualizace dat i v případě změny sítě kol
+* Aktualizace překladů

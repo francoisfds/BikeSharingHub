@@ -1,0 +1,7 @@
+* Sihtplatvorm on nüüd Android 16
+* Äärest-ääreni ekraanivaade (Android 15+)
+* Uus nupp kaardil nägemaks rattaid ajahetkes
+* Valitud kaardimarker on nüüd suurem
+* Andmete uuenduse välba kohendust olukorras, kus rakendust tõstetakse taustalt esile
+* Sundkorras andmeuuendus, kui rattavõrgustik vahetub
+* Tõlgete uuendused

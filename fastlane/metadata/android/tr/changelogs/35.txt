@@ -1,0 +1,7 @@
+* Android 16'yı hedeflemek için güncellendi
+* Kenardan kenara ekran desteği (Android 15 ve üzeri)
+* Haritada tüm bisikletleri aynı anda görüntülemek için yeni düğme
+* Haritada seçili işaretçinin boyutu artırıldı
+* Uygulama devam ettirildiğinde istasyonun tarihinin yenilenmesi sorunu düzeltildi
+* Bisiklet ağı değiştiğinde veri güncellemesinin yine de zorla gerçekleştirilmesi
+* Çeviriler güncellendi

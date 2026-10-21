@@ -1,0 +1,7 @@
+* Atualização para Android 16
+* Manipulação de visualização de ponta a ponta (Android 15+)
+* Novo botão no mapa para visualizar todas as bicicletas de uma vez
+* Aumento do tamanho do marcador selecionado no mapa
+* Correção da data de atualização da estação quando a execução do aplicativo é retomada
+* Atualização forçada de dados quando a rede de bicicletas sofre alterações
+* Atualização de traduções

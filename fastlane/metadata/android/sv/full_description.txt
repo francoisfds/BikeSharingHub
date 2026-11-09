@@ -1,0 +1,9 @@
+<p>
+BikeSharingHub visar tillgängligheten för lånecyklar i hundratals städer i samma app.
+</p>
+<p>
+Data hämtas från CityBik.es API, som samlar in öppna data från tillgängliga lånecykeloperatörer. API:t har öppen källkod och appen kan använda en annan API-URL än standardadressen.
+</p>
+<p>
+Den bygger på appen OpenBikeSharing, i förrådet ”F-Droid Archive”.
+</p>

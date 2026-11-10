@@ -1,0 +1,5 @@
+* Mörkt tema, Android 10 eller senare
+* Tema med dynamiska färger, Android 12 eller senare
+* Bättre identifiering av enhetens plats
+* Bättre hantering av vissa nätverk
+* Uppdaterade översättningar

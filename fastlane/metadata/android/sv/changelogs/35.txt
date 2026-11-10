@@ -1,0 +1,7 @@
+* Uppgradering till mål-Android 16
+* Hantering av kant-till-kant-visning, Android 15 eller senare
+* Ny kartknapp för att visa alla cyklar samtidigt
+* Större markerad kartmarkör
+* Rättat uppdateringsdatumet för stationen när appen återupptas
+* Tvinga datauppdatering när cykelnätverket har ändrats
+* Uppdaterade översättningar
